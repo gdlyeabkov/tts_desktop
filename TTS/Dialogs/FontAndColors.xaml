@@ -4,9 +4,221 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS.Dialogs"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="FontAndColors" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="FontAndColors"
+        Height="450"
+        Width="800">
+    <StackPanel>
+        <Border>
+            <Border.Child>
+                <StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <Canvas
+                                    Margin="10 15"
+                                    Width="500"
+                                    Height="200">
+                                    <StackPanel
+                                        Orientation="Horizontal">
+                                        <TextBlock
+                                            x:Name="textColorLabel"
+                                            Text="Тест"/>
+                                        <TextBlock
+                                            x:Name="glowColorLabel"
+                                            Text="Тест"/>
+                                        <TextBlock
+                                            x:Name="selectionColorLabel"
+                                            Text="Тест"/>
+                                        <TextBlock
+                                            x:Name="selectionTextColorLabel"
+                                            Text="Тест"/>
+                                    </StackPanel>
+                                </Canvas>
+                            </Border.Child>
+                        </Border>
+                        <StackPanel>
+                            <StackPanel
+                                Margin="0 5"
+                                Orientation="Horizontal">
+                                <Button
+                                    Width="125"
+                                    Height="25"
+                                    Margin="15 0"
+                                    Content="Шрифт"/>
+                                <Button
+                                    Margin="15 0">
+                                    <Button.Content>
+                                        <materialDesign:PackIcon
+                                            Margin="5"
+                                            Kind="ArrowUp"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button
+                                    Margin="15 0">
+                                    <Button.Content>
+                                        <materialDesign:PackIcon
+                                            Margin="5"
+                                            Kind="ArrowDown"/>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0 5"
+                                Orientation="Horizontal">
+                                <Button
+                                    Width="185"
+                                    Height="25"
+                                    Margin="15 0"
+                                    Content="Цвет текста"/>
+                                <toolkit:ColorPicker
+                                    Width="24"
+                                    Height="24"
+                                    Margin="15 0"
+                                    ShowDropDownButton="False"
+                                    SelectedColorChanged="ToggleSelectionTextColorHandler"/>
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0 5"
+                                Orientation="Horizontal">
+                                <Button
+                                    Width="185"
+                                    Height="25"
+                                    Margin="15 0"
+                                    Content="Цвет фона"/>
+                                <toolkit:ColorPicker
+                                    Width="24"
+                                    Height="24"
+                                    Margin="15 0"
+                                    ShowDropDownButton="False"
+                                    />
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0 5"
+                                Orientation="Horizontal">
+                                <Button
+                                    Width="185"
+                                    Height="25"
+                                    Margin="15 0"
+                                    Content="Цвет подсветки"/>
+                                <toolkit:ColorPicker
+                                    Width="24"
+                                    Height="24"
+                                    Margin="15 0"
+                                    ShowDropDownButton="False"/>
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0 5"
+                                Orientation="Horizontal">
+                                <Button
+                                    Width="185"
+                                    Height="25"
+                                    Margin="15 0"
+                                    Content="Цвет выделенния"/>
+                                <toolkit:ColorPicker
+                                    Width="24"
+                                    Height="24"
+                                    Margin="15 0"
+                                    ShowDropDownButton="False"/>
+                            </StackPanel>
+                            <StackPanel
+                                Margin="0 5"
+                                Orientation="Horizontal">
+                                <Button
+                                    Width="185"
+                                    Height="25"
+                                    Margin="15 0"
+                                    Content="Выделенный текст"/>
+                                <toolkit:ColorPicker
+                                    Width="24"
+                                    Height="24"
+                                    Margin="15 0"
+                                    ShowDropDownButton="False"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <CheckBox
+                            VerticalAlignment="Center"
+                            Margin="15 0"
+                            Content="Высота строк"/>
+                        <toolkit:IntegerUpDown
+                            VerticalAlignment="Center"
+                            Margin="15 0"
+                            Minimum="0"
+                            Maximum="100"
+                            Value="0"/>
+                    </StackPanel>
+                    <TextBlock
+                        Text="Теги XML"
+                        Margin="15 5"/>
+                    <Border
+                        Margin="15"
+                        BorderThickness="1"
+                        BorderBrush="LightGray">
+                        <Border.Child>
+                            <DockPanel
+                                Margin="15">
+                                <CheckBox
+                                    Content="Сделать теги XML прозрачными"/>
+                                <StackPanel
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                                    <StackPanel
+                                        Width="250">
+                                        <Slider
+                                            VerticalAlignment="Center"
+                                            />
+                                        <DockPanel>
+                                            <TextBlock
+                                                Text="0"/>
+                                                <TextBlock
+                                                    Margin="110 0"
+                                                    Text="0"/>
+                                                <TextBlock
+                                                HorizontalAlignment="Right"
+                                                Text="100"/>
+                                        </DockPanel>
+                                    </StackPanel>
+                                    <toolkit:ColorPicker
+                                        VerticalAlignment="Center"
+                                        Width="24"
+                                        Height="24"
+                                        Margin="15 0"
+                                        ShowDropDownButton="False"/>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </Border.Child>
+        </Border>
+        <DockPanel>
+            <Button
+                Margin="5 0"
+                Content="Цвета по умолчанию"
+                Width="175"
+                Height="25"/>
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Right">
+                <Button
+                    Margin="5 0"
+                    Content="ОК"
+                    Width="50"
+                    Height="25"/>
+                <Button
+                    Margin="5 0"
+                    Content="Отмена"
+                    Width="75"
+                    Height="25"/>
+            </StackPanel>
+        </DockPanel>
+    </StackPanel>
 </Window>

@@ -23,5 +23,22 @@ namespace TTS.Dialogs
         {
             InitializeComponent();
         }
+
+        private void ToggleSelectionTextColorHandler (object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            Color? possibleColor = e.NewValue;
+            Color color = possibleColor.Value;
+            string rawColor = color.ToString();
+            BrushConverter converter = new BrushConverter();
+            object rawBrush = converter.ConvertFromString(rawColor);
+            Brush brush = ((Brush)(rawBrush));
+            ToggleSelectionTextColor(brush);
+        }
+
+        public void ToggleSelectionTextColor (Brush brush)
+        {
+            textColorLabel.Foreground = brush;
+        }
+
     }
 }

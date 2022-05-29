@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 using System.Speech.Synthesis;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using NAudio.Wave;
 
 namespace TTS
 {
@@ -116,6 +118,7 @@ namespace TTS
             isAppInit = true;
             speechSynthesizer = new SpeechSynthesizer();
             CreateDoc();
+            GetVoices();
         }
 
         public void SpeakBufferHandler (object sender, RoutedEventArgs e)
@@ -625,6 +628,62 @@ namespace TTS
         public void Cancel ()
         {
             this.Close();
+        }
+
+        public void SelectOutputDeviceHandler (object sender, RoutedEventArgs e)
+        {
+            SelectOutputDevice();
+        }
+
+        public void SelectOutputDevice ()
+        {
+            Dialogs.SelectOutputDevieDialog dialog = new Dialogs.SelectOutputDevieDialog();
+            dialog.Show();
+        }
+
+        public void GetVoices ()
+        {
+            var voices = speechSynthesizer.GetInstalledVoices();
+            foreach (var voice in voices)
+            {
+                VoiceInfo voiceInfo = voice.VoiceInfo;
+                string voiceInfoName = voiceInfo.Name;
+                MenuItem voiceMenuItem = new MenuItem();
+                voiceMenuItem.Header = voiceInfoName;
+                voicesMenuItem.Items.Add(voiceMenuItem);
+            }
+        }
+
+        public void SaveAudioFileHandler (object sender, RoutedEventArgs e)
+        {
+            SaveAudioFile();
+        }
+
+        public void SaveAudioFile ()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "Документ";
+            sfd.DefaultExt = ".wav";
+            sfd.Filter = "Аудиофайлы (.wav)|*.wav";
+            bool? res = sfd.ShowDialog();
+            bool isSave = ((bool)(res));
+            if (isSave)
+            {
+                string path = sfd.FileName;
+                speechSynthesizer.SetOutputToWaveFile(path);
+                // WaveFileWriter.CreateWaveFile(path);
+            }
+        }
+
+        public void OpenFontAndColorsHandler (object sender, RoutedEventArgs e)
+        {
+            OpenFontAndColors();
+        }
+
+        public void OpenFontAndColors ()
+        {
+            Dialogs.FontAndColors dialog = new Dialogs.FontAndColors();
+            dialog.Show();
         }
 
     }

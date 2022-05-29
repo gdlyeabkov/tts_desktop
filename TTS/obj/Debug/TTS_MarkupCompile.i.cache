@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\wpf_projects\TTS\TTS\App.xaml
-4-1747392331
+6-843670624
 
-9-1082849461
-17-1017970643
-Controls\OpenedDocControl.xaml;Dialogs\FontAndColors.xaml;Dialogs\TranslateDialog.xaml;MainWindow.xaml;
+11-1490554332
+342109608105
+Controls\OpenedDocControl.xaml;Dialogs\FontAndColors.xaml;Dialogs\SaveMultipleAudioDialog.xaml;Dialogs\SelectOutputDevieDialog.xaml;Dialogs\TranslateDialog.xaml;MainWindow.xaml;
 
 True
 

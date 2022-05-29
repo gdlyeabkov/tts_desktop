@@ -10,8 +10,7 @@
         Height="450"
         Width="800"
         WindowState="Maximized"
-        Loaded="InitHandler"
-        >
+        Loaded="InitHandler">
     <DockPanel>
         <StackPanel
             DockPanel.Dock="Top"    
@@ -23,15 +22,19 @@
                     <MenuItem
                         Header="Новый"
                         Click="CreateDocHandler"
-                    />
+                        />
+                    <MenuItem
+                        Header="Сохранить аудиофайл"
+                        Click="SaveAudioFileHandler"
+                        />
                     <MenuItem
                         Header="Закрыть"
                         Click="CloseDocHandler"
-                    />
+                        />
                     <MenuItem
                         Header="Закрыть все"
                         Click="CloseAllDocsHandler"
-                    />
+                        />
                     <MenuItem
                         Header="Закрыть все, кроме текущего"
                         Click="CloseAllExceptCurrentDocHandler"
@@ -121,10 +124,22 @@
                             Click="DecreaseVolumeHandler"
                             />
                     </MenuItem>
+                    <MenuItem
+                        Header="Выбор аудиоустройства"
+                        Click="SelectOutputDeviceHandler"
+                        />
+                    <MenuItem
+                        x:Name="voicesMenuItem"
+                        Header="Голос"
+                        />
                 </MenuItem>
                 <MenuItem
                     Header="Вид"    
                     >
+                    <MenuItem
+                        Header="Шрифт и цвета"
+                        Click="OpenFontAndColorsHandler"
+                        />
                     <MenuItem
                         Header="Увеличить размер шрифта"
                         Click="IncreaseFontSizeHandler"
