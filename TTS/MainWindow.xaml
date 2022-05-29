@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
         Title="Произносилка"
         Height="450"
         Width="800"
@@ -22,6 +23,22 @@
                     <MenuItem
                         Header="Новый"
                         Click="CreateDocHandler"
+                    />
+                    <MenuItem
+                        Header="Закрыть"
+                        Click="CloseDocHandler"
+                    />
+                    <MenuItem
+                        Header="Закрыть все"
+                        Click="CloseAllDocsHandler"
+                    />
+                    <MenuItem
+                        Header="Закрыть все, кроме текущего"
+                        Click="CloseAllExceptCurrentDocHandler"
+                    />
+                    <MenuItem
+                        Header="Выход"
+                        Click="CancelHandler"
                     />
                 </MenuItem>
                 <MenuItem
@@ -125,7 +142,10 @@
                 <MenuItem
                     Header="Сервис"    
                     >
-
+                    <MenuItem
+                        Header="Перевести"
+                        Click="TranslateHandler"
+                    />
                 </MenuItem>
                 <MenuItem
                     Header="Закладка"    
@@ -353,139 +373,9 @@
                     <StackPanel>
 
                     </StackPanel>
-                    <Border>
-                        <Border.Child>
-                            <StackPanel
-                                Orientation="Horizontal"    
-                                >
-                                <StackPanel
-                                    Orientation="Horizontal"
-                                    >
-                                    <TextBlock
-                                        Margin="15"
-                                        VerticalAlignment="Bottom"
-                                        Text="-10"    
-                                        />
-                                    <StackPanel>
-                                        <StackPanel
-                                            Margin="0 15"
-                                            Orientation="Horizontal"
-                                            >
-                                            <TextBlock
-                                                Margin="15 0"
-                                                Text="Скорость:"    
-                                                />
-                                            <TextBlock
-                                                x:Name="speedValueLabel"
-                                                FontWeight="ExtraBlack"
-                                                Margin="15 0"
-                                                Text="0"    
-                                                />
-                                        </StackPanel>
-                                        <Slider
-                                            x:Name="speedSlider"
-                                            Width="155"
-                                            Minimum="-10"
-                                            Maximum="10"
-                                            ValueChanged="ToggleSpeedSliderHandler"
-                                            />
-                                    </StackPanel>
-                                    <TextBlock
-                                        Margin="15"
-                                        VerticalAlignment="Bottom"
-                                        Text="10"    
-                                        />
-                                </StackPanel>
-                                <StackPanel
-                                    Margin="35 0"
-                                    Orientation="Horizontal"
-                                    >
-                                    <TextBlock
-                                        Margin="15"
-                                        VerticalAlignment="Bottom"
-                                        Text="-10"    
-                                        />
-                                    <StackPanel>
-                                        <StackPanel
-                                            Margin="0 15"
-                                            Orientation="Horizontal"
-                                            >
-                                            <TextBlock
-                                                Margin="15 0"
-                                                Text="Тембр:"    
-                                                />
-                                            <TextBlock
-                                                x:Name="pitchValueLabel"
-                                                FontWeight="ExtraBlack"
-                                                Margin="15 0"
-                                                Text="0"    
-                                                />
-                                        </StackPanel>
-                                        <Slider
-                                            x:Name="pitchSlider"
-                                            Width="155"
-                                            Minimum="-10"
-                                            Maximum="10"
-                                            ValueChanged="TogglePitchSliderHandler"
-                                            />
-                                    </StackPanel>
-                                    <TextBlock
-                                        Margin="15"
-                                        VerticalAlignment="Bottom"
-                                        Text="10"    
-                                        />
-                                </StackPanel>
-                                <StackPanel
-                                    Margin="35 0"
-                                    Orientation="Horizontal"
-                                    >
-                                    <TextBlock
-                                        Margin="15"
-                                        VerticalAlignment="Bottom"
-                                        Text="0"    
-                                        />
-                                    <StackPanel>
-                                        <StackPanel
-                                            Margin="0 15"
-                                            Orientation="Horizontal"
-                                            >
-                                            <TextBlock
-                                                Margin="15 0"
-                                                Text="Громкость:"    
-                                                />
-                                            <TextBlock
-                                                x:Name="volumeValueLabel"
-                                                FontWeight="ExtraBlack"
-                                                Margin="15 0"
-                                                Text="100"    
-                                                />
-                                        </StackPanel>
-                                        <Slider
-                                            x:Name="volumeSlider"
-                                            Width="155"
-                                            Minimum="0"
-                                            Maximum="100"
-                                            Value="100"
-                                            ValueChanged="ToggleVolumeSliderHandler"
-                                            />
-                                    </StackPanel>
-                                    <TextBlock
-                                        Margin="15"
-                                        VerticalAlignment="Bottom"
-                                        Text="100"    
-                                        />
-                                </StackPanel>
-                            </StackPanel>
-                        </Border.Child>
-                    </Border>
-                    <TextBox
-                        x:Name="inputBox"
-                        Margin="15"
-                        HorizontalAlignment="Left"
-                        Height="575"
-                        Width="{ x:Static SystemParameters.MaximizedPrimaryScreenWidth }"
-                        AcceptsReturn="True"
-                    />
+                    <TabControl
+                        x:Name="openedDocControl"
+                        />
                 </StackPanel>
             </TabItem>
         </TabControl>

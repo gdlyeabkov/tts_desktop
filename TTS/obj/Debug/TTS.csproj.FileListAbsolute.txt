@@ -20,3 +20,9 @@ C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignColors.pdb
 C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignThemes.Wpf.pdb
 C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignThemes.Wpf.xml
 C:\wpf_projects\TTS\TTS\obj\Debug\TTS.csproj.CopyComplete
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\FontAndColors.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\TranslateDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\FontAndColors.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\TranslateDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Controls\OpenedDocControl.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Controls\OpenedDocControl.baml

@@ -34,49 +34,75 @@ namespace TTS
 
         private void ToggleSpeedSliderHandler (object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            ToggleSpeedSlider();
+            Slider slider = ((Slider)(sender));
+            ToggleSpeedSlider(slider);
         }
 
-        public void ToggleSpeedSlider ()
+        public void ToggleSpeedSlider (Slider slider)
         {
             if (isAppInit)
             {
-                double speedSliderValue = speedSlider.Value;
+                double speedSliderValue = slider.Value;
                 double roundedSpeedSliderValue = ((int)(speedSliderValue));
                 string rawRoundedSpeedSliderValue = roundedSpeedSliderValue.ToString();
-                speedValueLabel.Text = rawRoundedSpeedSliderValue;
+
+                int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                ItemCollection openedDocControlItems = openedDocControl.Items;
+                object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                openedDocControlSelectedItemContent.speedValueLabel.Text = rawRoundedSpeedSliderValue;
             }
         }
 
         private void TogglePitchSliderHandler(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            TogglePitchSlider();
+            Slider slider = ((Slider)(sender));
+            TogglePitchSlider(slider);
         }
 
-        public void TogglePitchSlider ()
+        public void TogglePitchSlider (Slider slider)
         {
             if (isAppInit)
             {
-                double pitchSliderValue = pitchSlider.Value;
+                double pitchSliderValue = slider.Value;
                 double roundedPitchSliderValue = ((int)(pitchSliderValue));
                 string rawRoundedPitchSliderValue = roundedPitchSliderValue.ToString();
+                int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                ItemCollection openedDocControlItems = openedDocControl.Items;
+                object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                TextBlock pitchValueLabel = openedDocControlSelectedItemContent.pitchValueLabel;
                 pitchValueLabel.Text = rawRoundedPitchSliderValue;
+
             }
         }
 
         private void ToggleVolumeSliderHandler (object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            ToggleVolumeSlider();
+            Slider slider = ((Slider)(sender));
+            ToggleVolumeSlider(slider);
         }
 
-        public void ToggleVolumeSlider ()
+        public void ToggleVolumeSlider (Slider slider)
         {
             if (isAppInit)
             {
-                double volumeSliderValue = volumeSlider.Value;
+                double volumeSliderValue = slider.Value;
                 double roundedVolumeSliderValue = ((int)(volumeSliderValue));
                 string rawRoundedVolumeSliderValue = roundedVolumeSliderValue.ToString();
+                int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                ItemCollection openedDocControlItems = openedDocControl.Items;
+                object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                TextBlock volumeValueLabel = openedDocControlSelectedItemContent.volumeValueLabel;
                 volumeValueLabel.Text = rawRoundedVolumeSliderValue;
+
             }
         }
 
@@ -89,6 +115,7 @@ namespace TTS
         {
             isAppInit = true;
             speechSynthesizer = new SpeechSynthesizer();
+            CreateDoc();
         }
 
         public void SpeakBufferHandler (object sender, RoutedEventArgs e)
@@ -98,10 +125,20 @@ namespace TTS
 
         public void SpeakBuffer ()
         {
+
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider speedSlider = openedDocControlSelectedItemContent.speedSlider;
             double speedSliderValue = speedSlider.Value;
             int roundedSpeedSliderValue = ((int)(speedSliderValue));
             speechSynthesizer.Rate = roundedSpeedSliderValue;
+            Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
             double volumeSliderValue = volumeSlider.Value;
+            
             int roundedVolumeSliderValue = ((int)(volumeSliderValue));
             speechSynthesizer.Volume = roundedVolumeSliderValue;
             string copiedText = Clipboard.GetText();
@@ -129,12 +166,21 @@ namespace TTS
 
         public void SpeakSelection ()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider speedSlider = openedDocControlSelectedItemContent.speedSlider;
             double speedSliderValue = speedSlider.Value;
             int roundedSpeedSliderValue = ((int)(speedSliderValue));
             speechSynthesizer.Rate = roundedSpeedSliderValue;
+            Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
             double volumeSliderValue = volumeSlider.Value;
             int roundedVolumeSliderValue = ((int)(volumeSliderValue));
             speechSynthesizer.Volume = roundedVolumeSliderValue;
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             string inputBoxSelectedContent = inputBox.SelectedText;
             ResetPause();
             speechSynthesizer.SpeakAsync(inputBoxSelectedContent);
@@ -148,15 +194,22 @@ namespace TTS
 
         public void Speak ()
         {
+
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider speedSlider = openedDocControlSelectedItemContent.speedSlider;
             double speedSliderValue = speedSlider.Value;
             int roundedSpeedSliderValue = ((int)(speedSliderValue));
             speechSynthesizer.Rate = roundedSpeedSliderValue;
-            /*double pitchSliderValue = pitchSlider.Value;
-            int roundedPitchSliderValue = ((int)(pitchSliderValue));
-            speechSynthesizer.;*/
+            Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
             double volumeSliderValue = volumeSlider.Value;
             int roundedVolumeSliderValue = ((int)(volumeSliderValue));
             speechSynthesizer.Volume = roundedVolumeSliderValue;
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             string inputBoxContent = inputBox.Text;
             ResetPause();
             speechSynthesizer.SpeakAsync(inputBoxContent);
@@ -187,6 +240,12 @@ namespace TTS
             openedDocContent.Children.Add(openedDocContentLabel);
             openedDoc.Content = openedDocContent;
             openedDocs.Children.Add(openedDoc);
+            TabItem docTab = new TabItem();
+            docTab.Visibility = Visibility.Collapsed;
+            Controls.OpenedDocControl docTabContent = new Controls.OpenedDocControl();
+            docTabContent.DataContext = this;
+            docTab.Content = docTabContent;
+            openedDocControl.Items.Add(docTab);
             openedDoc.Click += SelectOpenedDocHandler;
             SelectOpenedDoc(openedDoc);
         }
@@ -207,6 +266,8 @@ namespace TTS
             }
             selectedOpenedDoc.BorderThickness = new Thickness(0);
             selectedOpenedDoc.Background = System.Windows.Media.Brushes.Transparent;
+            int index = openedDocs.Children.IndexOf(selectedOpenedDoc);
+            openedDocControl.SelectedIndex = index;
         }
 
         public void SelectAllInputHandler (object sender, RoutedEventArgs e)
@@ -216,6 +277,13 @@ namespace TTS
 
         public void SelectAllInput ()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             inputBox.SelectAll();
         }
 
@@ -226,6 +294,14 @@ namespace TTS
 
         public void InsertText ()
         {
+            
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             int startSelectionIndex = inputBox.SelectionStart;
             string inputBoxContent = inputBox.Text;
             string copiedText = Clipboard.GetText();
@@ -263,6 +339,13 @@ namespace TTS
 
         public void IncreaseFontSize ()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             inputBox.FontSize++;
         }
 
@@ -273,6 +356,14 @@ namespace TTS
 
         public void DecreaseFontSize ()
         {
+            
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             double fontSize = inputBox.FontSize;
             bool isCanDecrease = fontSize > 8;
             if (isCanDecrease)
@@ -288,7 +379,14 @@ namespace TTS
 
         public void IncreaseSpeed ()
         {
-            speedSlider.Value++;
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider speedSlider = openedDocControlSelectedItemContent.speedSlider;
+            speedSlider.Value--;
         }
 
         public void DecreaseSpeedHandler (object sender, RoutedEventArgs e)
@@ -298,6 +396,13 @@ namespace TTS
 
         public void DecreaseSpeed()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider speedSlider = openedDocControlSelectedItemContent.speedSlider; 
             speedSlider.Value--;
         }
 
@@ -308,6 +413,13 @@ namespace TTS
 
         public void IncreasePitch ()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider pitchSlider = openedDocControlSelectedItemContent.pitchSlider;
             pitchSlider.Value++;
         }
 
@@ -318,6 +430,13 @@ namespace TTS
 
         public void DecreasePitch ()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider pitchSlider = openedDocControlSelectedItemContent.pitchSlider;
             pitchSlider.Value--;
         }
 
@@ -328,6 +447,13 @@ namespace TTS
 
         public void IncreaseVolume ()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider; 
             volumeSlider.Value++;
         }
 
@@ -338,6 +464,14 @@ namespace TTS
 
         public void DecreaseVolume ()
         {
+
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
             volumeSlider.Value--;
         }
 
@@ -348,6 +482,13 @@ namespace TTS
 
         public void GoToNextLine ()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             int selectedStartIndex = inputBox.SelectionStart;
             int lineIndex = inputBox.GetLineIndexFromCharacterIndex(selectedStartIndex);
             int countLines = inputBox.LineCount;
@@ -371,6 +512,13 @@ namespace TTS
 
         public void GoToPreviousLine()
         {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             int selectedStartIndex = inputBox.SelectionStart;
             int lineIndex = inputBox.GetLineIndexFromCharacterIndex(selectedStartIndex);
             bool isNotFirstLine = lineIndex >= 1;
@@ -392,6 +540,91 @@ namespace TTS
         {
             speechSynthesizer.Pause();
             stopSpeechBtn.IsEnabled = false;
+        }
+
+        public void TranslateHandler (object sender, RoutedEventArgs e)
+        {
+            Translate();
+        }
+
+        public void Translate ()
+        {
+            Dialogs.TranslateDialog dialog = new Dialogs.TranslateDialog(this);
+            dialog.Show();
+        }
+
+        public void CloseDocHandler (object sender, RoutedEventArgs e)
+        {
+            CloseDoc();
+        }
+
+        public void CloseDoc ()
+        {
+            int selectedIndex = openedDocControl.SelectedIndex;
+            openedDocControl.Items.RemoveAt(selectedIndex);
+            openedDocs.Children.RemoveAt(selectedIndex);
+            UIElementCollection openedDocsChildren = openedDocs.Children;
+            int openedDocsChildrenCount = openedDocsChildren.Count;
+            bool isNotDocs = openedDocsChildrenCount <= 0;
+            if (isNotDocs)
+            {
+                CreateDoc();
+            }
+            else
+            {
+                UIElement rawOpenedDoc = openedDocsChildren[0];
+                Button openedDoc = ((Button)(rawOpenedDoc));
+                SelectOpenedDoc(openedDoc);
+            }
+        }
+
+        public void CloseAllDocsHandler (object sender, RoutedEventArgs e)
+        {
+            CloseAllDocs();
+        }
+
+        public void CloseAllDocs ()
+        {
+            openedDocControl.Items.Clear();
+            openedDocs.Children.Clear();
+            CreateDoc();
+        }
+
+        public void CloseAllExceptCurrentDocHandler (object sender, RoutedEventArgs e)
+        {
+            CloseAllExceptCurrentDoc();
+        }
+
+        public void CloseAllExceptCurrentDoc ()
+        {
+            int selectedIndex = openedDocControl.SelectedIndex;
+            UIElementCollection openedDocsChildren = openedDocs.Children;
+            int openedDocsChildrenCount = openedDocsChildren.Count;
+            List<int> closedDocs = new List<int>();
+            for (int i = openedDocsChildrenCount - 1; i >= 0;  i--)
+            {
+                bool isCurrentDoc = i == selectedIndex;
+                bool isCanClose = !isCurrentDoc;
+                if (isCanClose)
+                {
+                    closedDocs.Add(i);
+                }
+            }
+            foreach (int closedDoc in closedDocs)
+            {
+                openedDocControl.Items.RemoveAt(closedDoc);
+                openedDocs.Children.RemoveAt(closedDoc);
+            }
+        }
+
+        public void CancelHandler (object sender, RoutedEventArgs e)
+        {
+            Cancel();
+        }
+
+        public void Cancel ()
+        {
+            this.Close();
         }
 
     }
