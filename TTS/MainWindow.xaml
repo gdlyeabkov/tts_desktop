@@ -24,6 +24,26 @@
                         Click="CreateDocHandler"
                         />
                     <MenuItem
+                        Header="Открыть"
+                        Click="OpenDocHandler"
+                        />
+                    <MenuItem
+                        x:Name="reOpenMenuItem"
+                        Header="Открыть заново"
+                        MouseEnter="RefreshOpenDocHistoryHandler">
+                        <MenuItem
+                            Header="Очистить историю"
+                            Click="ClearOpenDocHistoryHandler"/>
+                    </MenuItem>
+                    <MenuItem
+                        Header="Сохранить"
+                        Click="SaveDocHandler"
+                        />
+                    <MenuItem
+                        Header="Сохранить как"
+                        Click="SaveDocAsHandler"
+                        />
+                    <MenuItem
                         Header="Сохранить аудиофайл"
                         Click="SaveAudioFileHandler"
                         />
@@ -46,20 +66,54 @@
                 </MenuItem>
                 <MenuItem
                     Header="Правка"    
-                    >
+                    SubmenuOpened="RefreshChangeSelectionMenuItemHandler">
                     <MenuItem
                         Header="Вставить"
                         Click="InsertTextHandler"
                         />
                     <MenuItem
+                        x:Name="changeSelectionMenuItem"
+                        Header="Изменить выделенное"
+                        IsEnabled="False">
+                        <MenuItem
+                            Header="Все заглавные"
+                            Click="ChangeSelectionToUpperCaseHandler"/>
+                        <MenuItem
+                            Header="Все прописные"
+                            Click="ChangeSelectionToLowwerCaseHandler"/>
+                        <MenuItem
+                            Header="Изменить регистр букв"
+                            Click="ChangeSelectionToggleCaseHandler"/>
+                        <MenuItem
+                            Header="Озаглавить все слова"
+                            Click="ChangeSelectionWordsToUpperCaseHandler"/>
+                        <MenuItem
+                            Header="Озаглавить начало предложения"
+                            Click="ChangeSelectionSentensesToUpperCaseHandler"/>
+                        <MenuItem
+                            Header="Озаглавить все строки"
+                            Click="ChangeSelectionLinesToUpperCaseHandler"/>
+                    </MenuItem>
+                    <MenuItem
+                        Header="Найти"
+                        Click="FindHandler" />
+                    <MenuItem
+                        Header="Найти далее"
+                        Click="FindNextHandler" />
+                    <MenuItem
+                        Header="Заменить"
+                        Click="ReplaceHandler" />
+                    <MenuItem
                         Header="Выделить все"
-                        Click="SelectAllInputHandler"
-                        />
+                        Click="SelectAllInputHandler" />
                 </MenuItem>
                 <MenuItem
                     Header="Текст"    
                     >
-
+                    <MenuItem
+                        Header="Аудиоклип"
+                        Click="InsertAudioHandler"
+                        />
                 </MenuItem>
                 <MenuItem
                     Header="Речь"    
@@ -161,11 +215,24 @@
                         Header="Перевести"
                         Click="TranslateHandler"
                     />
+                    <MenuItem
+                        Header="Лупа"
+                        Click="OpenZoomHandler"
+                        />
                 </MenuItem>
                 <MenuItem
                     Header="Закладка"    
                     >
-
+                    <MenuItem
+                        Header="Вставить быструю закладку"
+                        Click="InsertFastBookmarkHandler"
+                        />
+                    <MenuItem
+                        x:Name="goToFastBookmarkMenuItem"
+                        Header="Перейти на быструю закладку"
+                        IsEnabled="False"
+                        Click="GoToFastBookmarkHandler"
+                        />
                 </MenuItem>
                 <MenuItem
                     Header="Справка"    

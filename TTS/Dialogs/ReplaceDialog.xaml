@@ -1,0 +1,82 @@
+﻿<Window x:Class="TTS.Dialogs.ReplaceDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TTS.Dialogs"
+        mc:Ignorable="d"
+        Title="Заменить"
+        Height="200"
+        Width="600">
+    <DockPanel>
+        <StackPanel>
+            <StackPanel
+                Margin="0 5"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="15 0"
+                    Text="Что:"
+                    VerticalAlignment="Center"/>
+                <TextBox
+                    x:Name="fromBox"
+                    Margin="15 0"
+                    Width="250"
+                    Height="25"
+                    VerticalAlignment="Center"
+                    TextChanged="DetectFromBoxHandler"/>
+            </StackPanel>
+            <StackPanel
+                Margin="0 5"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="15 0"
+                    Text="Чем:"
+                    VerticalAlignment="Center"/>
+                <TextBox
+                    x:Name="toBox"
+                    Margin="15 0"
+                    Width="250"
+                    Height="25"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+            <CheckBox
+                Content="Только слово целиком"
+                Margin="15 5"/>
+            <CheckBox
+                Content="С учетом регистра"
+                Margin="15 5"/>
+        </StackPanel>
+        <StackPanel
+            Margin="15 0"
+            HorizontalAlignment="Right">
+            <Button
+                x:Name="findBtn"
+                Margin="0 5"
+                Content="Найти далее"
+                Width="175"
+                Height="25"
+                IsEnabled="False"/>
+            <Button
+                x:Name="replaceBtn"
+                Margin="0 5"
+                Content="Заменить"
+                Width="175"
+                Height="25"
+                IsEnabled="False"/>
+            <Button
+                x:Name="replaceAllBtn"
+                Margin="0 5"
+                Content="Заменить все"
+                Width="175"
+                Height="25"
+                IsEnabled="False"
+                Click="ReplaceHandler"/>
+            <Button
+                Margin="0 5"
+                Content="Отмена"
+                Width="175"
+                Height="25"
+                Click="CancelHandler"/>
+        </StackPanel>
+    </DockPanel>
+</Window>

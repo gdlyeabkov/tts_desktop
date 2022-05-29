@@ -1,0 +1,82 @@
+﻿<Window x:Class="TTS.Dialogs.FindDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TTS.Dialogs"
+        mc:Ignorable="d"
+        Title="Найти"
+        Height="200"
+        Width="650">
+    <DockPanel>
+        <StackPanel>
+            <StackPanel
+                Margin="0 5"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="15 0"
+                    Text="Что:"
+                    VerticalAlignment="Center"/>
+                <TextBox
+                    x:Name="fromBox"
+                    Margin="15 0"
+                    Width="250"
+                    Height="25"
+                    VerticalAlignment="Center"
+                    TextChanged="DetectFromBoxHandler"/>
+            </StackPanel>
+            <DockPanel>
+                <StackPanel
+                    Margin="15">
+                    <CheckBox
+                        Content="Только слово целиком"
+                        Margin="15 5"/>
+                    <CheckBox
+                        Content="С учетом регистра"
+                        Margin="15 5"/>
+                </StackPanel>
+                <Border
+                    Margin="15"
+                    BorderThickness="1"
+                    BorderBrush="LightGray">
+                    <Border.Child>
+                        <StackPanel
+                            Margin="15">
+                            <TextBlock
+                                Text="Направление"
+                                Margin="5"/>
+                            <StackPanel
+                                Orientation="Horizontal">
+                                <RadioButton
+                                    Margin="15 0"
+                                    Content="Вверх"/>
+                                <RadioButton
+                                    IsChecked="True"
+                                    Margin="15 0"
+                                    Content="Вниз"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border.Child>
+                </Border>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel
+            Margin="15 0"
+            HorizontalAlignment="Right">
+            <Button
+                x:Name="findBtn"
+                Margin="0 5"
+                Content="Найти далее"
+                Width="175"
+                Height="25"
+                IsEnabled="False"
+                Click="FindHandler"/>
+            <Button
+                Margin="0 5"
+                Content="Отмена"
+                Width="175"
+                Height="25"
+                Click="CancelHandler"/>
+        </StackPanel>
+    </DockPanel>
+</Window>

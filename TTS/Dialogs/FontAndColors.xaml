@@ -28,16 +28,16 @@
                                         Orientation="Horizontal">
                                         <TextBlock
                                             x:Name="textColorLabel"
-                                            Text="Тест"/>
+                                            Text="Тест&#10;Тест"/>
                                         <TextBlock
                                             x:Name="glowColorLabel"
-                                            Text="Тест"/>
+                                            Text="Тест&#10;Тест"/>
                                         <TextBlock
                                             x:Name="selectionColorLabel"
-                                            Text="Тест"/>
+                                            Text="Тест&#10;Тест"/>
                                         <TextBlock
                                             x:Name="selectionTextColorLabel"
-                                            Text="Тест"/>
+                                            Text="Тест&#10;Тест"/>
                                     </StackPanel>
                                 </Canvas>
                             </Border.Child>
@@ -52,7 +52,8 @@
                                     Margin="15 0"
                                     Content="Шрифт"/>
                                 <Button
-                                    Margin="15 0">
+                                    Margin="15 0"
+                                    Click="IncreaseFontSizeHandler">
                                     <Button.Content>
                                         <materialDesign:PackIcon
                                             Margin="5"
@@ -60,7 +61,8 @@
                                     </Button.Content>
                                 </Button>
                                 <Button
-                                    Margin="15 0">
+                                    Margin="15 0"
+                                    Click="DecreaseFontSizeHandler">
                                     <Button.Content>
                                         <materialDesign:PackIcon
                                             Margin="5"
@@ -77,11 +79,12 @@
                                     Margin="15 0"
                                     Content="Цвет текста"/>
                                 <toolkit:ColorPicker
+                                    x:Name="textColorPicker"
                                     Width="24"
                                     Height="24"
                                     Margin="15 0"
                                     ShowDropDownButton="False"
-                                    SelectedColorChanged="ToggleSelectionTextColorHandler"/>
+                                    SelectedColorChanged="ToggleTextColorHandler"/>
                             </StackPanel>
                             <StackPanel
                                 Margin="0 5"
@@ -92,11 +95,12 @@
                                     Margin="15 0"
                                     Content="Цвет фона"/>
                                 <toolkit:ColorPicker
+                                    x:Name="backgroundColorPicker"
                                     Width="24"
                                     Height="24"
                                     Margin="15 0"
                                     ShowDropDownButton="False"
-                                    />
+                                    SelectedColorChanged="ToggleBackgroundColorHandler"/>
                             </StackPanel>
                             <StackPanel
                                 Margin="0 5"
@@ -107,10 +111,12 @@
                                     Margin="15 0"
                                     Content="Цвет подсветки"/>
                                 <toolkit:ColorPicker
+                                    x:Name="glowColorPicker"
                                     Width="24"
                                     Height="24"
                                     Margin="15 0"
-                                    ShowDropDownButton="False"/>
+                                    ShowDropDownButton="False"
+                                    SelectedColorChanged="ToggleGlowColorHandler"/>
                             </StackPanel>
                             <StackPanel
                                 Margin="0 5"
@@ -121,10 +127,12 @@
                                     Margin="15 0"
                                     Content="Цвет выделенния"/>
                                 <toolkit:ColorPicker
+                                    x:Name="selectionColorPicker"
                                     Width="24"
                                     Height="24"
                                     Margin="15 0"
-                                    ShowDropDownButton="False"/>
+                                    ShowDropDownButton="False"
+                                    SelectedColorChanged="ToggleSelectionColorHandler"/>
                             </StackPanel>
                             <StackPanel
                                 Margin="0 5"
@@ -135,10 +143,12 @@
                                     Margin="15 0"
                                     Content="Выделенный текст"/>
                                 <toolkit:ColorPicker
+                                    x:Name="selectionTextColorPicker"
                                     Width="24"
                                     Height="24"
                                     Margin="15 0"
-                                    ShowDropDownButton="False"/>
+                                    ShowDropDownButton="False"
+                                    SelectedColorChanged="ToggleSelectionTextColorHandler"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -153,7 +163,8 @@
                             Margin="15 0"
                             Minimum="0"
                             Maximum="100"
-                            Value="0"/>
+                            Value="0"
+                            ValueChanged="ToggleLineHeightHandler"/>
                     </StackPanel>
                     <TextBlock
                         Text="Теги XML"
@@ -204,7 +215,8 @@
                 Margin="5 0"
                 Content="Цвета по умолчанию"
                 Width="175"
-                Height="25"/>
+                Height="25"
+                Click="SetDefaultColorsHandler"/>
             <StackPanel
                 Orientation="Horizontal"
                 HorizontalAlignment="Right">
@@ -212,12 +224,14 @@
                     Margin="5 0"
                     Content="ОК"
                     Width="50"
-                    Height="25"/>
+                    Height="25"
+                    Click="OkHandler"/>
                 <Button
                     Margin="5 0"
                     Content="Отмена"
                     Width="75"
-                    Height="25"/>
+                    Height="25"
+                    Click="CancelHandler"/>
             </StackPanel>
         </DockPanel>
     </StackPanel>

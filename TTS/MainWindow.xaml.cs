@@ -17,6 +17,7 @@ using System.Speech.Synthesis;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using NAudio.Wave;
+using System.IO;
 
 namespace TTS
 {
@@ -28,6 +29,8 @@ namespace TTS
 
         public bool isAppInit = false;
         public SpeechSynthesizer speechSynthesizer = null;
+        public List<string> openedDocHistory;
+        public int bookmarkIndex = -1;
 
         public MainWindow()
         {
@@ -119,6 +122,7 @@ namespace TTS
             speechSynthesizer = new SpeechSynthesizer();
             CreateDoc();
             GetVoices();
+            openedDocHistory = new List<string>();
         }
 
         public void SpeakBufferHandler (object sender, RoutedEventArgs e)
@@ -297,7 +301,6 @@ namespace TTS
 
         public void InsertText ()
         {
-            
             int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
             ItemCollection openedDocControlItems = openedDocControl.Items;
             object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
@@ -682,8 +685,589 @@ namespace TTS
 
         public void OpenFontAndColors ()
         {
-            Dialogs.FontAndColors dialog = new Dialogs.FontAndColors();
+            Dialogs.FontAndColors dialog = new Dialogs.FontAndColors(this);
+            dialog.Closed += ApplyFontAndColorHandler;
             dialog.Show();
+        }
+
+        public void ApplyFontAndColorHandler (object sender, EventArgs e)
+        {
+            Dialogs.FontAndColors dialog = ((Dialogs.FontAndColors)(sender));
+            ApplyFontAndColor(dialog);
+        }
+
+        public void ApplyFontAndColor (Dialogs.FontAndColors dialog)
+        {
+            BrushConverter converter = new BrushConverter();
+            Xceed.Wpf.Toolkit.ColorPicker textColorPicker = dialog.textColorPicker;
+            Color? possibleColor = textColorPicker.SelectedColor;
+            bool isColorExists = possibleColor != null;
+            Brush textBrush = System.Windows.Media.Brushes.Black;
+            if (isColorExists)
+            {
+                Color selectedColor = possibleColor.Value;
+                string rawSelectedColor = selectedColor.ToString();
+                object rawBrush = converter.ConvertFromString(rawSelectedColor);
+                textBrush = ((Brush)(rawBrush));
+            }
+            Xceed.Wpf.Toolkit.ColorPicker backgroundColorPicker = dialog.backgroundColorPicker;
+            possibleColor = backgroundColorPicker.SelectedColor;
+            isColorExists = possibleColor != null;
+            Brush backgroundBrush = System.Windows.Media.Brushes.Transparent;
+            if (isColorExists)
+            {
+                Color selectedColor = possibleColor.Value;
+                string rawSelectedColor = selectedColor.ToString();
+                object rawBrush = converter.ConvertFromString(rawSelectedColor);
+                backgroundBrush = ((Brush)(rawBrush));
+            }
+            Xceed.Wpf.Toolkit.ColorPicker glowColorPicker = dialog.glowColorPicker;
+            possibleColor = glowColorPicker.SelectedColor;
+            isColorExists = possibleColor != null;
+            Brush glowBrush = System.Windows.Media.Brushes.Transparent;
+            if (isColorExists)
+            {
+                Color selectedColor = possibleColor.Value;
+                string rawSelectedColor = selectedColor.ToString();
+                object rawBrush = converter.ConvertFromString(rawSelectedColor);
+                glowBrush = ((Brush)(rawBrush));
+            }
+            Xceed.Wpf.Toolkit.ColorPicker selectionColorPicker = dialog.selectionColorPicker;
+            possibleColor = selectionColorPicker.SelectedColor;
+            isColorExists = possibleColor != null;
+            Brush selectionBrush = System.Windows.Media.Brushes.SkyBlue;
+            if (isColorExists)
+            {
+
+                Color selectedColor = possibleColor.Value;
+                string rawSelectedColor = selectedColor.ToString();
+                object rawBrush = converter.ConvertFromString(rawSelectedColor);
+                selectionBrush = ((Brush)(rawBrush));
+            }
+            Xceed.Wpf.Toolkit.ColorPicker selectionTextColorPicker = dialog.selectionTextColorPicker;
+            possibleColor = selectionTextColorPicker.SelectedColor;
+            isColorExists = possibleColor != null;
+            Brush selectionTextBrush = System.Windows.Media.Brushes.SkyBlue;
+            if (isColorExists)
+            {
+                Color selectedColor = possibleColor.Value;
+                string rawSelectedColor = selectedColor.ToString();
+                object rawBrush = converter.ConvertFromString(rawSelectedColor);
+                selectionTextBrush = ((Brush)(rawBrush));
+            }
+            TextBlock exampleLabel = dialog.textColorLabel;
+            double exampleLabelFontSize = exampleLabel.FontSize;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            foreach (TabItem openedDocControlItem in openedDocControlItems)
+            {
+                object rawOpenedDocControlItemContent = openedDocControlItem.Content;
+                Controls.OpenedDocControl openedDocControlItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlItemContent));
+                TextBox inputBox = openedDocControlItemContent.inputBox;
+                inputBox.Foreground = textBrush;
+                inputBox.Background = backgroundBrush;
+                inputBox.SelectionBrush = selectionBrush;
+                inputBox.FontSize = exampleLabelFontSize;
+            }
+        }
+
+        public void OpenDocHandler (object sender, RoutedEventArgs e)
+        {
+            OpenDoc();
+        }
+
+        public void OpenDoc ()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.DefaultExt = ".txt";
+            ofd.Filter = "Документы (.txt)|*.txt";
+            bool? res = ofd.ShowDialog();
+            bool isOpen = ((bool)(res));
+            if (isOpen)
+            {
+                string path = ofd.FileName;
+                InsertDoc(path);
+            }
+        }
+
+        public void ClearOpenDocHistoryHandler (object sender, RoutedEventArgs e)
+        {
+            ClearOpenDocHistory();
+        }
+
+        public void ClearOpenDocHistory ()
+        {
+            openedDocHistory.Clear();
+        }
+
+        private void RefreshOpenDocHistoryHandler (object sender, RoutedEventArgs e)
+        {
+            RefreshOpenDocHistory();
+        }
+
+        public void RefreshOpenDocHistory ()
+        {
+            ItemCollection reOpenMenuItemItems = reOpenMenuItem.Items;
+            int reOpenMenuItemItemsCount = reOpenMenuItemItems.Count;
+            for (int i = reOpenMenuItemItemsCount - 1; i > 0; i--)
+            {
+                reOpenMenuItem.Items.RemoveAt(i);
+            }
+            foreach (string openedDocHistoryItem in openedDocHistory)
+            {
+                string fileName = System.IO.Path.GetFileName(openedDocHistoryItem);
+                MenuItem menuItem = new MenuItem();
+                menuItem.Header = fileName;
+                menuItem.DataContext = openedDocHistoryItem;
+                menuItem.Click += OpenRecentDocHandler;
+                reOpenMenuItem.Items.Add(menuItem);
+            }
+        }
+
+        public void OpenRecentDocHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemData = menuItem.DataContext;
+            string path = ((string)(menuItemData));
+            OpenRecentDoc(path);
+        }
+
+        public void OpenRecentDoc (string path)
+        {
+            InsertDoc(path);
+        }
+
+        public void InsertDoc (string path)
+        {
+            CreateDoc();
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlItem = ((TabItem)(rawOpenedDocControlItem));
+            object rawOpenedDocControlItemContent = openedDocControlItem.Content;
+            Controls.OpenedDocControl openedDocControlItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlItemContent));
+            TextBox inputBox = openedDocControlItemContent.inputBox;
+            string content = File.ReadAllText(path);
+            inputBox.Text = content;
+            string fileName = System.IO.Path.GetFileName(path);
+            UIElementCollection openedDocsChildren = openedDocs.Children;
+            UIElement rawOpenedDoc = openedDocsChildren[openedDocControlSelectedIndex];
+            Button openedDoc = ((Button)(rawOpenedDoc));
+            object rawOpenedDocContent = openedDoc.Content;
+            StackPanel openedDocContent = ((StackPanel)(rawOpenedDocContent));
+            UIElementCollection openedDocContentChildren = openedDocContent.Children;
+            UIElement rawOpenedDocContentLabel = openedDocContentChildren[1];
+            TextBlock openedDocContentLabel = ((TextBlock)(rawOpenedDocContentLabel));
+            openedDocContentLabel.Text = fileName;
+            openedDocHistory.Add(path);
+        }
+
+        public void SaveDocHandler (object sender, RoutedEventArgs e)
+        {
+            SaveDoc();
+        }
+
+        public void SaveDoc ()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            // sfd.FileName = "Документ";
+            sfd.DefaultExt = ".txt";
+            sfd.Filter = "Текстовые (.txt)|*.txt";
+            bool? res = sfd.ShowDialog();
+            bool isSave = ((bool)(res));
+            if (isSave)
+            {
+                string path = sfd.FileName;
+                int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                ItemCollection openedDocControlItems = openedDocControl.Items;
+                object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                Slider speedSlider = openedDocControlSelectedItemContent.speedSlider;
+                double speedSliderValue = speedSlider.Value;
+                int roundedSpeedSliderValue = ((int)(speedSliderValue));
+                speechSynthesizer.Rate = roundedSpeedSliderValue;
+                Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
+                double volumeSliderValue = volumeSlider.Value;
+                int roundedVolumeSliderValue = ((int)(volumeSliderValue));
+                speechSynthesizer.Volume = roundedVolumeSliderValue;
+                TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                string inputBoxContent = inputBox.Text;
+                File.WriteAllText(path, inputBoxContent);
+            }
+        }
+
+        public void SaveDocAsHandler (object sender, RoutedEventArgs e)
+        {
+            SaveDocAs();
+        }
+
+        public void SaveDocAs ()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            // sfd.FileName = "Документ";
+            sfd.DefaultExt = ".txt";
+            sfd.Filter = "Текстовые (.txt)|*.txt";
+            bool? res = sfd.ShowDialog();
+            bool isSave = ((bool)(res));
+            if (isSave)
+            {
+                string path = sfd.FileName;
+                int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                ItemCollection openedDocControlItems = openedDocControl.Items;
+                object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                Slider speedSlider = openedDocControlSelectedItemContent.speedSlider;
+                double speedSliderValue = speedSlider.Value;
+                int roundedSpeedSliderValue = ((int)(speedSliderValue));
+                speechSynthesizer.Rate = roundedSpeedSliderValue;
+                Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
+                double volumeSliderValue = volumeSlider.Value;
+                int roundedVolumeSliderValue = ((int)(volumeSliderValue));
+                speechSynthesizer.Volume = roundedVolumeSliderValue;
+                TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                string inputBoxContent = inputBox.Text;
+                File.WriteAllText(path, inputBoxContent);
+            }
+        }
+
+        public void InsertAudioHandler (object sender, RoutedEventArgs e)
+        {
+            InsertAudio();
+        }
+
+        public void InsertAudio ()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.DefaultExt = ".wav";
+            ofd.Filter = "Аудиоклипы (.wav)|*.wav";
+            bool? res = ofd.ShowDialog();
+            bool isOpen = ((bool)(res));
+            if (isOpen)
+            {
+                string audioContent = ofd.FileName;
+                int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                ItemCollection openedDocControlItems = openedDocControl.Items;
+                object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                int startSelectionIndex = inputBox.SelectionStart;
+                string inputBoxContent = inputBox.Text;
+                int audioContentLength = audioContent.Length;
+                inputBoxContent = inputBoxContent.Insert(startSelectionIndex, audioContent);
+                inputBox.Text = inputBoxContent;
+                inputBox.SelectionStart = startSelectionIndex + audioContentLength;
+            }
+        }
+
+        public void ChangeSelectionToLowwerCaseHandler (object sender, RoutedEventArgs e)
+        {
+            ChangeSelectionToLowerCase();
+        }
+
+        public void ChangeSelectionToLowerCase ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            int inputBoxContentLength = inputBox.SelectionLength;
+            int startSelectionIndex = inputBox.SelectionStart;
+            for (int i = startSelectionIndex; i <= startSelectionIndex + inputBoxContentLength; i++)
+            {
+                char inputBoxContentChar = inputBoxContent[i];
+                string inputBoxContentCharStroke = inputBoxContentChar.ToString();
+                string upperInputBoxContentCharStroke = inputBoxContentCharStroke.ToLower();
+                char[] chars = upperInputBoxContentCharStroke.ToCharArray();
+                char updatedInputBoxContentChar = chars[0];
+                inputBoxContent = inputBoxContent.Replace(inputBoxContentChar, updatedInputBoxContentChar);
+            }
+            inputBox.Text = inputBoxContent;
+            inputBox.SelectionStart = startSelectionIndex + inputBoxContentLength;
+        }
+
+        public void ChangeSelectionToUpperCaseHandler (object sender, RoutedEventArgs e)
+        {
+            ChangeSelectionToUpperCase();
+        }
+
+        public void ChangeSelectionToUpperCase ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            int inputBoxContentLength = inputBox.SelectionLength;
+            int startSelectionIndex = inputBox.SelectionStart;
+            for (int i = startSelectionIndex; i <= startSelectionIndex + inputBoxContentLength; i++)
+            {
+                char inputBoxContentChar = inputBoxContent[i];
+                string inputBoxContentCharStroke = inputBoxContentChar.ToString();
+                string upperInputBoxContentCharStroke = inputBoxContentCharStroke.ToUpper();
+                char[] chars = upperInputBoxContentCharStroke.ToCharArray();
+                char updatedInputBoxContentChar = chars[0];
+                inputBoxContent = inputBoxContent.Replace(inputBoxContentChar, updatedInputBoxContentChar);
+            }
+            inputBox.Text = inputBoxContent;
+            inputBox.SelectionStart = startSelectionIndex + inputBoxContentLength;
+        }
+
+        public void ChangeSelectionToggleCaseHandler (object sender, RoutedEventArgs e)
+        {
+            ChangeSelectionToggleCase();
+        }
+
+        public void ChangeSelectionToggleCase ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            int inputBoxContentLength = inputBox.SelectionLength;
+            int startSelectionIndex = inputBox.SelectionStart;
+            for (int i = startSelectionIndex; i <= startSelectionIndex + inputBoxContentLength; i++)
+            {
+                char inputBoxContentChar = inputBoxContent[i];
+                string inputBoxContentCharStroke = inputBoxContentChar.ToString();
+                bool isUpper = Char.IsUpper(inputBoxContentChar);
+                string upperInputBoxContentCharStroke = inputBoxContentCharStroke;
+                if (isUpper)
+                {
+                    upperInputBoxContentCharStroke = inputBoxContentCharStroke.ToUpper();
+                }
+                else
+                {
+                    upperInputBoxContentCharStroke = inputBoxContentCharStroke.ToUpper();
+                }
+                char[] chars = upperInputBoxContentCharStroke.ToCharArray();
+                char updatedInputBoxContentChar = chars[0];
+                inputBoxContent = inputBoxContent.Replace(inputBoxContentChar, updatedInputBoxContentChar);
+            }
+            inputBox.Text = inputBoxContent;
+            inputBox.SelectionStart = startSelectionIndex + inputBoxContentLength;
+        }
+
+        public void ChangeSelectionWordsToUpperCaseHandler (object sender, RoutedEventArgs e)
+        {
+            ChangeSelectionWordsToUpperCase();
+        }
+
+        public void ChangeSelectionWordsToUpperCase ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            int inputBoxContentLength = inputBox.SelectionLength;
+            int startSelectionIndex = inputBox.SelectionStart;
+            for (int i = startSelectionIndex; i <= startSelectionIndex + inputBoxContentLength; i++)
+            {
+                char inputBoxContentChar = inputBoxContent[i];
+                string inputBoxContentCharStroke = inputBoxContentChar.ToString();
+                string upperInputBoxContentCharStroke = inputBoxContentCharStroke.ToUpper();
+                char[] chars = upperInputBoxContentCharStroke.ToCharArray();
+                char updatedInputBoxContentChar = chars[0];
+                inputBoxContent = inputBoxContent.Replace(inputBoxContentChar, updatedInputBoxContentChar);
+            }
+            inputBox.Text = inputBoxContent;
+            inputBox.SelectionStart = startSelectionIndex + inputBoxContentLength;
+        }
+
+        public void ChangeSelectionSentensesToUpperCaseHandler (object sender, RoutedEventArgs e)
+        {
+            ChangeSelectionSentensesToUpperCase();
+        }
+
+        public void ChangeSelectionSentensesToUpperCase ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            int inputBoxContentLength = inputBox.SelectionLength;
+            int startSelectionIndex = inputBox.SelectionStart;
+            for (int i = startSelectionIndex; i <= startSelectionIndex + inputBoxContentLength; i++)
+            {
+                char inputBoxContentChar = inputBoxContent[i];
+                string inputBoxContentCharStroke = inputBoxContentChar.ToString();
+                string upperInputBoxContentCharStroke = inputBoxContentCharStroke.ToUpper();
+                char[] chars = upperInputBoxContentCharStroke.ToCharArray();
+                char updatedInputBoxContentChar = chars[0];
+                inputBoxContent = inputBoxContent.Replace(inputBoxContentChar, updatedInputBoxContentChar);
+            }
+            inputBox.Text = inputBoxContent;
+            inputBox.SelectionStart = startSelectionIndex + inputBoxContentLength;
+        }
+
+        public void ChangeSelectionLinesToUpperCaseHandler (object sender, RoutedEventArgs e)
+        {
+            ChangeSelectionLinesToUpperCase();
+        }
+
+        public void ChangeSelectionLinesToUpperCase ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            int inputBoxContentLength = inputBox.SelectionLength;
+            int startSelectionIndex = inputBox.SelectionStart;
+            int startLineIndex = inputBox.GetLineIndexFromCharacterIndex(startSelectionIndex);
+            for (int i = startSelectionIndex; i <= startSelectionIndex + inputBoxContentLength; i++)
+            {
+                int lineIndex = inputBox.GetLineIndexFromCharacterIndex(i);
+                bool isNotFirstLine = startLineIndex != lineIndex;
+                int charIndex = 0;
+                if (isNotFirstLine)
+                {
+                    charIndex = inputBox.GetCharacterIndexFromLineIndex(lineIndex);
+                    char inputBoxContentChar = inputBoxContent[charIndex];
+                    string inputBoxContentCharStroke = inputBoxContentChar.ToString();
+                    string upperInputBoxContentCharStroke = inputBoxContentCharStroke.ToUpper();
+                    char[] chars = upperInputBoxContentCharStroke.ToCharArray();
+                    char updatedInputBoxContentChar = chars[0];
+                    inputBoxContent = inputBoxContent.Replace(inputBoxContentChar, updatedInputBoxContentChar);
+                }
+                else if (i == startSelectionIndex)
+                {
+
+                }
+            }
+            inputBox.Text = inputBoxContent;
+            inputBox.SelectionStart = startSelectionIndex + inputBoxContentLength;
+        }
+
+        public void RefreshChangeSelectionMenuItemHandler (object sender, RoutedEventArgs e)
+        {
+            RefreshChangeSelectionMenuItem();
+        }
+
+        public void RefreshChangeSelectionMenuItem ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            int selectionLength = inputBox.SelectionLength;
+            bool isHaveSelection = selectionLength >= 1;
+            changeSelectionMenuItem.IsEnabled = isHaveSelection;
+        }
+
+        public void InsertFastBookmarkHandler (object sender, RoutedEventArgs e)
+        {
+            InsertFastBookmark();
+        }
+
+        public void InsertFastBookmark ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            bookmarkIndex = inputBox.SelectionStart;
+            goToFastBookmarkMenuItem.IsEnabled = true;
+        }
+
+        public void GoToFastBookmarkHandler (object sender, RoutedEventArgs e)
+        {
+            GoToFastBookmark();
+        }
+
+        public void GoToFastBookmark ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            inputBox.SelectionStart = bookmarkIndex;
+        }
+
+        public void OpenZoomHandler (object sender, RoutedEventArgs e)
+        {
+            OpenZoom();
+        }
+
+        public void OpenZoom ()
+        {
+            Dialogs.ZoomDialog dialog = new Dialogs.ZoomDialog();
+            dialog.Show();
+        }
+
+        public void ReplaceHandler (object sender, RoutedEventArgs e)
+        {
+            Replace();
+        }
+
+        public void Replace ()
+        {
+            Dialogs.ReplaceDialog dialog = new Dialogs.ReplaceDialog();
+            dialog.Show();
+        }
+
+        public void FindHandler (object sender, RoutedEventArgs e)
+        {
+            Find();
+        }
+
+        public void Find ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlItem = ((TabItem)(rawOpenedDocControlItem));
+            object rawOpenedDocControlItemContent = openedDocControlItem.Content;
+            Controls.OpenedDocControl openedDocControlItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlItemContent));
+            TextBox inputBox = openedDocControlItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            Dialogs.FindDialog dialog = new Dialogs.FindDialog(inputBox);
+            dialog.Show();
+        }
+
+        public void FindNextHandler (object sender, RoutedEventArgs e)
+        {
+            FindNext ();
+        }
+
+        public void FindNext ()
+        {
+
         }
 
     }

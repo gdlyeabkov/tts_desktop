@@ -117,7 +117,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\CompareFilesDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConvertSubtitleToAudioDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\FindDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\FontAndColors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\GoToBookmarkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RepeatTextDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ReplaceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,7 +153,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\SpellCheckDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\TranslateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ZoomDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,8 +176,26 @@
     <Compile Include="Controls\OpenedDocControl.xaml.cs">
       <DependentUpon>OpenedDocControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\CompareFilesDialog.xaml.cs">
+      <DependentUpon>CompareFilesDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ConvertSubtitleToAudioDialog.xaml.cs">
+      <DependentUpon>ConvertSubtitleToAudioDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FindDialog.xaml.cs">
+      <DependentUpon>FindDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\FontAndColors.xaml.cs">
       <DependentUpon>FontAndColors.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\GoToBookmarkDialog.xaml.cs">
+      <DependentUpon>GoToBookmarkDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RepeatTextDialog.xaml.cs">
+      <DependentUpon>RepeatTextDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ReplaceDialog.xaml.cs">
+      <DependentUpon>ReplaceDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\SaveMultipleAudioDialog.xaml.cs">
       <DependentUpon>SaveMultipleAudioDialog.xaml</DependentUpon>
@@ -153,8 +203,14 @@
     <Compile Include="Dialogs\SelectOutputDevieDialog.xaml.cs">
       <DependentUpon>SelectOutputDevieDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\SpellCheckDialog.xaml.cs">
+      <DependentUpon>SpellCheckDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\TranslateDialog.xaml.cs">
       <DependentUpon>TranslateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ZoomDialog.xaml.cs">
+      <DependentUpon>ZoomDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\wpf_projects\TTS\TTS\App.xaml
-6-843670624
+14170549469
 
-11-1490554332
+19-2092787009
 342109608105
-Controls\OpenedDocControl.xaml;Dialogs\FontAndColors.xaml;Dialogs\SaveMultipleAudioDialog.xaml;Dialogs\SelectOutputDevieDialog.xaml;Dialogs\TranslateDialog.xaml;MainWindow.xaml;
+Controls\OpenedDocControl.xaml;Dialogs\CompareFilesDialog.xaml;Dialogs\ConvertSubtitleToAudioDialog.xaml;Dialogs\FindDialog.xaml;Dialogs\FontAndColors.xaml;Dialogs\GoToBookmarkDialog.xaml;Dialogs\RepeatTextDialog.xaml;Dialogs\ReplaceDialog.xaml;Dialogs\SaveMultipleAudioDialog.xaml;Dialogs\SelectOutputDevieDialog.xaml;Dialogs\SpellCheckDialog.xaml;Dialogs\TranslateDialog.xaml;Dialogs\ZoomDialog.xaml;MainWindow.xaml;
 
 True
 
