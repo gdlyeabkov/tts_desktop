@@ -18,6 +18,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using NAudio.Wave;
 using System.IO;
+using System.Windows.Threading;
 
 namespace TTS
 {
@@ -31,10 +32,16 @@ namespace TTS
         public SpeechSynthesizer speechSynthesizer = null;
         public List<string> openedDocHistory;
         public int bookmarkIndex = -1;
+        public Dictionary<String, Object> speechTimerData;
 
         public MainWindow()
         {
+
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru-RU");
+
             InitializeComponent();
+        
+
         }
 
         private void ToggleSpeedSliderHandler (object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -120,9 +127,47 @@ namespace TTS
         {
             isAppInit = true;
             speechSynthesizer = new SpeechSynthesizer();
+            speechSynthesizer.SpeakCompleted += SpeakCompletedHandler;
             CreateDoc();
             GetVoices();
             openedDocHistory = new List<string>();
+            speechTimerData = new Dictionary<String, Object>();
+            speechTimerData.Add("isEnabled", false);
+            speechTimerData.Add("isPlaySound", false);
+            speechTimerData.Add("isShowAttention", false);
+            speechTimerData.Add("action", "quit");
+        }
+
+        public void SpeakCompletedHandler (object sender, SpeakCompletedEventArgs e)
+        {
+            SpeakCompleted();
+        }
+
+        public void SpeakCompleted ()
+        {
+            bool isEnabled = ((bool)(speechTimerData["isEnabled"]));
+            if (isEnabled)
+            {
+                bool isPlaySound = ((bool)(speechTimerData["isPlaySound"]));
+                bool isShowAttention = ((bool)(speechTimerData["isShowAttention"]));
+                if (isPlaySound)
+                {
+                    mainAudio.Source = new Uri(@"C:\wpf_projects\TTS\TTS\Sounds\notification.wav");
+                    mainAudio.Play();
+                }
+                if (isShowAttention)
+                {
+
+                }
+                Cancel();
+                Dictionary<String, Object> updatedSpeechTimerData = new Dictionary<String, Object>();
+                updatedSpeechTimerData.Add("isEnabled", false);
+                updatedSpeechTimerData.Add("isPlaySound", false);
+                updatedSpeechTimerData.Add("isShowAttention", false);
+                updatedSpeechTimerData.Add("action", "quit");
+                speechTimerData = updatedSpeechTimerData;
+            }
+
         }
 
         public void SpeakBufferHandler (object sender, RoutedEventArgs e)
@@ -673,8 +718,13 @@ namespace TTS
             if (isSave)
             {
                 string path = sfd.FileName;
-                speechSynthesizer.SetOutputToWaveFile(path);
+                // speechSynthesizer.SetOutputToWaveFile(path);
                 // WaveFileWriter.CreateWaveFile(path);
+                bool isExit = exitAfterSaveAudioMenuItem.IsChecked;
+                if (isExit)
+                {
+                    Cancel();
+                }
             }
         }
 
@@ -1268,6 +1318,171 @@ namespace TTS
         public void FindNext ()
         {
 
+        }
+
+        public void SetDefaultSpeedHandler (object sender, RoutedEventArgs e)
+        {
+            SetDefaultSpeed();
+        }
+
+        public void SetDefaultSpeed ()
+        {
+            double speedSliderValue = 0;
+            double roundedSpeedSliderValue = ((int)(speedSliderValue));
+            string rawRoundedSpeedSliderValue = roundedSpeedSliderValue.ToString();
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            openedDocControlSelectedItemContent.speedValueLabel.Text = rawRoundedSpeedSliderValue;
+            openedDocControlSelectedItemContent.speedSlider.Value = speedSliderValue;
+        }
+
+        public void ToggleVoiceParamsHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            ToggleVoiceParams(menuItem);
+        }
+
+        public void ToggleVoiceParams (MenuItem menuItem)
+        {
+            bool IsChecked = menuItem.IsChecked;
+            Visibility visibility = Visibility.Visible;
+            if (IsChecked)
+            {
+                visibility = Visibility.Visible;
+            }
+            else
+            {
+                visibility = Visibility.Collapsed;
+            }
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            foreach (TabItem openedDocControlItem in openedDocControlItems)
+            {
+                object rawOpenedDocControlItemContent = openedDocControlItem.Content;
+                Controls.OpenedDocControl openedDocControlItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlItemContent));
+                openedDocControlItemContent.voiceParams.Visibility = visibility;
+            }
+        }
+
+        public void OpenBtnsHandler (object sender, RoutedEventArgs e)
+        {
+            OpenBtns();
+        }
+
+        public void OpenBtns ()
+        {
+
+        }
+
+        public void ToggleToolBarHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            ToggleToolBar(menuItem);
+        }
+
+        public void ToggleToolBar (MenuItem menuItem)
+        {
+            bool IsChecked = menuItem.IsChecked;
+            Visibility visibility = Visibility.Visible;
+            if (IsChecked)
+            {
+                visibility = Visibility.Visible;
+            }
+            else
+            {
+                visibility = Visibility.Collapsed;
+            }
+            toolBar.Visibility = visibility;
+        }
+
+        public void ToggleStatusBarHandler(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            ToggleStatusBar(menuItem);
+        }
+
+        public void ToggleStatusBar(MenuItem menuItem)
+        {
+            bool IsChecked = menuItem.IsChecked;
+            Visibility visibility = Visibility.Visible;
+            if (IsChecked)
+            {
+                visibility = Visibility.Visible;
+            }
+            else
+            {
+                visibility = Visibility.Collapsed;
+            }
+            statusBar.Visibility = visibility;
+        }
+
+        public void ToggleLangHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemData = menuItem.DataContext;
+            string lang = ((string)(menuItemData));
+            ToggleLang(lang);
+        }
+
+        public void ToggleLang (string lang)
+        {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(lang);
+        }
+
+        public void OpenTimerHandler (object sender, RoutedEventArgs e)
+        {
+            OpenTimer();
+        }
+
+        public void OpenTimer ()
+        {
+            Dialogs.TimerDialog dialog = new Dialogs.TimerDialog(this);
+            dialog.Show();
+        }
+
+        public void StartTimer (int minutes, bool isPlaySound, bool isShowAttention)
+        {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(minutes);
+            timer.Start();
+            // timer.Tick += DoTimerActionHandler;
+            timer.Tick += delegate
+            {
+                if (isPlaySound)
+                {
+                    mainAudio.Source = new Uri(@"C:\wpf_projects\TTS\TTS\Sounds\notification.wav");
+                    mainAudio.Play();
+                }
+                if (isShowAttention)
+                {
+
+                }
+            };
+        }
+
+        public void DoTimerActionHandler (object sender, EventArgs e)
+        {
+            DispatcherTimer timer = ((DispatcherTimer)(sender));
+            DoTimerAction(timer);
+        }
+
+        public void DoTimerAction (DispatcherTimer timer)
+        {
+            Cancel();
+            timer.Stop();
+        }
+
+        public void StartSpeechTimer(bool isPlaySound, bool isShowAttention)
+        {
+            Dictionary<String, Object> updatedSpeechTimerData = new Dictionary<String, Object>();
+            updatedSpeechTimerData.Add("isEnabled", true);
+            updatedSpeechTimerData.Add("isPlaySound", isPlaySound);
+            updatedSpeechTimerData.Add("isShowAttention", isShowAttention);
+            updatedSpeechTimerData.Add("action", "quit");
+            speechTimerData = updatedSpeechTimerData;
         }
 
     }

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:p="clr-namespace:TTS.Properties"
         mc:Ignorable="d"
         Title="Произносилка"
         Height="450"
@@ -12,13 +13,28 @@
         WindowState="Maximized"
         Loaded="InitHandler">
     <DockPanel>
+        <MediaElement
+            x:Name="mainAudio"
+            LoadedBehavior="Manual"
+            UnloadedBehavior="Manual"/>
+        <Popup
+            Width="150"
+            Height="150">
+            <Popup.Child>
+                <StackPanel
+                    Background="LightGray">
+                    <TextBlock
+                        Margin="15"
+                        Text="Таймер сработает через минуту"/>
+                </StackPanel>
+            </Popup.Child>
+        </Popup>
         <StackPanel
             DockPanel.Dock="Top"    
             >
             <Menu>
                 <MenuItem
-                    Header="Файл"    
-                    >
+                    Header="Файл">
                     <MenuItem
                         Header="Новый"
                         Click="CreateDocHandler"
@@ -179,9 +195,25 @@
                             />
                     </MenuItem>
                     <MenuItem
+                        Header="Скорость по умолчанию"
+                        Click="SetDefaultSpeedHandler"
+                        />
+                    <MenuItem
                         Header="Выбор аудиоустройства"
                         Click="SelectOutputDeviceHandler"
                         />
+                    <MenuItem
+                        Header="Таймер"
+                        Click="OpenTimerHandler"
+                        />
+                    <MenuItem
+                        Header="После сохранения аудиофайлов"
+                        >
+                        <MenuItem
+                            x:Name="exitAfterSaveAudioMenuItem"
+                            IsCheckable="True"
+                            Header="Выйти из программы"/>
+                    </MenuItem>
                     <MenuItem
                         x:Name="voicesMenuItem"
                         Header="Голос"
@@ -191,9 +223,43 @@
                     Header="Вид"    
                     >
                     <MenuItem
+                        Header="Язык">
+                        <MenuItem
+                            Header="Русский"
+                            DataContext="ru-RU"
+                            Click="ToggleLangHandler"/>
+                        <MenuItem
+                            Header="English"
+                            DataContext="en-US"
+                            Click="ToggleLangHandler"/>
+                    </MenuItem>
+                    <MenuItem
                         Header="Шрифт и цвета"
                         Click="OpenFontAndColorsHandler"
                         />
+                    <MenuItem
+                        Header="Кнопки"
+                        Click="OpenBtnsHandler"
+                        />
+                    <MenuItem
+                        Header="Показывать"
+                        >
+                        <MenuItem
+                            IsCheckable="True"
+                            IsChecked="True"
+                            Header="Параметры голоса"
+                            Click="ToggleVoiceParamsHandler"/>
+                        <MenuItem
+                            IsCheckable="True"
+                            IsChecked="True"
+                            Header="Панель инструментов"
+                            Click="ToggleToolBarHandler"/>
+                        <MenuItem
+                            IsCheckable="True"
+                            IsChecked="True"
+                            Header="Строка состояния"
+                            Click="ToggleStatusBarHandler"/>
+                    </MenuItem>
                     <MenuItem
                         Header="Увеличить размер шрифта"
                         Click="IncreaseFontSizeHandler"
@@ -241,6 +307,7 @@
                 </MenuItem>
             </Menu>
             <ToolBarPanel
+                x:Name="toolBar"
                 Orientation="Horizontal"
                 DockPanel.Dock="Top"
                 Height="35"
@@ -468,6 +535,7 @@
                 x:Name="openedDocs"
                 />
             <StackPanel
+                x:Name="statusBar"
                 Orientation="Horizontal"
                 >
                 <Border

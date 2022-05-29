@@ -8,6 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
         <Border
+            x:Name="voiceParams"
             Padding="15"
             Margin="15"
             BorderThickness="1"

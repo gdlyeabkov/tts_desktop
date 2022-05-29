@@ -117,6 +117,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\BtnsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\CompareFilesDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -153,7 +157,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\SettingsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\SpellCheckDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SplitFileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\TextImportDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\TimerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,6 +195,9 @@
     </Compile>
     <Compile Include="Controls\OpenedDocControl.xaml.cs">
       <DependentUpon>OpenedDocControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\BtnsDialog.xaml.cs">
+      <DependentUpon>BtnsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\CompareFilesDialog.xaml.cs">
       <DependentUpon>CompareFilesDialog.xaml</DependentUpon>
@@ -203,8 +226,20 @@
     <Compile Include="Dialogs\SelectOutputDevieDialog.xaml.cs">
       <DependentUpon>SelectOutputDevieDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\SpellCheckDialog.xaml.cs">
       <DependentUpon>SpellCheckDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SplitFileDialog.xaml.cs">
+      <DependentUpon>SplitFileDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\TextImportDialog.xaml.cs">
+      <DependentUpon>TextImportDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\TimerDialog.xaml.cs">
+      <DependentUpon>TimerDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\TranslateDialog.xaml.cs">
       <DependentUpon>TranslateDialog.xaml</DependentUpon>
@@ -231,10 +266,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.en-US.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ru-RU.resx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -243,6 +281,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Sounds\notification.wav" />
+    <Content Include="Sounds\screenshot.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets')" />

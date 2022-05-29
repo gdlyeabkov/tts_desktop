@@ -1,0 +1,129 @@
+﻿<Window x:Class="TTS.Dialogs.TimerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TTS.Dialogs"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Таймер"
+        Height="575"
+        Width="400">
+    <StackPanel>
+        <Border
+            Margin="15"
+            BorderThickness="1"
+            BorderBrush="Gray">
+            <Border.Child>
+                <StackPanel
+                    Margin="15">
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Kind="Timer"
+                            Width="36"
+                            Height="36"
+                            Margin="15"/>
+                        <TextBlock
+                            Text="Таймер будет полезен тем пользователям, кто слушает&#10;тексты перед сном. Таймер позволяет например,&#10;автоматически вывключать компьютер после того, как&#10;пользователя уснёт."/>
+                    </StackPanel>
+                    <TextBlock
+                        Text="Условия"
+                        Margin="15 5"/>
+                    <Border
+                        Margin="15"
+                        BorderThickness="1"
+                        BorderBrush="Gray">
+                        <Border.Child>
+                            <StackPanel
+                                Margin="15">
+                                <StackPanel
+                                        Margin="0 5"
+                                        Orientation="Horizontal">
+                                    <CheckBox
+                                        x:Name="timerCheckBox"
+                                        IsChecked="True"
+                                        Content="Интервал времени в минутах"
+                                        Margin="15 0"/>
+                                    <TextBox
+                                        x:Name="timerBox"
+                                        Text="60"
+                                        Margin="10 0"
+                                        Height="20"
+                                        Width="40"/>
+                                </StackPanel>
+                                <CheckBox
+                                    x:Name="speechTimerCheckBox"
+                                    IsChecked="True"
+                                    Content="После завершения чтения"
+                                    Margin="15 5"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <TextBlock
+                        Text="Действие"
+                        Margin="15 5"/>
+                    <Border
+                        BorderThickness="1"
+                        BorderBrush="Gray">
+                        <Border.Child>
+                            <StackPanel>
+                                <RadioButton
+                                    IsChecked="True"
+                                    Content="Выключить компьютер"
+                                    Margin="15 5"/>
+                                <RadioButton
+                                    Content="Перейти в спящий режим"
+                                    Margin="15 5"/>
+                                <RadioButton
+                                    Content="Перейти в ждущий режим"
+                                    Margin="15 5"/>
+                                <RadioButton
+                                    Content="Выйти из программы"
+                                    Margin="15 5"/>
+                                <RadioButton
+                                    Content="Остановить процесс чтения вслух"
+                                    Margin="15 5"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <TextBlock
+                        Text="За 1 минуту до срабатывания таймера"
+                        Margin="15 5"/>
+                    <Border
+                        BorderThickness="1"
+                        BorderBrush="Gray">
+                        <Border.Child>
+                            <StackPanel>
+                                <CheckBox
+                                    x:Name="playSoundCheckBox"
+                                    Content="Издать звуковой сигнал"
+                                    Margin="15 5"/>
+                                <CheckBox
+                                    x:Name="shotAttentionCheckBox"
+                                    Content="Показывать предупреждение"
+                                    Margin="15 5"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </Border.Child>
+        </Border>
+        <StackPanel
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="15 0"
+                Width="50"
+                Height="25"
+                Content="ОК"
+                Click="OkHandler"/>
+            <Button
+                Margin="15 0"
+                Width="65"
+                Height="25"
+                Content="Отмена"
+                Click="CancelHandler"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
