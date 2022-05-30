@@ -278,6 +278,10 @@
                     Header="Сервис"    
                     >
                     <MenuItem
+                        Header="Разбить файл на части"
+                        Click="SplitFileHandler"
+                    />
+                    <MenuItem
                         Header="Перевести"
                         Click="TranslateHandler"
                     />
@@ -291,14 +295,18 @@
                     >
                     <MenuItem
                         Header="Вставить быструю закладку"
-                        Click="InsertFastBookmarkHandler"
-                        />
+                        Click="InsertFastBookmarkHandler" />
                     <MenuItem
                         x:Name="goToFastBookmarkMenuItem"
                         Header="Перейти на быструю закладку"
                         IsEnabled="False"
-                        Click="GoToFastBookmarkHandler"
-                        />
+                        Click="GoToFastBookmarkHandler" />
+                    <MenuItem
+                        Header="Вставить именованную закладку"
+                        Click="InsertNameBookmarkHandler" />
+                    <MenuItem
+                        Header="Перейти по именнованной закладку"
+                        Click="GoToBookmarkHandler" />
                 </MenuItem>
                 <MenuItem
                     Header="Справка"    

@@ -73,5 +73,20 @@ namespace TTS.Dialogs
             this.Close();
         }
 
+        public void ToggleConditionHandler (object sender, RoutedEventArgs e)
+        {
+            ToggleCondition();
+        }
+
+        public void ToggleCondition ()
+        {
+            object rawIsChecked = timerCheckBox.IsChecked;
+            bool isTimerChecked = ((bool)(rawIsChecked));
+            rawIsChecked = speechTimerCheckBox.IsChecked;
+            bool isSpeechTimerChecked = ((bool)(rawIsChecked));
+            bool isCanStartTimer = isTimerChecked || isSpeechTimerChecked;
+            okBtn.IsEnabled = isCanStartTimer;
+        }
+
     }
 }

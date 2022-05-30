@@ -5,8 +5,223 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS.Dialogs"
         mc:Ignorable="d"
-        Title="SplitFileDialog" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Разбить файл на части"
+        Height="700"
+        Width="800">
+    <StackPanel>
+        <Border
+            BorderThickness="1"
+            BorderBrush="LightGray"
+            Margin="15">
+            <Border.Child>
+                <StackPanel
+                    Margin="15">
+                    <StackPanel
+                        Margin="0 15"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="15 0"
+                            Text="Исходный файл"/>
+                        <TextBox
+                            x:Name="sourceFileBox"
+                            Margin="15 0"
+                            Width="425"
+                            Height="25"/>
+                        <Button
+                            Height="25"
+                            Width="125"
+                            Content="Выбрать"
+                            Click="PickSourceFileHandler"/>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0 15"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="15 0"
+                            Text="Сохранить в папке"/>
+                        <TextBox
+                            x:Name="saveFolderBox"
+                            Margin="15 0"
+                            Width="425"
+                            Height="25"/>
+                        <Button
+                            Height="25"
+                            Width="125"
+                            Content="Выбрать"
+                            Click="PickSavedFolderHandler"/>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0 15"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="15 0"
+                            Text="Шаблон для имени файла"/>
+                        <TextBox
+                            x:Name="templateFileBox"
+                            Margin="15 0"
+                            Width="425"
+                            Height="25"/>
+                    </StackPanel>
+                    <StackPanel
+                        Margin="0 15"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="15 0"
+                            Text="Стартовый порядковый номер для имен файлов"/>
+                        <TextBox
+                            x:Name="startNumberFileNameBox"
+                            Margin="15 0"
+                            Text="1"
+                            Width="65"
+                            Height="25"/>
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="15 0"
+                                Text="Добавить порядковый номер"/>
+                            <Border
+                                BorderBrush="LightGray"
+                                BorderThickness="1"
+                                Margin="15">
+                                <Border.Child>
+                                    <StackPanel
+                                        Margin="15">
+                                        <RadioButton
+                                            x:Name="addNumberAfterFileNameRadioBtn"
+                                            Margin="15 0"
+                                            IsChecked="True"
+                                            Content="после имени файла"/>
+                                        <RadioButton
+                                            x:Name="addNumberBeforeFileNameRadioBtn"
+                                            Margin="15 0"
+                                            Content="перед именем файла"/>
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                            <StackPanel
+                                Margin="0 15"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    x:Name="useFileSizeLabel"
+                                    Margin="15 0"
+                                    Text="Размер файлов должен быть"/>
+                                <TextBox
+                                    x:Name="useFileSizeBox"
+                                    Margin="15 0"
+                                    Width="75"
+                                    Height="25"/>                                
+                                <TextBlock
+                                    x:Name="useFileSizeMeasureLabel"
+                                    Margin="15 0"
+                                    Text="Кб"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock
+                                Margin="15 5"
+                                Text="Способ деления"/>
+                            <Border
+                                Margin="15">
+                                <Border.Child>
+                                    <StackPanel
+                                        Margin="15">
+                                        <CheckBox
+                                            x:Name="useFileSizeCheckBox"
+                                            IsChecked="True"
+                                            Margin="15 5"
+                                            Content="Использовать заданный размер файла"
+                                            Click="ToggleUseFileSizeHandler"/>
+                                        <CheckBox
+                                            x:Name="findKeywordsCheckBox"
+                                            Margin="15 5"
+                                            Content="искать ключевые слова в исходном файле"
+                                            Click="ToggleFindKeywordsHandler"/>
+                                        <CheckBox
+                                            x:Name="find2EmptyStringsCheckBox"
+                                            Margin="15 5"
+                                            Content="искать две пустые строки подряд"/>
+                                        <CheckBox
+                                            x:Name="findLinesUpperLetterCheckBox"
+                                            IsChecked="True"
+                                            Margin="15 5"
+                                            Content="искать строки, где буквы заглавные"/>
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock
+                        x:Name="keywordsLabel"
+                        Foreground="LightGray"
+                        Margin="15 5"
+                        Text="Список ключевых слов (перечислить через запятую)"/>
+                    <TextBox
+                        x:Name="keywordsBox"
+                        Foreground="LightGray"
+                        BorderBrush="LightGray"
+                        HorizontalAlignment="Left"
+                        Margin="15 5"
+                        Width="650"
+                        Height="25"/>
+                    <CheckBox
+                        x:Name="keywordsDeleteWordCheckBox"
+                        Foreground="LightGray"
+                        Content="Поделить текст на ключевом слове и удалить его из текста"/>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="15 5"
+                            Text="Кодировка сохраняемого файла"/>
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <StackPanel>
+                                    <RadioButton
+                                        x:Name="ansiCheckBox"
+                                        Margin="15 0"
+                                        IsChecked="True"
+                                        Content="ANSI"/>
+                                    <RadioButton
+                                        x:Name="utf8CheckBox"
+                                        Margin="15 0"
+                                        Content="UTF-8"/>
+                                    <RadioButton
+                                        x:Name="unicodeCheckBox"
+                                        Margin="15 0"
+                                        Content="Юникод"/>
+                                </StackPanel>
+                            </Border.Child>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border.Child>
+        </Border>
+        <DockPanel
+            Margin="0 5">
+            <StackPanel
+                Orientation="Horizontal">
+                <Button
+                    Margin="15 0"
+                    Width="65"
+                    Height="25"
+                    Content="Тест"
+                    Click="TestHandler"/>
+                <Button
+                    Margin="15 0"
+                    Width="125"
+                    Height="25"
+                    Content="Выполнить"
+                    Click="RunHandler"/>
+            </StackPanel>
+            <Button
+                HorizontalAlignment="Right"
+                Margin="15 0"
+                Width="65"
+                Height="25"
+                Content="Закрыть"
+                Click="CancelHandler"/>
+        </DockPanel>
+    </StackPanel>
 </Window>

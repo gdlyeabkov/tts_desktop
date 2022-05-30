@@ -19,6 +19,8 @@ using Microsoft.Win32;
 using NAudio.Wave;
 using System.IO;
 using System.Windows.Threading;
+using System.Web.Script.Serialization;
+using System.Globalization;
 
 namespace TTS
 {
@@ -125,17 +127,52 @@ namespace TTS
 
         public void Init ()
         {
+            InitVars();
+            CreateDoc();
+            GetVoices();
+            InitCache();
+        }
+
+        public void InitVars ()
+        {
             isAppInit = true;
             speechSynthesizer = new SpeechSynthesizer();
             speechSynthesizer.SpeakCompleted += SpeakCompletedHandler;
-            CreateDoc();
-            GetVoices();
             openedDocHistory = new List<string>();
             speechTimerData = new Dictionary<String, Object>();
             speechTimerData.Add("isEnabled", false);
             speechTimerData.Add("isPlaySound", false);
             speechTimerData.Add("isShowAttention", false);
             speechTimerData.Add("action", "quit");
+        }
+
+        public void InitCache ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            string cachePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader";
+            bool isCacheFolderExists = Directory.Exists(cachePath);
+            bool isCacheFolderNotExists = !isCacheFolderExists;
+            if (isCacheFolderNotExists)
+            {
+                Directory.CreateDirectory(cachePath);
+                using (System.IO.Stream s = File.Open(saveDataFilePath, FileMode.OpenOrCreate))
+                {
+                    using (StreamWriter sw = new StreamWriter(s))
+                    {
+                        sw.Write("");
+                    }
+                };
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string savedContent = js.Serialize(new SavedContent()
+                {
+                    // bookmarks = new List<string>() { }
+                    bookmarks = new List<Dictionary<String, Object>>() { }
+                });
+                File.WriteAllText(saveDataFilePath, savedContent);
+            }
+
         }
 
         public void SpeakCompletedHandler (object sender, SpeakCompletedEventArgs e)
@@ -188,6 +225,11 @@ namespace TTS
             double speedSliderValue = speedSlider.Value;
             int roundedSpeedSliderValue = ((int)(speedSliderValue));
             speechSynthesizer.Rate = roundedSpeedSliderValue;
+
+            Slider pitchSlider = openedDocControlSelectedItemContent.pitchSlider;
+            double pitchSliderValue = pitchSlider.Value;
+            int roundedPitchSliderValue = ((int)(pitchSliderValue));
+
             Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
             double volumeSliderValue = volumeSlider.Value;
             
@@ -195,7 +237,35 @@ namespace TTS
             speechSynthesizer.Volume = roundedVolumeSliderValue;
             string copiedText = Clipboard.GetText();
             ResetPause();
-            speechSynthesizer.SpeakAsync(copiedText);
+
+            PromptBuilder builder = new PromptBuilder();
+            builder.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            builder.StartVoice(builder.Culture);
+            builder.StartSentence();
+            PromptEmphasis emphasis = PromptEmphasis.Moderate;
+            bool isStrong = roundedPitchSliderValue < 0;
+            bool isMiddle = roundedPitchSliderValue == 0;
+            bool isHigh = roundedPitchSliderValue > 0;
+            if (isStrong)
+            {
+                emphasis = PromptEmphasis.Strong;
+            }
+            else if (isMiddle)
+            {
+                emphasis = PromptEmphasis.Moderate;
+            }
+            else if (isHigh)
+            {
+                emphasis = PromptEmphasis.Reduced;
+            }
+            builder.StartStyle(new PromptStyle() { Emphasis = emphasis });
+            builder.AppendText(copiedText);
+            builder.EndStyle();
+            builder.EndSentence();
+            builder.EndVoice();
+
+            // speechSynthesizer.SpeakAsync(copiedText);
+            speechSynthesizer.SpeakAsync(builder);
             stopSpeechBtn.IsEnabled = true;
         }
 
@@ -228,6 +298,11 @@ namespace TTS
             double speedSliderValue = speedSlider.Value;
             int roundedSpeedSliderValue = ((int)(speedSliderValue));
             speechSynthesizer.Rate = roundedSpeedSliderValue;
+
+            Slider pitchSlider = openedDocControlSelectedItemContent.pitchSlider;
+            double pitchSliderValue = pitchSlider.Value;
+            int roundedPitchSliderValue = ((int)(pitchSliderValue));
+
             Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
             double volumeSliderValue = volumeSlider.Value;
             int roundedVolumeSliderValue = ((int)(volumeSliderValue));
@@ -235,7 +310,36 @@ namespace TTS
             TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             string inputBoxSelectedContent = inputBox.SelectedText;
             ResetPause();
-            speechSynthesizer.SpeakAsync(inputBoxSelectedContent);
+
+            PromptBuilder builder = new PromptBuilder();
+            builder.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            builder.StartVoice(builder.Culture);
+            builder.StartSentence();
+            PromptEmphasis emphasis = PromptEmphasis.Moderate;
+            bool isStrong = roundedPitchSliderValue < 0;
+            bool isMiddle = roundedPitchSliderValue == 0;
+            bool isHigh = roundedPitchSliderValue > 0;
+            if (isStrong)
+            {
+                emphasis = PromptEmphasis.Strong;
+            }
+            else if (isMiddle)
+            {
+                emphasis = PromptEmphasis.Moderate;
+            }
+            else if (isHigh)
+            {
+                emphasis = PromptEmphasis.Reduced;
+            }
+            builder.StartStyle(new PromptStyle() { Emphasis = emphasis });
+            builder.AppendText(inputBoxSelectedContent);
+            builder.EndStyle();
+            builder.EndSentence();
+            builder.EndVoice();
+
+            // speechSynthesizer.SpeakAsync(inputBoxSelectedContent);
+            speechSynthesizer.SpeakAsync(builder);
+
             stopSpeechBtn.IsEnabled = true;
         }
 
@@ -257,6 +361,11 @@ namespace TTS
             double speedSliderValue = speedSlider.Value;
             int roundedSpeedSliderValue = ((int)(speedSliderValue));
             speechSynthesizer.Rate = roundedSpeedSliderValue;
+            
+            Slider pitchSlider = openedDocControlSelectedItemContent.pitchSlider;
+            double pitchSliderValue = pitchSlider.Value;
+            int roundedPitchSliderValue = ((int)(pitchSliderValue));
+
             Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
             double volumeSliderValue = volumeSlider.Value;
             int roundedVolumeSliderValue = ((int)(volumeSliderValue));
@@ -264,7 +373,35 @@ namespace TTS
             TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
             string inputBoxContent = inputBox.Text;
             ResetPause();
-            speechSynthesizer.SpeakAsync(inputBoxContent);
+
+            PromptBuilder builder = new PromptBuilder();
+            builder.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            builder.StartVoice(builder.Culture);
+            builder.StartSentence();
+            PromptEmphasis emphasis = PromptEmphasis.Moderate;
+            bool isStrong = roundedPitchSliderValue < 0;
+            bool isMiddle = roundedPitchSliderValue == 0;
+            bool isHigh = roundedPitchSliderValue > 0;
+            if (isStrong)
+            {
+                emphasis = PromptEmphasis.Strong;
+            }
+            else if (isMiddle)
+            {
+                emphasis = PromptEmphasis.Moderate;
+            }
+            else if (isHigh)
+            {
+                emphasis = PromptEmphasis.Reduced;
+            }
+            builder.StartStyle(new PromptStyle() { Emphasis = emphasis });
+            builder.AppendText(inputBoxContent);
+            builder.EndStyle();
+            builder.EndSentence();
+            builder.EndVoice();
+
+            // speechSynthesizer.SpeakAsync(inputBoxContent);
+            speechSynthesizer.SpeakAsync(builder);
             stopSpeechBtn.IsEnabled = true;
         }
 
@@ -1485,5 +1622,64 @@ namespace TTS
             speechTimerData = updatedSpeechTimerData;
         }
 
+        public void InsertNameBookmarkHandler (object sender, RoutedEventArgs e)
+        {
+            InsertNameBookmark();
+        }
+
+        public void InsertNameBookmark ()
+        {
+            Dialogs.CreateBookmarkDialog dialog = new Dialogs.CreateBookmarkDialog(this);
+            dialog.Show();
+        }
+
+        public void GoToBookmarkHandler(object sender, RoutedEventArgs e)
+        {
+            GoToBookmark();
+        }
+
+        public void GoToBookmark()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+
+            // List<string> currentBookmarks = loadedContent.bookmarks;
+            List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
+            
+            int currentBookmarksCount = currentBookmarks.Count;
+            bool isHaveBookmarks = currentBookmarksCount >= 1;
+            if (isHaveBookmarks)
+            {
+                Dialogs.GoToBookmarkDialog dialog = new Dialogs.GoToBookmarkDialog(this);
+                dialog.Show();
+            }
+            else
+            {
+                MessageBox.Show("Текущий документ не содержит закладок", "Информация");
+            }
+        }
+
+        public void SplitFileHandler (object sender, RoutedEventArgs e)
+        {
+            SplitFile();
+        }
+
+        public void SplitFile ()
+        {
+            Dialogs.SplitFileDialog dialog = new Dialogs.SplitFileDialog();
+            dialog.Show();
+        }
+
     }
+
+    class SavedContent
+    {
+        // public List<string> bookmarks;
+        public List<Dictionary<String, Object>> bookmarks;
+    }
+
 }

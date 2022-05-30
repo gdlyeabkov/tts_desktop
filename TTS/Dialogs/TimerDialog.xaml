@@ -44,7 +44,8 @@
                                         x:Name="timerCheckBox"
                                         IsChecked="True"
                                         Content="Интервал времени в минутах"
-                                        Margin="15 0"/>
+                                        Margin="15 0"
+                                        Click="ToggleConditionHandler"/>
                                     <TextBox
                                         x:Name="timerBox"
                                         Text="60"
@@ -54,9 +55,9 @@
                                 </StackPanel>
                                 <CheckBox
                                     x:Name="speechTimerCheckBox"
-                                    IsChecked="True"
                                     Content="После завершения чтения"
-                                    Margin="15 5"/>
+                                    Margin="15 5"
+                                    Click="ToggleConditionHandler"/>
                             </StackPanel>
                         </Border.Child>
                     </Border>
@@ -113,6 +114,7 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
+                x:Name="okBtn"
                 Margin="15 0"
                 Width="50"
                 Height="25"

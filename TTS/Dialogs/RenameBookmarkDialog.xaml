@@ -1,0 +1,39 @@
+﻿<Window x:Class="TTS.Dialogs.RenameBookmarkDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TTS.Dialogs"
+        mc:Ignorable="d"
+        Title="Переименовать"
+        Height="150"
+        Width="400">
+    <StackPanel>
+        <TextBlock
+            Margin="15 15 15 5"
+            Text="Название:"/>
+        <TextBox
+            x:Name="nameBox"
+            Margin="15 5"
+            HorizontalAlignment="Left"
+            Width="350"
+            Height="20"/>
+        <StackPanel
+            Margin="0 5"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="10 0"
+                Content="ОК"
+                Width="65"
+                Height="25"
+                Click="OkHandler"/>
+            <Button
+                Margin="10 0"
+                Content="Отмена"
+                Width="65"
+                Height="25"
+                Click="CancelHandler"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

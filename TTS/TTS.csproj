@@ -80,6 +80,7 @@
     </Reference>
     <Reference Include="System.Speech" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -129,6 +130,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\CreateBookmarkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\FindDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\GoToBookmarkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RenameBookmarkDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,6 +214,9 @@
     <Compile Include="Dialogs\ConvertSubtitleToAudioDialog.xaml.cs">
       <DependentUpon>ConvertSubtitleToAudioDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\CreateBookmarkDialog.xaml.cs">
+      <DependentUpon>CreateBookmarkDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\FindDialog.xaml.cs">
       <DependentUpon>FindDialog.xaml</DependentUpon>
     </Compile>
@@ -213,6 +225,9 @@
     </Compile>
     <Compile Include="Dialogs\GoToBookmarkDialog.xaml.cs">
       <DependentUpon>GoToBookmarkDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RenameBookmarkDialog.xaml.cs">
+      <DependentUpon>RenameBookmarkDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\RepeatTextDialog.xaml.cs">
       <DependentUpon>RepeatTextDialog.xaml</DependentUpon>
