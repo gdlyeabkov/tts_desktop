@@ -4,9 +4,166 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS.Dialogs"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="CompareFilesDialog" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Сравнить два файла"
+        Height="565"
+        Width="825">
+    <Border
+        BorderThickness="1"
+        BorderBrush="LightGray"
+        Margin="15">
+        <Border.Child>
+            <StackPanel
+                Orientation="Horizontal"
+                Margin="15">
+                <StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <StackPanel
+                            Margin="5">
+                            <Button
+                                Margin="0 5"
+                                Width="150"
+                                Height="25"
+                                Content="Открыть первый файл"
+                                Click="OpenFirstFileHandler"/>
+                            <TextBox
+                                x:Name="firstFileBox"
+                                IsReadOnly="True"
+                                Width="200"
+                                Height="200"/>
+                            <TextBlock
+                                x:Name="firstFileCountLinesLabel"
+                                Margin="15 5"
+                                />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="5">
+                            <Button
+                                Margin="0 5"
+                                Width="150"
+                                Height="25"
+                                Content="Открыть второй файл"
+                                Click="OpenSecondFileHandler"/>
+                            <TextBox
+                                x:Name="secondFileBox"
+                                IsReadOnly="True"
+                                Width="200"
+                                Height="200"/>
+                            <TextBlock
+                                x:Name="secondFileCountLinesLabel"
+                                Margin="15 5"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBlock
+                        Margin="15 5"
+                        Text="Найти строки, которые"/>
+                    <Border
+                        Margin="15"
+                        BorderThickness="1"
+                        BorderBrush="LightGray">
+                        <Border.Child>
+                            <StackPanel>
+                                <StackPanel
+                                    Margin="0 5"
+                                    Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        Margin="15 0"
+                                        Kind="SetIntersection"/>
+                                    <RadioButton
+                                        x:Name="haveBothFileCheckBox"
+                                        IsChecked="True"
+                                        Margin="15 0"
+                                        Content="есть в обоих файлах"/>
+                                </StackPanel>
+                                <StackPanel
+                                    Margin="0 5"
+                                    Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        Margin="15 0"
+                                        Kind="SetIntersection"/>
+                                    <RadioButton
+                                        x:Name="haveOneFileCheckBox"
+                                        Margin="15 0"
+                                        Content="есть лишь в одном из файлов"/>
+                                </StackPanel>
+                                <StackPanel
+                                    Margin="0 5"
+                                    Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        Margin="15 0"
+                                        Kind="SetIntersection"/>
+                                    <RadioButton
+                                        x:Name="haveFirstFileAndSecondFileAbsentCheckBox"
+                                        Margin="15 0"
+                                        Content="есть в первом файле и отсутствуют во втором файле"/>
+                                </StackPanel>
+                                <StackPanel
+                                    Margin="0 5"
+                                    Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        Margin="15 0"
+                                        Kind="SetIntersection"/>
+                                    <RadioButton
+                                        x:Name="haveSecondFileAndFirstFileAbsentCheckBox"
+                                        Margin="15 0"
+                                        Content="есть во втором файле и отсутствуют в первом файле"/>
+                                </StackPanel>
+                                <StackPanel
+                                    Margin="0 5"
+                                    Orientation="Horizontal">
+                                    <materialDesign:PackIcon
+                                        Margin="15 0"
+                                        Kind="SetIntersection"/>
+                                    <RadioButton
+                                        x:Name="anyFileCheckBox"
+                                        Margin="15 0"
+                                        Content="присутствует в любом из файлов (сумма файлов)"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <CheckBox
+                        x:Name="matchCaseCheckBox"
+                        Content="Учитывать регистр букв"
+                        Margin="15 5"/>
+                </StackPanel>
+                <StackPanel>
+                    <Button
+                        Margin="0 5"
+                        Width="126"
+                        Height="25"
+                        Content="Сохранить результат"
+                        Click="SaveResultHandler"/>
+                    <TextBox
+                        x:Name="resultBox"
+                        IsReadOnly="True"
+                        Width="300"
+                        Height="300"/>
+                    <TextBlock
+                        Margin="15 5"
+                        Text="0"/>
+                    <StackPanel
+                        Margin="0 5"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="okBtn"
+                            IsEnabled="False"
+                            Margin="15 0"
+                            Width="125"
+                            Height="25"
+                            Content="Сравнить"
+                            Click="OkHandler"/>
+                        <Button
+                            Margin="15 0"
+                            Width="125"
+                            Height="25"
+                            Content="Закрыть"
+                            Click="CancelHandler"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border.Child>
+    </Border>
 </Window>

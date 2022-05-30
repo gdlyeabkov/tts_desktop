@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 using System.Speech.Synthesis;
 using System.IO;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace TTS.Dialogs
 {
@@ -64,7 +65,7 @@ namespace TTS.Dialogs
             }
             else
             {
-
+                MessageBox.Show("Преобразование завершено.", "Ошибка");
             }
         }
 
@@ -217,10 +218,11 @@ namespace TTS.Dialogs
 
         public void SpeakCompletedHandler (object sender, SpeakCompletedEventArgs e)
         {
-            SpeakCompleted();
+            SpeechSynthesizer speechSynthesizer = ((SpeechSynthesizer)(sender));
+            SpeakCompleted(speechSynthesizer);
         }
 
-        public void SpeakCompleted ()
+        public void SpeakCompleted (SpeechSynthesizer speechSynthesizer)
         {
             object rawIsChecked = removeFilesCheckBox.IsChecked;
             bool isChecked = ((bool)(rawIsChecked));
@@ -234,6 +236,13 @@ namespace TTS.Dialogs
                 }
                 files.Children.Clear();
             }
+            new ToastContentBuilder()
+                .AddArgument("action", "viewConversation")
+                .AddArgument("conversationId", 9813)
+                .AddText("Преобразование завершено")
+                .AddText("TTS закончил преобразование текстовых файлов в аудио!")
+                .Show();
+            speechSynthesizer.Dispose();
         }
 
     }

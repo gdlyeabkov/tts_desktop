@@ -41,13 +41,8 @@ namespace TTS.Dialogs
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
-
-            // List<string> currentBookmarks = loadedContent.bookmarks;
             List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
-            
-            // string currentBookmark = currentBookmarks[index];
             string currentBookmark = ((string)(currentBookmarks[index]["name"]));
-
             nameBox.Text = currentBookmark;
         }
 
@@ -65,11 +60,7 @@ namespace TTS.Dialogs
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
-
-            // List<string> updatedBookmarks = loadedContent.bookmarks;
             List<Dictionary<String, Object>> updatedBookmarks = loadedContent.bookmarks;
-
-            // updatedBookmarks[index] = nameBoxContent;
             updatedBookmarks[index]["name"] = nameBoxContent;
             string savedContent = js.Serialize(new SavedContent
             {

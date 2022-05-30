@@ -52,8 +52,6 @@ namespace TTS.Dialogs
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
-
-            // List<string> currentBookmarks = loadedContent.bookmarks;
             List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks; 
 
             RowDefinitionCollection rows = bookmarks.RowDefinitions;
@@ -73,7 +71,6 @@ namespace TTS.Dialogs
                 int countRemovedChildren = recentLoginHistoryLogsChildrenCount - 3;
                 bookmarks.Children.RemoveRange(3, countRemovedChildren);
             }
-            // foreach (string currentBookmark in currentBookmarks)
             foreach (Dictionary<String, Object> currentBookmark in currentBookmarks)
             {
                 RowDefinition row = new RowDefinition();
@@ -83,8 +80,6 @@ namespace TTS.Dialogs
                 rowsCount = rows.Count;
                 int lastRowIndex = rowsCount - 1;
                 TextBlock bookmarkNameLabel = new TextBlock();
-
-                // bookmarkNameLabel.Text = currentBookmark;
                 string currentBookmarkName = ((string)(currentBookmark["name"]));
                 bookmarkNameLabel.Text = currentBookmarkName;
 
@@ -129,8 +124,6 @@ namespace TTS.Dialogs
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
-            
-            // List<string> updatedBookmarks = loadedContent.bookmarks;
             List<Dictionary<String, Object>> updatedBookmarks = loadedContent.bookmarks;
 
             updatedBookmarks.Clear();
@@ -155,8 +148,6 @@ namespace TTS.Dialogs
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
-            
-            // List<string> updatedBookmarks = loadedContent.bookmarks;
             List<Dictionary<String, Object>> updatedBookmarks = loadedContent.bookmarks;
 
             updatedBookmarks.RemoveAt(selectedBookmarkIndex);

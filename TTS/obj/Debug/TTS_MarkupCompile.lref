@@ -4,6 +4,7 @@ FC:\wpf_projects\TTS\TTS\Controls\OpenedDocControl.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\BtnsDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\CompareFilesDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\ConvertSubtitleToAudioDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\ConvertToAudioDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\CreateBookmarkDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\FindDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\FontAndColors.xaml;;
@@ -21,5 +22,4 @@ FC:\wpf_projects\TTS\TTS\Dialogs\TimerDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\TranslateDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\ZoomDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\MainWindow.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\ConvertToAudioDialog.xaml;;
 

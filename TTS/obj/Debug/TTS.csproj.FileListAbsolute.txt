@@ -18,7 +18,6 @@ C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignColors.dll
 C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignThemes.Wpf.dll
 C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignColors.pdb
 C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignThemes.Wpf.pdb
-C:\wpf_projects\TTS\TTS\bin\Debug\MaterialDesignThemes.Wpf.xml
 C:\wpf_projects\TTS\TTS\obj\Debug\TTS.csproj.CopyComplete
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\FontAndColors.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\TranslateDialog.g.cs
@@ -38,10 +37,6 @@ C:\wpf_projects\TTS\TTS\bin\Debug\NAudio.WinForms.dll
 C:\wpf_projects\TTS\TTS\bin\Debug\NAudio.WinMM.dll
 C:\wpf_projects\TTS\TTS\bin\Debug\System.Security.AccessControl.dll
 C:\wpf_projects\TTS\TTS\bin\Debug\System.Security.Principal.Windows.dll
-C:\wpf_projects\TTS\TTS\bin\Debug\Microsoft.Win32.Registry.xml
-C:\wpf_projects\TTS\TTS\bin\Debug\NAudio.xml
-C:\wpf_projects\TTS\TTS\bin\Debug\System.Security.AccessControl.xml
-C:\wpf_projects\TTS\TTS\bin\Debug\System.Security.Principal.Windows.xml
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SaveMultipleAudioDialog.baml
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SelectOutputDevieDialog.baml
 C:\wpf_projects\TTS\TTS\bin\Debug\libmp3lame.32.dll
@@ -104,3 +99,7 @@ C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameBookmarkDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameBookmarkDialog.baml
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\ConvertToAudioDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\ConvertToAudioDialog.baml
+C:\wpf_projects\TTS\TTS\bin\Debug\Microsoft.Toolkit.Uwp.Notifications.dll
+C:\wpf_projects\TTS\TTS\bin\Debug\System.ValueTuple.dll
+C:\wpf_projects\TTS\TTS\bin\Debug\Microsoft.Toolkit.Uwp.Notifications.pdb
+C:\wpf_projects\TTS\TTS\bin\Debug\Microsoft.Office.Interop.Word.dll

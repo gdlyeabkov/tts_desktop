@@ -279,12 +279,16 @@
                     >
                     <MenuItem
                         Header="Разбить файл на части"
-                        Click="SplitFileHandler"
-                    />
+                        Click="SplitFileHandler"/>
                     <MenuItem
-                        Header="Преобразовать в аудио"
-                        Click="ConvertToAudioHandler"
-                    />
+                        Header="Преобразовать в аудиофайлы"
+                        Click="ConvertToAudioHandler"/>
+                    <MenuItem
+                        Header="Извлечь текст из файлов"
+                        Click="OpenTextImportHandler"/>
+                    <MenuItem
+                        Header="Сравнить два файла"
+                        Click="OpenCompareFilesHandler"/>
                     <MenuItem
                         Header="Перевести"
                         Click="TranslateHandler"

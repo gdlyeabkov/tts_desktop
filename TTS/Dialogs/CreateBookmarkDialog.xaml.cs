@@ -51,11 +51,7 @@ namespace TTS.Dialogs
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
-
-            // List<string> updatedBookmarks = loadedContent.bookmarks;
             List<Dictionary<String, Object>> updatedBookmarks = loadedContent.bookmarks;
-
-            // updatedBookmarks.Add(nameBoxContent);
             int openedDocControlSelectedIndex = mainWindow.openedDocControl.SelectedIndex;
             ItemCollection openedDocControlItems = mainWindow.openedDocControl.Items;
             object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];

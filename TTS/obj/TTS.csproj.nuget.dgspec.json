@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\wpf_projects\\TTS\\TTS\\TTS.csproj": {}
+  },
+  "projects": {
+    "C:\\wpf_projects\\TTS\\TTS\\TTS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\wpf_projects\\TTS\\TTS\\TTS.csproj",
+        "projectName": "TTS",
+        "projectPath": "C:\\wpf_projects\\TTS\\TTS\\TTS.csproj",
+        "packagesPath": "C:\\Users\\ПК\\.nuget\\packages\\",
+        "outputPath": "C:\\wpf_projects\\TTS\\TTS\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ПК\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Extended.Wpf.Toolkit": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "Microsoft.Office.Interop.Word": {
+              "target": "Package",
+              "version": "[15.0.4797.1003, )"
+            },
+            "Microsoft.Toolkit.Uwp.Notifications": {
+              "target": "Package",
+              "version": "[7.1.2, )"
+            },
+            "NAudio": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "NAudio.Lame": {
+              "target": "Package",
+              "version": "[2.0.1, )"
+            },
+            "System.Speech": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

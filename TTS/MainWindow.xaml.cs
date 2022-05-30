@@ -42,7 +42,6 @@ namespace TTS
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ru-RU");
 
             InitializeComponent();
-        
 
         }
 
@@ -167,7 +166,6 @@ namespace TTS
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 string savedContent = js.Serialize(new SavedContent()
                 {
-                    // bookmarks = new List<string>() { }
                     bookmarks = new List<Dictionary<String, Object>>() { }
                 });
                 File.WriteAllText(saveDataFilePath, savedContent);
@@ -263,8 +261,6 @@ namespace TTS
             builder.EndStyle();
             builder.EndSentence();
             builder.EndVoice();
-
-            // speechSynthesizer.SpeakAsync(copiedText);
             speechSynthesizer.SpeakAsync(builder);
             stopSpeechBtn.IsEnabled = true;
         }
@@ -336,10 +332,7 @@ namespace TTS
             builder.EndStyle();
             builder.EndSentence();
             builder.EndVoice();
-
-            // speechSynthesizer.SpeakAsync(inputBoxSelectedContent);
             speechSynthesizer.SpeakAsync(builder);
-
             stopSpeechBtn.IsEnabled = true;
         }
 
@@ -399,8 +392,6 @@ namespace TTS
             builder.EndStyle();
             builder.EndSentence();
             builder.EndVoice();
-
-            // speechSynthesizer.SpeakAsync(inputBoxContent);
             speechSynthesizer.SpeakAsync(builder);
             stopSpeechBtn.IsEnabled = true;
         }
@@ -1646,10 +1637,7 @@ namespace TTS
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
-
-            // List<string> currentBookmarks = loadedContent.bookmarks;
             List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
-            
             int currentBookmarksCount = currentBookmarks.Count;
             bool isHaveBookmarks = currentBookmarksCount >= 1;
             if (isHaveBookmarks)
@@ -1685,11 +1673,32 @@ namespace TTS
             dialog.Show();
         }
 
+        public void OpenTextImportHandler (object sender, RoutedEventArgs e)
+        {
+            OpenTextImport();
+        }
+
+        public void OpenTextImport ()
+        {
+            Dialogs.TextImportDialog dialog = new Dialogs.TextImportDialog();
+            dialog.Show();
+        }
+
+        public void OpenCompareFilesHandler (object sender, RoutedEventArgs e)
+        {
+            OpenCompareFiles();
+        }
+
+        public void OpenCompareFiles ()
+        {
+            Dialogs.CompareFilesDialog dialog = new Dialogs.CompareFilesDialog();
+            dialog.Show();
+        }
+
     }
 
     class SavedContent
     {
-        // public List<string> bookmarks;
         public List<Dictionary<String, Object>> bookmarks;
     }
 
