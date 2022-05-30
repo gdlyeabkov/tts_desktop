@@ -1,4 +1,5 @@
-﻿using NAudio.CoreAudioApi;
+﻿using AudioSwitcher.AudioApi.CoreAudio;
+using NAudio.CoreAudioApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,20 @@ namespace TTS.Dialogs
             {
                 outputDevicesSelector.SelectedIndex = 0;
             }
+            /*IEnumerable<CoreAudioDevice> outputDevices = new CoreAudioController().GetPlaybackDevices().ToList<CoreAudioDevice>();
+            foreach (CoreAudioDevice device in outputDevices)
+            {
+                string deviceName = device.FullName;
+                ComboBoxItem soundOutputBoxItem = new ComboBoxItem();
+                soundOutputBoxItem.Content = device;
+                outputDevicesSelector.Items.Add(deviceName);
+            }
+            int countDevices = outputDevices.Count();
+            bool isHaveDevices = countDevices >= 1;
+            if (isHaveDevices)
+            {
+                outputDevicesSelector.SelectedIndex = 0;
+            }*/
         }
 
         private void OkHandler (object sender, RoutedEventArgs e)

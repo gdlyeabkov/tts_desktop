@@ -5,8 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS.Dialogs"
         mc:Ignorable="d"
-        Title="SpellCheckDialog" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Список ошибок правописания"
+        Height="450"
+        Width="800">
+    <StackPanel>
+        <Grid
+            x:Name="errors"
+            ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="15"
+                Text="Слово"/>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="15"
+                Text="Найдено"/>
+        </Grid>
+        <DockPanel>
+            <Button
+                Content="Сохранить"
+                Width="125"
+                Margin="15 0"
+                Height="25"
+                Click="OkHandler"/>
+            <Button
+                Content="Отмена"
+                Width="125"
+                Margin="15 0"
+                Height="25"
+                HorizontalAlignment="Right"
+                Click="CancelHandler"/>
+        </DockPanel>
+    </StackPanel>
 </Window>

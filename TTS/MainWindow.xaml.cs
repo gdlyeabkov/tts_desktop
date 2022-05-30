@@ -180,6 +180,7 @@ namespace TTS
 
         public void SpeakCompleted ()
         {
+            speechSynthesizer.SetOutputToDefaultAudioDevice();
             bool isEnabled = ((bool)(speechTimerData["isEnabled"]));
             if (isEnabled)
             {
@@ -846,7 +847,16 @@ namespace TTS
             if (isSave)
             {
                 string path = sfd.FileName;
-                // speechSynthesizer.SetOutputToWaveFile(path);
+                speechSynthesizer.SetOutputToWaveFile(path);
+                int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                ItemCollection openedDocControlItems = openedDocControl.Items;
+                object rawOpenedDocControlItem = openedDocControlItems[openedDocControlSelectedIndex];
+                TabItem openedDocControlItem = ((TabItem)(rawOpenedDocControlItem));
+                object rawOpenedDocControlItemContent = openedDocControlItem.Content;
+                Controls.OpenedDocControl openedDocControlItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlItemContent));
+                TextBox inputBox = openedDocControlItemContent.inputBox;
+                string inputBoxContent = inputBox.Text;
+                speechSynthesizer.SpeakAsync(inputBoxContent);
                 // WaveFileWriter.CreateWaveFile(path);
                 bool isExit = exitAfterSaveAudioMenuItem.IsChecked;
                 if (isExit)
@@ -1692,6 +1702,49 @@ namespace TTS
         public void OpenCompareFiles ()
         {
             Dialogs.CompareFilesDialog dialog = new Dialogs.CompareFilesDialog();
+            dialog.Show();
+        }
+
+        public void ToggleDictBarHandler (object sender, RoutedEventArgs e)
+        {
+            ToggleDictBar();
+        }
+
+        public void ToggleDictBar ()
+        {
+            Visibility dictBarVisibility = dictBar.Visibility;
+            Visibility visible = Visibility.Visible;
+            Visibility invisible = Visibility.Collapsed;
+            bool isVisible = dictBarVisibility == visible;
+            if (isVisible)
+            {
+                dictBar.Visibility = invisible;
+            }
+            else
+            {
+                dictBar.Visibility = visible;
+            }
+        }
+
+        public void OpenSpellCheckHandler(object sender, RoutedEventArgs e)
+        {
+            OpenSpellCheck();
+        }
+
+        public void OpenSpellCheck ()
+        {
+            Dialogs.SpellCheckDialog dialog = new Dialogs.SpellCheckDialog(this);
+            dialog.Show();
+        }
+
+        public void OpenTextRepeatHandler(object sender, RoutedEventArgs e)
+        {
+            OpenTextRepeat();
+        }
+
+        public void OpenTextRepeat ()
+        {
+            Dialogs.SpellCheckDialog dialog = new Dialogs.SpellCheckDialog(this);
             dialog.Show();
         }
 

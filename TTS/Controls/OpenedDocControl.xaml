@@ -145,6 +145,7 @@
             Height="505"
             Width="{ x:Static SystemParameters.MaximizedPrimaryScreenWidth }"
             AcceptsReturn="True"
+            SpellCheck.IsEnabled="True"
         />
     </StackPanel>
 </UserControl>

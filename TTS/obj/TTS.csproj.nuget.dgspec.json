@@ -38,6 +38,14 @@
       "frameworks": {
         "net472": {
           "dependencies": {
+            "AudioSwitcher.AudioApi": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "AudioSwitcher.AudioApi.CoreAudio": {
+              "target": "Package",
+              "version": "[3.0.0.1, )"
+            },
             "Extended.Wpf.Toolkit": {
               "target": "Package",
               "version": "[4.3.0, )"

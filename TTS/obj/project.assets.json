@@ -2,6 +2,27 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.7.2": {
+      "AudioSwitcher.AudioApi/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        }
+      },
+      "AudioSwitcher.AudioApi.CoreAudio/3.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "AudioSwitcher.AudioApi": "3.0.0"
+        },
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        }
+      },
       "Extended.Wpf.Toolkit/4.3.0": {
         "type": "package",
         "compile": {
@@ -436,6 +457,27 @@
       }
     },
     ".NETFramework,Version=v4.7.2/win": {
+      "AudioSwitcher.AudioApi/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        }
+      },
+      "AudioSwitcher.AudioApi.CoreAudio/3.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "AudioSwitcher.AudioApi": "3.0.0"
+        },
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        }
+      },
       "Extended.Wpf.Toolkit/4.3.0": {
         "type": "package",
         "compile": {
@@ -848,6 +890,27 @@
       }
     },
     ".NETFramework,Version=v4.7.2/win-x64": {
+      "AudioSwitcher.AudioApi/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        }
+      },
+      "AudioSwitcher.AudioApi.CoreAudio/3.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "AudioSwitcher.AudioApi": "3.0.0"
+        },
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        }
+      },
       "Extended.Wpf.Toolkit/4.3.0": {
         "type": "package",
         "compile": {
@@ -1260,6 +1323,27 @@
       }
     },
     ".NETFramework,Version=v4.7.2/win-x86": {
+      "AudioSwitcher.AudioApi/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.dll": {}
+        }
+      },
+      "AudioSwitcher.AudioApi.CoreAudio/3.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "AudioSwitcher.AudioApi": "3.0.0"
+        },
+        "compile": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        },
+        "runtime": {
+          "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll": {}
+        }
+      },
       "Extended.Wpf.Toolkit/4.3.0": {
         "type": "package",
         "compile": {
@@ -1673,6 +1757,30 @@
     }
   },
   "libraries": {
+    "AudioSwitcher.AudioApi/3.0.0": {
+      "sha512": "AiYO8fCawsu/v6rZgDWta55GYzh9vs/FocW9xKhEGF3xsUJIgPaVsWeeBwoexMttueW6E8RS0Vp0o8w8dodjyQ==",
+      "type": "package",
+      "path": "audioswitcher.audioapi/3.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "audioswitcher.audioapi.3.0.0.nupkg.sha512",
+        "audioswitcher.audioapi.nuspec",
+        "lib/net40/AudioSwitcher.AudioApi.dll"
+      ]
+    },
+    "AudioSwitcher.AudioApi.CoreAudio/3.0.0.1": {
+      "sha512": "mFO412u+l4wvdEOWZyO5Qz0WpjAjlm0QDOIMqPjoptPOPSR3BPtGo4oWsmzHvLaTFzHEqvK1dfyCvAP6T7Y0xg==",
+      "type": "package",
+      "path": "audioswitcher.audioapi.coreaudio/3.0.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "audioswitcher.audioapi.coreaudio.3.0.0.1.nupkg.sha512",
+        "audioswitcher.audioapi.coreaudio.nuspec",
+        "lib/net40/AudioSwitcher.AudioApi.CoreAudio.dll"
+      ]
+    },
     "Extended.Wpf.Toolkit/4.3.0": {
       "sha512": "leG4va9wdAk0R92UoycOwacWGPvgdWpNkfezAojkfjg+zxJlvRXUS4hR/urPVzX2dRZh8c7UxmdBIOW7O6N+OA==",
       "type": "package",
@@ -2871,6 +2979,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7.2": [
+      "AudioSwitcher.AudioApi >= 3.0.0",
+      "AudioSwitcher.AudioApi.CoreAudio >= 3.0.0.1",
       "Extended.Wpf.Toolkit >= 4.3.0",
       "MaterialDesignThemes >= 4.5.0",
       "Microsoft.Office.Interop.Word >= 15.0.4797.1003",
@@ -2918,6 +3028,14 @@
     "frameworks": {
       "net472": {
         "dependencies": {
+          "AudioSwitcher.AudioApi": {
+            "target": "Package",
+            "version": "[3.0.0, )"
+          },
+          "AudioSwitcher.AudioApi.CoreAudio": {
+            "target": "Package",
+            "version": "[3.0.0.1, )"
+          },
           "Extended.Wpf.Toolkit": {
             "target": "Package",
             "version": "[4.3.0, )"

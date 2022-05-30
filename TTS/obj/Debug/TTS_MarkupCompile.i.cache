@@ -12,9 +12,9 @@ DEBUG;TRACE
 C:\wpf_projects\TTS\TTS\App.xaml
 22-473240658
 22136972877
-261754832868
+27-327255750
 229-1726447675
 Controls\OpenedDocControl.xaml;Dialogs\BtnsDialog.xaml;Dialogs\CompareFilesDialog.xaml;Dialogs\ConvertSubtitleToAudioDialog.xaml;Dialogs\ConvertToAudioDialog.xaml;Dialogs\CreateBookmarkDialog.xaml;Dialogs\FindDialog.xaml;Dialogs\FontAndColors.xaml;Dialogs\GoToBookmarkDialog.xaml;Dialogs\RenameBookmarkDialog.xaml;Dialogs\RepeatTextDialog.xaml;Dialogs\ReplaceDialog.xaml;Dialogs\SaveMultipleAudioDialog.xaml;Dialogs\SelectOutputDevieDialog.xaml;Dialogs\SettingsDialog.xaml;Dialogs\SpellCheckDialog.xaml;Dialogs\SplitFileDialog.xaml;Dialogs\TextImportDialog.xaml;Dialogs\TimerDialog.xaml;Dialogs\TranslateDialog.xaml;Dialogs\ZoomDialog.xaml;MainWindow.xaml;
 
-False
+True
 

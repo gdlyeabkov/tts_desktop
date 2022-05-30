@@ -203,6 +203,9 @@
                         Click="SelectOutputDeviceHandler"
                         />
                     <MenuItem
+                        Header="Слежение за буфером обмена"
+                        IsCheckable="True"/>
+                    <MenuItem
                         Header="Таймер"
                         Click="OpenTimerHandler"
                         />
@@ -251,6 +254,10 @@
                             Click="ToggleVoiceParamsHandler"/>
                         <MenuItem
                             IsCheckable="True"
+                            Header="Панель словарей"
+                            Click="ToggleDictBarHandler"/>
+                        <MenuItem
+                            IsCheckable="True"
                             IsChecked="True"
                             Header="Панель инструментов"
                             Click="ToggleToolBarHandler"/>
@@ -289,6 +296,12 @@
                     <MenuItem
                         Header="Сравнить два файла"
                         Click="OpenCompareFilesHandler"/>
+                    <MenuItem
+                        Header="Повторить текст"
+                        Click="OpenTextRepeatHandler"/>
+                    <MenuItem
+                        Header="Список ошибок правописания"
+                        Click="OpenSpellCheckHandler"/>
                     <MenuItem
                         Header="Перевести"
                         Click="TranslateHandler"
@@ -528,124 +541,116 @@
                 </ToolBar>
             </ToolBarPanel>
         </StackPanel>
-        <TabControl
-            DockPanel.Dock="Top"    
-        >
-            <TabItem
-                Header="TTS движок"    
-                >
-                <StackPanel>
-                    <StackPanel>
-
-                    </StackPanel>
-                    <TabControl
-                        x:Name="openedDocControl"
-                        />
-                </StackPanel>
-            </TabItem>
-        </TabControl>
-        <StackPanel
-            DockPanel.Dock="Bottom"
-            >
-            <WrapPanel
-                x:Name="openedDocs"
-                />
+        <DockPanel>
             <StackPanel
-                x:Name="statusBar"
-                Orientation="Horizontal"
-                >
-                <Border
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text=""
-                            />
-                    </Border.Child>
-                </Border>
-                <Border
-                    Width="100"
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text="1:    1"
-                            />
-                    </Border.Child>
-                </Border>
-                <Border
-                    Width="200"
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text="Язык озвучивания"
-                            />
-                    </Border.Child>
-                </Border>
-                <Border
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text=""
-                            />
-                    </Border.Child>
-                </Border>
-                <Border
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text=""
-                            />
-                    </Border.Child>
-                </Border>
-                <Border
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text=""
-                            />
-                    </Border.Child>
-                </Border>
-                <Border
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text=""
-                            />
-                    </Border.Child>
-                </Border>
-                <Border
-                    Width="{x:Static SystemParameters.MaximizedPrimaryScreenWidth}"
-                    BorderThickness="1"
-                    BorderBrush="LightGray"
-                    >
-                    <Border.Child>
-                        <TextBlock
-                            Margin="15 5"
-                            Text=""
-                            />
-                    </Border.Child>
-                </Border>
+                DockPanel.Dock="Right"
+                x:Name="dictBar"
+                HorizontalAlignment="Right"
+                Width="250"
+                Background="LightGray"
+                Visibility="Collapsed">
+
             </StackPanel>
-        </StackPanel>
+            <StackPanel>
+                <TabControl
+                    DockPanel.Dock="Top"    
+                >
+                    <TabItem
+                        Header="TTS движок">
+                        <StackPanel>
+                            <StackPanel>
+
+                            </StackPanel>
+                            <TabControl
+                                x:Name="openedDocControl"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+                <StackPanel
+                    DockPanel.Dock="Bottom">
+                    <WrapPanel
+                        x:Name="openedDocs"/>
+                    <StackPanel
+                        x:Name="statusBar"
+                        Orientation="Horizontal">
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text=""/>
+                            </Border.Child>
+                        </Border>
+                        <Border
+                            Width="100"
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text="1:    1"/>
+                            </Border.Child>
+                        </Border>
+                        <Border
+                            Width="200"
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text="Язык озвучивания"/>
+                            </Border.Child>
+                        </Border>
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text=""/>
+                            </Border.Child>
+                        </Border>
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text=""/>
+                            </Border.Child>
+                        </Border>
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text=""/>
+                            </Border.Child>
+                        </Border>
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text=""/>
+                            </Border.Child>
+                        </Border>
+                        <Border
+                            Width="{x:Static SystemParameters.MaximizedPrimaryScreenWidth}"
+                            BorderThickness="1"
+                            BorderBrush="LightGray">
+                            <Border.Child>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text=""/>
+                            </Border.Child>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
     </DockPanel>
 </Window>

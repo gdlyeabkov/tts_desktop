@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "vvh7BWAYzq6VuLFdfvdyUAbnMakxHua0QkCpF7WQ1HgKripCcJe72O7ZiAKTWAUuhmXik+xACcq7PjsjzF/ZHQ==",
+  "dgSpecHash": "oxiK6p+XvtAVGRNaaiiNR3L91vTb8DgC0+IgVsn2EtKzZ5clKQN8MSTCNz9BQ2ikeci9cSWOuREWF8GTp5dVNg==",
   "success": true,
   "projectFilePath": "C:\\wpf_projects\\TTS\\TTS\\TTS.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ПК\\.nuget\\packages\\audioswitcher.audioapi\\3.0.0\\audioswitcher.audioapi.3.0.0.nupkg.sha512",
+    "C:\\Users\\ПК\\.nuget\\packages\\audioswitcher.audioapi.coreaudio\\3.0.0.1\\audioswitcher.audioapi.coreaudio.3.0.0.1.nupkg.sha512",
     "C:\\Users\\ПК\\.nuget\\packages\\extended.wpf.toolkit\\4.3.0\\extended.wpf.toolkit.4.3.0.nupkg.sha512",
     "C:\\Users\\ПК\\.nuget\\packages\\materialdesigncolors\\2.0.6\\materialdesigncolors.2.0.6.nupkg.sha512",
     "C:\\Users\\ПК\\.nuget\\packages\\materialdesignthemes\\4.5.0\\materialdesignthemes.4.5.0.nupkg.sha512",
