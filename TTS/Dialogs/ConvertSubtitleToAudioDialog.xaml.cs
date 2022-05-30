@@ -23,5 +23,26 @@ namespace TTS.Dialogs
         {
             InitializeComponent();
         }
+
+        public void OkHandler (object sender, RoutedEventArgs e)
+        {
+            Ok();
+        }
+
+        public void Ok ()
+        {
+
+        }
+
+        public void CancelHandler(object sender, RoutedEventArgs e)
+        {
+            Cancel();
+        }
+
+        public void Cancel()
+        {
+            this.Close();
+        }
+
     }
 }

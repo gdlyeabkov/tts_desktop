@@ -282,6 +282,10 @@
                         Click="SplitFileHandler"
                     />
                     <MenuItem
+                        Header="Преобразовать в аудио"
+                        Click="ConvertToAudioHandler"
+                    />
+                    <MenuItem
                         Header="Перевести"
                         Click="TranslateHandler"
                     />

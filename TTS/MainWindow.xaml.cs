@@ -1674,6 +1674,17 @@ namespace TTS
             dialog.Show();
         }
 
+        public void ConvertToAudioHandler (object sender, RoutedEventArgs e)
+        {
+            ConvertToAudio();
+        }
+
+        public void ConvertToAudio()
+        {
+            Dialogs.ConvertToAudioDialog dialog = new Dialogs.ConvertToAudioDialog();
+            dialog.Show();
+        }
+
     }
 
     class SavedContent

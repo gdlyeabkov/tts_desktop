@@ -102,3 +102,5 @@ C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\CreateBookmarkDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\CreateBookmarkDialog.baml
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameBookmarkDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameBookmarkDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\ConvertToAudioDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\ConvertToAudioDialog.baml

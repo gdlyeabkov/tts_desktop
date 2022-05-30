@@ -130,6 +130,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\ConvertToAudioDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\CreateBookmarkDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -213,6 +217,9 @@
     </Compile>
     <Compile Include="Dialogs\ConvertSubtitleToAudioDialog.xaml.cs">
       <DependentUpon>ConvertSubtitleToAudioDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ConvertToAudioDialog.xaml.cs">
+      <DependentUpon>ConvertToAudioDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\CreateBookmarkDialog.xaml.cs">
       <DependentUpon>CreateBookmarkDialog.xaml</DependentUpon>
