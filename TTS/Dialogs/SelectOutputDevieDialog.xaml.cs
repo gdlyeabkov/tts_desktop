@@ -21,25 +21,32 @@ namespace TTS.Dialogs
     /// </summary>
     public partial class SelectOutputDevieDialog : Window
     {
-        public SelectOutputDevieDialog()
+
+        public MainWindow mainWindow;
+
+        public SelectOutputDevieDialog(MainWindow mainWindow)
         {
             InitializeComponent();
         
-            Init();
+            Init(mainWindow);
         
         }
 
 
-        public void Init ()
+        public void Init (MainWindow mainWindow)
         {
+            this.mainWindow = mainWindow;
             MMDeviceEnumerator names = new MMDeviceEnumerator();
             MMDeviceCollection outputDevices = names.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
+            int deviceIndex = -1;
             foreach (MMDevice device in outputDevices)
             {
+                deviceIndex++;
                 string deviceName = device.FriendlyName;
                 ComboBoxItem soundOutputBoxItem = new ComboBoxItem();
                 soundOutputBoxItem.Content = device;
-                outputDevicesSelector.Items.Add(deviceName);
+                soundOutputBoxItem.DataContext = deviceIndex;
+                outputDevicesSelector.Items.Add(soundOutputBoxItem);
             }
             int countDevices = outputDevices.Count;
             bool isHaveDevices = countDevices >= 1;
@@ -70,6 +77,18 @@ namespace TTS.Dialogs
 
         public void Ok ()
         {
+            int selectedIndex = outputDevicesSelector.SelectedIndex;
+            ItemCollection outputDevicesSelectorItems = outputDevicesSelector.Items;
+            int outputDevicesSelectorItemsCount = outputDevicesSelectorItems.Count;
+            bool isHaveItems = outputDevicesSelectorItemsCount >= 1;
+            if (isHaveItems)
+            {
+                object rawOutputDevicesSelectedSelectorItem = outputDevicesSelectorItems[selectedIndex];
+                ComboBoxItem outputDevicesSelectedSelectorItem = ((ComboBoxItem)(rawOutputDevicesSelectedSelectorItem));
+                object rawOutputDevicesSelectedSelectorItemData = outputDevicesSelectedSelectorItem.DataContext;
+                int deviceNumber = ((int)(rawOutputDevicesSelectedSelectorItemData));
+                this.mainWindow.selectedAudioDevice = deviceNumber;
+            }
             Cancel();
         }
 

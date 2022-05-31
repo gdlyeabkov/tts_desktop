@@ -12,6 +12,29 @@
         Width="800"
         WindowState="Maximized"
         Loaded="InitHandler">
+    <Window.Background>
+        <LinearGradientBrush>
+            <LinearGradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop
+                        x:Name="mainSkinBrush"
+                        Color="LightGray"/>
+                    <GradientStop
+                        Color="LightGray"/>
+                </GradientStopCollection>
+            </LinearGradientBrush.GradientStops>
+            <LinearGradientBrush.StartPoint>
+                <Point
+                    X="350"
+                    Y="0"/>
+            </LinearGradientBrush.StartPoint>
+            <LinearGradientBrush.EndPoint>
+                <Point
+                    X="350"
+                    Y="3550"/>
+            </LinearGradientBrush.EndPoint>
+        </LinearGradientBrush>
+    </Window.Background>
     <DockPanel>
         <MediaElement
             x:Name="mainAudio"
@@ -203,6 +226,10 @@
                         Click="SetDefaultSpeedHandler"
                         />
                     <MenuItem
+                        Header="Общие настройки"
+                        Click="OpenSettingsHandler"
+                        />
+                    <MenuItem
                         Header="Выбор аудиоустройства"
                         Click="SelectOutputDeviceHandler"
                         />
@@ -242,15 +269,15 @@
                     </MenuItem>
                     <MenuItem
                         Header="Шрифт и цвета"
-                        Click="OpenFontAndColorsHandler"
-                        />
+                        Click="OpenFontAndColorsHandler"/>
+                    <MenuItem
+                        Header="Шкурки"
+                        Click="OpenSkinsHandler"/>
                     <MenuItem
                         Header="Кнопки"
-                        Click="OpenBtnsHandler"
-                        />
+                        Click="OpenBtnsHandler"/>
                     <MenuItem
-                        Header="Показывать"
-                        >
+                        Header="Показывать">
                         <MenuItem
                             IsCheckable="True"
                             IsChecked="True"
@@ -336,7 +363,12 @@
                 <MenuItem
                     Header="Справка"    
                     >
-                    
+                    <MenuItem
+                        Header="Сайт программы"
+                        Click="OpenSiteHandler" />
+                    <MenuItem
+                        Header="О программе"
+                        Click="OpenAboutHandler" />
                 </MenuItem>
             </Menu>
             <ToolBarPanel
@@ -379,7 +411,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="ContentCopy"
+                                Kind="ContentSave"
                                 Width="20"
                                 Height="20"
                                 />
@@ -393,7 +425,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="ContentCopy"
+                                Kind="ContentSaveSettings"
                                 Width="20"
                                 Height="20"
                                 />
@@ -407,7 +439,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="ContentCopy"
+                                Kind="ContentSaveAll"
                                 Width="20"
                                 Height="20"
                                 />
@@ -465,7 +497,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="Book"
+                                Kind="PlayBox"
                                 Width="20"
                                 Height="20"
                                 />
@@ -479,7 +511,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="Folder"
+                                Kind="PlayBoxOutline"
                                 Width="20"
                                 Height="20"
                                 />
@@ -493,7 +525,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="FingerprintOff"
+                                Kind="NoteOutline"
                                 Width="20"
                                 Height="20"
                                 />
@@ -507,7 +539,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="Book"
+                                Kind="BookOpenVariant"
                                 Width="20"
                                 Height="20"
                                 />
@@ -521,7 +553,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="BookmarkCheck"
+                                Kind="BookOpenPageVariant"
                                 Width="20"
                                 Height="20"
                                 />
@@ -535,7 +567,7 @@
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
-                                Kind="BookmarkCheck"
+                                Kind="BookOpen"
                                 Width="20"
                                 Height="20"
                                 />

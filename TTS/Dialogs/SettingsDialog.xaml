@@ -4,9 +4,599 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS.Dialogs"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="SettingsDialog" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Общие настройки"
+        Height="650"
+        Width="800">
+    <StackPanel>
+        <TabControl>
+            <TabItem
+                Header="Общие">
+                <StackPanel>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <DockPanel>
+                                <StackPanel
+                                    Width="350">
+                                    <TextBlock
+                                        Text="Начать чтение вслух с"
+                                        Margin="15"/>
+                                    <Border
+                                        Margin="15"
+                                        BorderBrush="LightGray"
+                                        BorderThickness="1">
+                                        <Border.Child>
+                                            <StackPanel>
+                                                <RadioButton
+                                                    Margin="15 5"
+                                                    Content="позиции курсора"/>
+                                                <RadioButton
+                                                    Margin="15 5"
+                                                    Content="начала текста"/>
+                                                <RadioButton
+                                                    Margin="15 5"
+                                                    Content="начала абзаца"/>
+                                            </StackPanel>
+                                        </Border.Child>
+                                    </Border>
+                                </StackPanel>
+                                <StackPanel
+                                    Width="350"
+                                    HorizontalAlignment="Right">
+                                    <TextBlock
+                                        Text="Начать запись в аудиофайл с"
+                                        Margin="15"/>
+                                    <Border
+                                        Margin="15"
+                                        BorderBrush="LightGray"
+                                        BorderThickness="1">
+                                        <Border.Child>
+                                            <StackPanel>
+                                                <RadioButton
+                                                    Margin="15 5"
+                                                    Content="позиции курсора"/>
+                                                <RadioButton
+                                                    Margin="15 5"
+                                                    Content="начала текста"/>
+                                                <RadioButton
+                                                    Margin="15 5"
+                                                    Content="начала абзаца"/>
+                                            </StackPanel>
+                                        </Border.Child>
+                                    </Border>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="Чтение">
+                <StackPanel>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <CheckBox
+                                Margin="15"
+                                Content="Подсвечивать прочитанный текст другим цветом"/>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="Вид">
+                <StackPanel>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <CheckBox
+                                Margin="15"
+                                Content="Выравнивать окно относительно границы экрана при перемещении"/>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="Паузы">
+                <StackPanel>
+                    <TextBlock
+                        Text="Текст"
+                        Margin="15"/>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <StackPanel
+                                Margin="15">
+                                <TextBlock
+                                    Text="Программа может автоматически вставлять паузы между предложениями и абзацами при чтении текста. Значение 0 означает, что&#10;паузу отсутствует."
+                                    Margin="15"/>
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="Длина пауз между предложениями (в миллисекундах):"
+                                        Margin="15"/>
+                                    <toolkit:IntegerUpDown
+                                        VerticalAlignment="Center"
+                                        Margin="15 0"
+                                        Minimum="0"
+                                        Maximum="10000"
+                                        Increment="100"
+                                        Value="0"/>
+                                </StackPanel>
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="Длина пауз между абзацами (в миллисекундах):"
+                                        Margin="15"/>
+                                    <toolkit:IntegerUpDown
+                                        VerticalAlignment="Center"
+                                        Margin="15 0"
+                                        Minimum="0"
+                                        Maximum="10000"
+                                        Increment="100"
+                                        Value="0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <TextBlock
+                        Text="Действия при создании аудиофайлов"
+                        Margin="15"/>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <DockPanel
+                                Margin="15">
+                                <StackPanel>
+                                    <CheckBox
+                                        Content="Вставить паузу в вконец звукового файла (0 мс)"/>
+                                </StackPanel>
+                                <StackPanel
+                                    HorizontalAlignment="Right">
+                                    <Button
+                                        Margin="0 5"
+                                        Width="125"
+                                        Height="25"
+                                        Content="Добавить"/>
+                                    <Button
+                                        Margin="0 5"
+                                        Width="125"
+                                        Height="25"
+                                        Content="Редактировать"/>
+                                    <Button
+                                        Margin="0 5"
+                                        Width="125"
+                                        Height="25"
+                                        Content="Удалить"/>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="Текст">
+                <StackPanel>
+                    <TextBlock
+                        Text="Обработка текста"
+                        Margin="15"/>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <StackPanel
+                                Margin="15">
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Форматировать текст после открытия файла"/>
+                                <TextBlock
+                                    Text="Когда пользователь открывает текстовый файл, программа автоматически выполняет необходимые действия по&#10;форматированию текста."
+                                    Margin="15"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <TextBlock
+                        Text="Операция форматирования"
+                        Margin="15"/>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <StackPanel
+                                Margin="15">
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Удалить лишние пробелы (два и более пробела подряд, неразрывные пробелы)"/>
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Удалять знаки переноса на концах строк в тексте"/>
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Удалить разрывы строк внутри абзацев"/>
+                                <Separator />
+                                <DockPanel
+                                    Margin="0 5">
+                                    <CheckBox
+                                        Margin="15 0"
+                                        Content="Удалить все пустые строки"/>
+                                    <CheckBox
+                                        HorizontalAlignment="Right"
+                                        Margin="15 0"
+                                        Content="Удалить несколько пустых строк одной пустой строкой"/>
+                                </DockPanel>
+                                <Separator />
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Удалить текст внутри [квадратных скобок]"/>
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Удалить текст внутри {фигурных скобок}"/>
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Удалить текст внутри [угловых скобок]"/>
+                                <Separator />
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Удалить пробелы перед знаками препинания"/>
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Упорядочить пробелы вокруг скобок"/>
+                                <CheckBox
+                                    Margin="0 5"
+                                    Content="Исправить ошибки, возникшие при распознавании тескта (только для языков с кириллическими алфавитами)"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <CheckBox
+                                Margin="15"
+                                Content="Никогда не предлагать сохранять измененный текст"/>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="Сочетания клавиш">
+                <Border
+                    BorderThickness="1"
+                    BorderBrush="LightGray"
+                    Margin="15">
+                    <Border.Child>
+                        <StackPanel>
+                            <CheckBox
+                                Margin="15"
+                                Content="Использовать глобальные сочетания клавиш"/>
+                            <TextBlock
+                                Margin="15"
+                                Text="Глобальные сочетания клавиш позволяют управлять процессом чтения вслух даже тогда, когда пользователь работает с&#10;другими программами."/>
+                            <Border
+                                BorderThickness="1"
+                                BorderBrush="LightGray"
+                                Margin="15">
+                                <Border.Child>
+                                    <StackPanel
+                                        Margin="15">
+                                        
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                            <DockPanel
+                                Margin="15">
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <Button
+                                        Width="125"
+                                        Height="25"
+                                        Margin="15 0"
+                                        Content="Отметить все"/>
+                                    <Button
+                                        Width="125"
+                                        Height="25"
+                                        Margin="15 0"
+                                        Content="Очистить все"/>
+                                </StackPanel>
+                                <Button
+                                    HorizontalAlignment="Right"
+                                    Width="125"
+                                    Height="25"
+                                    Margin="15 0"
+                                    Content="По умолчанию"/>
+                            </DockPanel>
+                        </StackPanel>
+                    </Border.Child>
+                </Border>
+            </TabItem>
+            <TabItem
+                Header="Горячие клавиши">
+                <Border
+                    BorderThickness="1"
+                    BorderBrush="LightGray"
+                    Margin="15">
+                    <Border.Child>
+                        <DockPanel>
+                            <Border
+                                Width="500"
+                                BorderThickness="1"
+                                BorderBrush="LightGray"
+                                Margin="15">
+                                <Border.Child>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Margin="15"
+                                            Text="Меню"/>
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Margin="15"
+                                            Text="Комбинация клавиш"/>
+                                    </Grid>
+                                </Border.Child>
+                            </Border>
+                            <StackPanel
+                                Margin="15"
+                                HorizontalAlignment="Right">
+                                <Button
+                                    Margin="0 5"
+                                    Width="125"
+                                    Height="25"
+                                    Content="Редактировать"/>
+                                <Button
+                                    Margin="0 5"
+                                    Width="125"
+                                    Height="25"
+                                    Content="Очистить все"/>
+                                <Button
+                                    Margin="0 5"
+                                    Width="125"
+                                    Height="25"
+                                    Content="По умолчанию"/>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border.Child>
+                </Border>
+            </TabItem>
+            <TabItem
+                Header="Правила">
+                <StackPanel>
+                    <TextBlock
+                        Margin="15"
+                        Text="Правила для коррекции произношения будут применены к"/>
+                    <Border
+                        Margin="15"
+                        BorderThickness="1"
+                        BorderBrush="LightGray">
+                        <Border.Child>
+                            <DockPanel>
+                                <StackPanel
+                                    Margin="15">
+                                    <RadioButton
+                                        Margin="0 5"
+                                        Content="предложениям"/>
+                                    <RadioButton
+                                        Margin="0 5"
+                                        Content="абзацам"/>
+                                    <RadioButton
+                                        Margin="0 5"
+                                        Content="комбинированный метод"/>
+                                </StackPanel>
+                                <Border
+                                    BorderThickness="1"
+                                    BorderBrush="LightGray"
+                                    Margin="15">
+                                    <Border.Child>
+                                        <MediaElement
+                                            Margin="15"/>
+                                    </Border.Child>
+                                </Border>
+                            </DockPanel>
+                        </Border.Child>
+                    </Border>
+                    <Border
+                        Margin="15"
+                        BorderThickness="1"
+                        BorderBrush="LightGray">
+                        <Border.Child>
+                            <StackPanel
+                                Margin="15">
+                                <CheckBox
+                                    Margin="5"
+                                    Content="Сохранять заглавную букву при использовании правил"/>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text="Если слово начинается с большой буквы (например Слово), после применения правил коррекции произношения первая буква&#10;слова должна оставаться большой"/>
+                                <CheckBox
+                                    Margin="5"
+                                    Content="Применять правила к большим по размеру частям текста"/>
+                                <TextBlock
+                                    Margin="15 5"
+                                    Text="Если программа используется для обработки текстов (например, при помощи регулярных выражений), рекомендуется&#10;применять правила к большим по размеру частям текста (свыше 16 Кб). Данная опция не оказывает влияния на процесс&#10;чтения вслух или на сохранения аудиофайла."/>                                
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="Голос">
+                <StackPanel>
+                    <TextBlock
+                        Margin="15"
+                        Text="Голос по умолчанию"/>
+                    <Border
+                        BorderThickness="1"
+                        BorderBrush="LightGray">
+                        <Border.Child>
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="15"
+                                    Text="Если выбран голос по умолчанию, он будет использоваться для текстовых файлов, открываемых в программе, и для новых&#10;документов."/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="Буфер обмана">
+                <Border
+                    BorderThickness="1"
+                    BorderBrush="LightGray"
+                    Margin="15">
+                    <Border.Child>
+                        <StackPanel
+                            Margin="15">
+                            <CheckBox
+                                x:Name="detectBufferCheckBox"
+                                Margin="15 5"
+                                Content="Слежение за буфером обмена"
+                                Click="ToggleDetectBufferHandler"/>
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Margin="15 15">
+                                <CheckBox
+                                    VerticalAlignment="Center"
+                                    x:Name="minCountCharsInCopiedTextCheckBox"
+                                    Foreground="LightGray"
+                                    Margin="0 0"
+                                    IsEnabled="False"
+                                    Content="Минимальное количество символов в копируемом тексте:"/>
+                                <TextBox
+                                    x:Name="minCountCharsInCopiedTextBox"
+                                    BorderBrush="LightGray"
+                                    Foreground="LightGray"
+                                    Width="50"
+                                    Height="20"
+                                    Margin="15 0"
+                                    IsEnabled="False"
+                                    Text="100"/>
+                            </StackPanel>
+                            <CheckBox
+                                x:Name="showAlertTextOperationMsgsCheckBox"
+                                Foreground="LightGray"
+                                Margin="15 5"
+                                IsEnabled="False"
+                                Content="Показывать всплывающее сообщения об операциях с текстом (в области уведомлений Windows)"/>
+                            <CheckBox
+                                x:Name="ignoreTextInSoftwareCheckBox"
+                                Foreground="LightGray"
+                                Margin="15 5"
+                                IsEnabled="False"
+                                Content="Игнорировать текст  в окне программы"/>
+                            <CheckBox
+                                x:Name="ignoreCopiedTextInBufferIfTextNotChangedCheckBox"
+                                Foreground="LightGray"
+                                Margin="15 5"
+                                IsEnabled="False"
+                                Content="Игнорировать копирование текста в буфер обмена, если текст в буфере не изменится"/>
+                            <TextBlock
+                                Margin="15 5"
+                                Text="Выполнить действия"/>
+                            <Border
+                                BorderThickness="1"
+                                BorderBrush="LightGray"
+                                Margin="15">
+                                <Border.Child>
+                                    <StackPanel
+                                        Margin="15">
+                                        <RadioButton
+                                            x:Name="speakRadioBtn"
+                                            Foreground="LightGray"
+                                            IsChecked="True"
+                                            Margin="15 5"
+                                            IsEnabled="False"
+                                            Content="Прочесть вслух"/>
+                                        <RadioButton
+                                            x:Name="createDocRadioBtn"
+                                            Foreground="LightGray"
+                                            Margin="15 5"
+                                            IsEnabled="False"
+                                            Content="Создать новый документ"/>
+                                        <RadioButton
+                                            x:Name="addTextToCurrentDocRadioBtn"
+                                            Foreground="LightGray"
+                                            Margin="15 5"
+                                            IsEnabled="False"
+                                            Content="Добавить текст в текущий документ"/>
+                                        <RadioButton
+                                            x:Name="replaceTextToCurrentDocRadioBtn"
+                                            Foreground="LightGray"
+                                            Margin="15 5"
+                                            IsEnabled="False"
+                                            Content="Заменить текст в текущем документе"/>
+                                        <RadioButton
+                                            x:Name="createDocAndSpeakRadioBtn"
+                                            Foreground="LightGray"
+                                            Margin="15 5"
+                                            IsEnabled="False"
+                                            Content="Создать новый документ и прочесть вслух"/>
+                                        <RadioButton
+                                            x:Name="addTextToCurrentDocAndSpeakRadioBtn"
+                                            Foreground="LightGray"
+                                            Margin="15 5"
+                                            IsEnabled="False"
+                                            Content="Добавить текст в текущий документ и прочесть вслух"/>
+                                        <RadioButton
+                                            x:Name="replaceTextToCurrentDocAndSpeakRadioBtn"
+                                            Foreground="LightGray"
+                                            Margin="15 5"
+                                            IsEnabled="False"
+                                            Content="Заменить текст в текущем документе и прочесть вслух"/>
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                        </StackPanel>
+                    </Border.Child>
+                </Border>
+            </TabItem>
+        </TabControl>
+        <DockPanel
+            Margin="0 5">
+            <Button
+                Width="175"
+                Height="25"
+                Content="Значения по умолчанию"
+                Margin="15 0"/>
+            <StackPanel
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    Width="65"
+                    Height="25"
+                    Content="ОК"
+                    Margin="15 0"
+                    Click="OkHandler"/>
+                <Button
+                    Width="125"
+                    Height="25"
+                    Content="Отмена"
+                    Margin="15 0"
+                    Click="CancelHandler"/>
+            </StackPanel>
+        </DockPanel>
+    </StackPanel>
 </Window>

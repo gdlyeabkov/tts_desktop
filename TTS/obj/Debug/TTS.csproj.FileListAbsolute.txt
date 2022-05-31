@@ -105,3 +105,7 @@ C:\wpf_projects\TTS\TTS\bin\Debug\Microsoft.Toolkit.Uwp.Notifications.pdb
 C:\wpf_projects\TTS\TTS\bin\Debug\Microsoft.Office.Interop.Word.dll
 C:\wpf_projects\TTS\TTS\bin\Debug\AudioSwitcher.AudioApi.dll
 C:\wpf_projects\TTS\TTS\bin\Debug\AudioSwitcher.AudioApi.CoreAudio.dll
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\AboutDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\AboutDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SkinsDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SkinsDialog.baml

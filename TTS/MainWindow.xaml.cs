@@ -21,6 +21,8 @@ using System.IO;
 using System.Windows.Threading;
 using System.Web.Script.Serialization;
 using System.Globalization;
+using System.Diagnostics;
+using NAudio.CoreAudioApi;
 
 namespace TTS
 {
@@ -35,6 +37,7 @@ namespace TTS
         public List<string> openedDocHistory;
         public int bookmarkIndex = -1;
         public Dictionary<String, Object> speechTimerData;
+        public int selectedAudioDevice = -1;
 
         public MainWindow()
         {
@@ -814,7 +817,7 @@ namespace TTS
 
         public void SelectOutputDevice ()
         {
-            Dialogs.SelectOutputDevieDialog dialog = new Dialogs.SelectOutputDevieDialog();
+            Dialogs.SelectOutputDevieDialog dialog = new Dialogs.SelectOutputDevieDialog(this);
             dialog.Show();
         }
 
@@ -1745,7 +1748,7 @@ namespace TTS
 
         public void OpenTextRepeat ()
         {
-            Dialogs.RepeatTextDialog dialog = new Dialogs.RepeatTextDialog();
+            Dialogs.RepeatTextDialog dialog = new Dialogs.RepeatTextDialog(this);
             dialog.Show();
         }
 
@@ -1775,6 +1778,53 @@ namespace TTS
             {
                 MessageBox.Show("Отсутствуют данные для записи в файл", "Информация");
             }
+        }
+
+        public void OpenSiteHandler(object sender, RoutedEventArgs e)
+        {
+            OpenSite();
+        }
+
+        public void OpenSite()
+        {
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = "http://transland.herokuapp.com",
+                UseShellExecute = true
+            });
+        }
+
+        public void OpenAboutHandler (object sender, RoutedEventArgs e)
+        {
+            OpenAbout();
+        }
+
+        public void OpenAbout ()
+        {
+            Dialogs.AboutDialog dialog = new Dialogs.AboutDialog();
+            dialog.Show();
+        }
+
+        public void OpenSkinsHandler (object sender, RoutedEventArgs e)
+        {
+            OpenSkins();
+        }
+
+        public void OpenSkins ()
+        {
+            Dialogs.SkinsDialog dialog = new Dialogs.SkinsDialog(this);
+            dialog.Show();
+        }
+
+        public void OpenSettingsHandler (object sender, RoutedEventArgs e)
+        {
+            OpenSettings();
+        }
+
+        public void OpenSettings ()
+        {
+            Dialogs.SettingsDialog dialog = new Dialogs.SettingsDialog();
+            dialog.Show();
         }
 
     }

@@ -5,120 +5,100 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TTS.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <StackPanel>
         <Border
             x:Name="voiceParams"
             Padding="15"
             Margin="15"
             BorderThickness="1"
-            BorderBrush="LightGray"
-            >
+            BorderBrush="LightGray">
             <Border.Child>
                 <StackPanel
-                    Orientation="Horizontal"    
-                    >
+                    Orientation="Horizontal">
                     <StackPanel
-                        Orientation="Horizontal"
-                        >
+                        Orientation="Horizontal">
                         <TextBlock
                             Margin="15"
                             VerticalAlignment="Bottom"
-                            Text="-10"    
-                            />
+                            Text="-10"/>
                         <StackPanel>
                             <StackPanel
                                 Margin="0 15"
-                                Orientation="Horizontal"
-                                >
+                                Orientation="Horizontal">
                                 <TextBlock
                                     Margin="15 0"
-                                    Text="Скорость:"    
-                                    />
+                                    Text="Скорость:"/>
                                 <TextBlock
                                     x:Name="speedValueLabel"
                                     FontWeight="ExtraBlack"
                                     Margin="15 0"
-                                    Text="0"    
-                                    />
+                                    Text="0"/>
                             </StackPanel>
                             <Slider
                                 x:Name="speedSlider"
                                 Width="155"
                                 Minimum="-10"
                                 Maximum="10"
-                                ValueChanged="ToggleSpeedSliderHandler"
-                                />
+                                ValueChanged="ToggleSpeedSliderHandler"/>
                         </StackPanel>
                         <TextBlock
                             Margin="15"
                             VerticalAlignment="Bottom"
-                            Text="10"    
-                            />
+                            Text="10"/>
                     </StackPanel>
                     <StackPanel
                         Margin="35 0"
-                        Orientation="Horizontal"
-                        >
+                        Orientation="Horizontal">
                         <TextBlock
                             Margin="15"
                             VerticalAlignment="Bottom"
-                            Text="-10"    
-                            />
+                            Text="-10"/>
                         <StackPanel>
                             <StackPanel
                                 Margin="0 15"
-                                Orientation="Horizontal"
-                                >
+                                Orientation="Horizontal">
                                 <TextBlock
                                     Margin="15 0"
-                                    Text="Тембр:"    
-                                    />
+                                    Text="Тембр:"/>
                                 <TextBlock
                                     x:Name="pitchValueLabel"
                                     FontWeight="ExtraBlack"
                                     Margin="15 0"
-                                    Text="0"    
-                                    />
+                                    Text="0"/>
                             </StackPanel>
                             <Slider
                                 x:Name="pitchSlider"
                                 Width="155"
                                 Minimum="-10"
                                 Maximum="10"
-                                ValueChanged="TogglePitchSliderHandler"
-                                />
+                                ValueChanged="TogglePitchSliderHandler"/>
                         </StackPanel>
                         <TextBlock
                             Margin="15"
                             VerticalAlignment="Bottom"
-                            Text="10"    
-                            />
+                            Text="10"/>
                     </StackPanel>
                     <StackPanel
                         Margin="35 0"
-                        Orientation="Horizontal"
-                        >
+                        Orientation="Horizontal">
                         <TextBlock
                             Margin="15"
                             VerticalAlignment="Bottom"
-                            Text="0"    
-                            />
+                            Text="0"/>
                         <StackPanel>
                             <StackPanel
                                 Margin="0 15"
-                                Orientation="Horizontal"
-                                >
+                                Orientation="Horizontal">
                                 <TextBlock
                                     Margin="15 0"
-                                    Text="Громкость:"    
-                                    />
+                                    Text="Громкость:"/>
                                 <TextBlock
                                     x:Name="volumeValueLabel"
                                     FontWeight="ExtraBlack"
                                     Margin="15 0"
-                                    Text="100"    
-                                    />
+                                    Text="100"/>
                             </StackPanel>
                             <Slider
                                 x:Name="volumeSlider"
@@ -126,14 +106,12 @@
                                 Minimum="0"
                                 Maximum="100"
                                 Value="100"
-                                ValueChanged="ToggleVolumeSliderHandler"
-                                />
+                                ValueChanged="ToggleVolumeSliderHandler"/>
                         </StackPanel>
                         <TextBlock
                             Margin="15"
                             VerticalAlignment="Bottom"
-                            Text="100"    
-                            />
+                            Text="100"/>
                     </StackPanel>
                 </StackPanel>
             </Border.Child>
@@ -145,7 +123,6 @@
             Height="505"
             Width="{ x:Static SystemParameters.MaximizedPrimaryScreenWidth }"
             AcceptsReturn="True"
-            SpellCheck.IsEnabled="True"
-        />
+            SpellCheck.IsEnabled="True"/>
     </StackPanel>
 </UserControl>

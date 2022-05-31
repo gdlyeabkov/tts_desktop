@@ -64,6 +64,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\BtnsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -120,6 +124,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\SkinsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\SpellCheckDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +162,9 @@
     </Compile>
     <Compile Include="Controls\OpenedDocControl.xaml.cs">
       <DependentUpon>OpenedDocControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\BtnsDialog.xaml.cs">
       <DependentUpon>BtnsDialog.xaml</DependentUpon>
@@ -196,6 +207,9 @@
     </Compile>
     <Compile Include="Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SkinsDialog.xaml.cs">
+      <DependentUpon>SkinsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\SpellCheckDialog.xaml.cs">
       <DependentUpon>SpellCheckDialog.xaml</DependentUpon>

@@ -4,9 +4,77 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS.Dialogs"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="RepeatTextDialog" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Повторить текст"
+        Height="450"
+        Width="380">
+    <StackPanel>
+        <Border
+            BorderThickness="1"
+            BorderBrush="LightGray"
+            Margin="15">
+            <Border.Child>
+                <StackPanel
+                    Margin="15">
+                    <TextBlock
+                        Margin="15 5"
+                        Text="Части текста будут повторены несколько раз. Это&#10;может быть полезно для тренировки памяти или&#10;запоминания иностранных слов и выражений."/>
+                    <TextBlock
+                        Margin="15 5"
+                        Text="Единицы измерения"/>
+                    <Border
+                        BorderThickness="1"
+                        BorderBrush="LightGray"
+                        Margin="15">
+                        <Border.Child>
+                            <StackPanel
+                                Margin="15">
+                                <RadioButton
+                                    Margin="15 5"
+                                    Content="Слова"/>
+                                <RadioButton
+                                    IsChecked="True"
+                                    Margin="15 5"
+                                    Content="Предложения"/>
+                                <RadioButton
+                                    Margin="15 5"
+                                    Content="Абзацы"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="15 5"
+                            Text="Количество раз"/>
+                        <toolkit:IntegerUpDown
+                            x:Name="countRepeatsSpinner"
+                            VerticalAlignment="Center"
+                            Margin="15 0"
+                            Minimum="2"
+                            Maximum="99"
+                            Value="3"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border.Child>
+        </Border>
+        <StackPanel
+            Margin="0 5"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="15 0"
+                Width="65"
+                Height="25"
+                Content="ОК"
+                Click="OkHandler"/>
+            <Button
+                Margin="15 0"
+                Width="65"
+                Height="25"
+                Content="Отмена"
+                Click="CancelHandler"/>
+        </StackPanel>
+    </StackPanel>
 </Window>
