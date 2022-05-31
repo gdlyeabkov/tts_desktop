@@ -23,6 +23,8 @@ using System.Web.Script.Serialization;
 using System.Globalization;
 using System.Diagnostics;
 using NAudio.CoreAudioApi;
+using System.Runtime.InteropServices;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace TTS
 {
@@ -38,6 +40,11 @@ namespace TTS
         public int bookmarkIndex = -1;
         public Dictionary<String, Object> speechTimerData;
         public int selectedAudioDevice = -1;
+        
+        
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
+        private IntPtr _ClipboardViewerNext;
 
         public MainWindow()
         {
@@ -48,6 +55,7 @@ namespace TTS
 
         }
 
+        
         private void ToggleSpeedSliderHandler (object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = ((Slider)(sender));
@@ -122,17 +130,217 @@ namespace TTS
             }
         }
 
+        private void ToggleDetectBufferHandler(object sender, RoutedEventArgs e)
+        {
+            ToggleDetectBuffer();
+        }
+
+        public void ToggleDetectBuffer ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
+            Settings updatedSettings = loadedContent.settings;
+            bool IsChecked = detectBufferMenuItem.IsChecked;
+            updatedSettings.buffer.isEnabled = IsChecked;
+            string savedContent = js.Serialize(new SavedContent
+            {
+                bookmarks = currentBookmarks,
+                settings = updatedSettings
+            });
+            File.WriteAllText(saveDataFilePath, savedContent);
+        }
+
         private void InitHandler (object sender, RoutedEventArgs e)
         {
             Init();
         }
 
-        public void Init ()
+        void Init ()
         {
             InitVars();
             CreateDoc();
             GetVoices();
             InitCache();
+            // ClipboardDetector detector = new ClipboardDetector(this);
+            // _ClipboardViewerNext = SetClipboardViewer(detector.Handle);
+            // ApplicationCommands.Copy.CanExecuteChanged += new EventHandler(DetectCopyActionHandler);
+            ClipboardMonitor detector = new ClipboardMonitor(this);
+
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            BufferSettings bufferSettings = currentSettings.buffer;
+            bool isDetectBufferEnabled = bufferSettings.isEnabled;
+            detectBufferMenuItem.IsChecked = isDetectBufferEnabled;
+        }
+
+        private void DetectCopyActionHandler (object sender, EventArgs e)
+        {
+            DetectCopyAction();
+        }
+
+        public void DetectCopyAction ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            BufferSettings bufferSettings = currentSettings.buffer;
+            bool isDetectBufferEnabled = bufferSettings.isEnabled;
+            if (isDetectBufferEnabled)
+            {
+                string bufferAction = bufferSettings.action;
+                bool isShowNotifications = bufferSettings.showNotifications;
+                bool IsBufferSpeakActionChecked = bufferAction == "speak";
+                bool IsBufferCreateDocActionChecked = bufferAction == "createDoc";
+                bool IsBufferAddTextToCurrentDocActionChecked = bufferAction == "addTextToCurrentDoc";
+                bool IsBufferReplaceTextToCurrentDocActionChecked = bufferAction == "replaceTextToCurrentDoc";
+                bool IsBufferCreateDocAndSpeakActionChecked = bufferAction == "createDocAndSpeak";
+                bool IsBufferAddTextToDocAndSpeakActionChecked = bufferAction == "addTextToCurrentDocAndSpeak";
+                bool IsBufferReplaceTextToCurrentDocAndSpeakActionChecked = bufferAction == "replaceTextToCurrentDocAndSpeak";
+                if (IsBufferSpeakActionChecked)
+                {
+                    Speak();
+                    if (isShowNotifications)
+                    {
+                        new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText("Читаю вслух")
+                            .AddText("TTS читает вслух!")
+                            .Show();
+                    }
+                }
+                else if (IsBufferCreateDocActionChecked)
+                {
+                    CreateDoc();
+                    if (isShowNotifications)
+                    {
+                        new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText("Создаю документ")
+                            .AddText("TTS создал документ!")
+                            .Show();
+                    }
+                }
+                else if (IsBufferAddTextToCurrentDocActionChecked)
+                {
+                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                    ItemCollection openedDocControlItems = openedDocControl.Items;
+                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                    string inputBoxContent = inputBox.Text;
+                    string copiedText = Clipboard.GetText();
+                    inputBoxContent += copiedText;
+                    inputBox.Text = inputBoxContent;
+                    if (isShowNotifications)
+                    {
+                        new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText("Добавляю содержимое из буфера обмена")
+                            .AddText("TTS добавил содержимое из буфера обмена!")
+                            .Show();
+                    }
+                }
+                else if (IsBufferReplaceTextToCurrentDocActionChecked)
+                {
+                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                    ItemCollection openedDocControlItems = openedDocControl.Items;
+                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                    string copiedText = Clipboard.GetText();
+                    inputBox.Text = copiedText;
+                    if (isShowNotifications)
+                    {
+                        new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText("Заменяю текст на содержимое из буфера обмена")
+                            .AddText("TTS заменил текст на содержимое из буфера обмена!")
+                            .Show();
+                    }
+                }
+                else if (IsBufferCreateDocAndSpeakActionChecked)
+                {
+                    CreateDoc();
+                    Speak();
+                    if (isShowNotifications)
+                    {
+                        new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText("Создаю документ и читаю вслух")
+                            .AddText("TTS создал документ и прочитал вслух!")
+                            .Show();
+                    }
+                }
+                else if (IsBufferAddTextToDocAndSpeakActionChecked)
+                {
+                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                    ItemCollection openedDocControlItems = openedDocControl.Items;
+                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                    string inputBoxContent = inputBox.Text;
+                    string copiedText = Clipboard.GetText();
+                    inputBoxContent += copiedText;
+                    inputBox.Text = inputBoxContent;
+                    Speak();
+                    if (isShowNotifications)
+                    {
+                        new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText("Добавляю содержимое из буфера обмена и читаю вслух")
+                            .AddText("TTS добавил текст из буфера обмена и прочитал вслух!")
+                            .Show();
+                    }
+                }
+                else if (IsBufferReplaceTextToCurrentDocAndSpeakActionChecked)
+                {
+                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                    ItemCollection openedDocControlItems = openedDocControl.Items;
+                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                    string copiedText = Clipboard.GetText();
+                    inputBox.Text = copiedText;
+                    Speak();
+                    if (isShowNotifications)
+                    {
+                        new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText("Заменяю текст на содержимое из буфера обмена и читаю вслух")
+                            .AddText("TTS заменил текст на содержимое из буфера обмена и прочитал вслух!")
+                            .Show();
+                    }
+                }
+            }
         }
 
         public void InitVars ()
@@ -169,7 +377,17 @@ namespace TTS
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 string savedContent = js.Serialize(new SavedContent()
                 {
-                    bookmarks = new List<Dictionary<String, Object>>() { }
+                    bookmarks = new List<Dictionary<String, Object>>() { },
+                    settings = new Settings()
+                    {
+                        buffer = new BufferSettings()
+                        {
+                            isEnabled = false,
+                            action = "speak",
+                            ignoreTextInSoftware = false,
+                            showNotifications = false
+                        }
+                    }
                 });
                 File.WriteAllText(saveDataFilePath, savedContent);
             }
@@ -183,30 +401,39 @@ namespace TTS
 
         public void SpeakCompleted ()
         {
-            speechSynthesizer.SetOutputToDefaultAudioDevice();
-            bool isEnabled = ((bool)(speechTimerData["isEnabled"]));
-            if (isEnabled)
+            try
             {
-                bool isPlaySound = ((bool)(speechTimerData["isPlaySound"]));
-                bool isShowAttention = ((bool)(speechTimerData["isShowAttention"]));
-                if (isPlaySound)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    mainAudio.Source = new Uri(@"C:\wpf_projects\TTS\TTS\Sounds\notification.wav");
-                    mainAudio.Play();
-                }
-                if (isShowAttention)
-                {
+                    speechSynthesizer.SetOutputToDefaultAudioDevice();
+                    bool isEnabled = ((bool)(speechTimerData["isEnabled"]));
+                    if (isEnabled)
+                    {
+                        bool isPlaySound = ((bool)(speechTimerData["isPlaySound"]));
+                        bool isShowAttention = ((bool)(speechTimerData["isShowAttention"]));
+                        if (isPlaySound)
+                        {
+                            mainAudio.Source = new Uri(@"C:\wpf_projects\TTS\TTS\Sounds\notification.wav");
+                            mainAudio.Play();
+                        }
+                        if (isShowAttention)
+                        {
 
-                }
-                Cancel();
-                Dictionary<String, Object> updatedSpeechTimerData = new Dictionary<String, Object>();
-                updatedSpeechTimerData.Add("isEnabled", false);
-                updatedSpeechTimerData.Add("isPlaySound", false);
-                updatedSpeechTimerData.Add("isShowAttention", false);
-                updatedSpeechTimerData.Add("action", "quit");
-                speechTimerData = updatedSpeechTimerData;
+                        }
+                        Cancel();
+                        Dictionary<String, Object> updatedSpeechTimerData = new Dictionary<String, Object>();
+                        updatedSpeechTimerData.Add("isEnabled", false);
+                        updatedSpeechTimerData.Add("isPlaySound", false);
+                        updatedSpeechTimerData.Add("isShowAttention", false);
+                        updatedSpeechTimerData.Add("action", "quit");
+                        speechTimerData = updatedSpeechTimerData;
+                    }
+                });
             }
+            catch (Exception)
+            {
 
+            }
         }
 
         public void SpeakBufferHandler (object sender, RoutedEventArgs e)
@@ -432,6 +659,42 @@ namespace TTS
             openedDocControl.Items.Add(docTab);
             openedDoc.Click += SelectOpenedDocHandler;
             SelectOpenedDoc(openedDoc);
+
+            TextBox inputBox = docTabContent.inputBox;
+            CommandManager.AddPreviewCanExecuteHandler(inputBox, _canExecute);
+
+        }
+
+        private void _canExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            BufferSettings bufferSettings = currentSettings.buffer;
+            bool isDetectBufferEnabled = bufferSettings.isEnabled;
+            if (isDetectBufferEnabled)
+            {
+                bool isIgnoreTextInSoftware = bufferSettings.ignoreTextInSoftware;
+                if (isIgnoreTextInSoftware)
+                {
+                    e.CanExecute = false;
+                    e.Handled = true;
+                }
+                else
+                {
+                    e.CanExecute = true;
+                    e.Handled = false;
+                }
+            }
+            else
+            {
+                e.CanExecute = true;
+                e.Handled = false;
+            }
         }
 
         public void SelectOpenedDocHandler (object sender, RoutedEventArgs e)
@@ -1824,7 +2087,27 @@ namespace TTS
         public void OpenSettings ()
         {
             Dialogs.SettingsDialog dialog = new Dialogs.SettingsDialog();
+            dialog.Closed += RefreshSettingsHandler;
             dialog.Show();
+        }
+
+        public void RefreshSettingsHandler (object sender, EventArgs e)
+        {
+            RefreshSettings();
+        }
+
+        public void RefreshSettings ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            BufferSettings bufferSettings = currentSettings.buffer;
+            bool isDetectBufferEnabled = bufferSettings.isEnabled;
+            detectBufferMenuItem.IsChecked = isDetectBufferEnabled;
         }
 
     }
@@ -1832,6 +2115,20 @@ namespace TTS
     class SavedContent
     {
         public List<Dictionary<String, Object>> bookmarks;
+        public Settings settings;
+    }
+
+    public class Settings
+    {
+        public BufferSettings buffer;
+    }
+
+    public class BufferSettings
+    {
+        public bool isEnabled;
+        public string action;
+        public bool ignoreTextInSoftware;
+        public bool showNotifications;
     }
 
 }

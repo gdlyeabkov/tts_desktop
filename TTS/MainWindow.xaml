@@ -234,8 +234,10 @@
                         Click="SelectOutputDeviceHandler"
                         />
                     <MenuItem
+                        x:Name="detectBufferMenuItem"
                         Header="Слежение за буфером обмена"
-                        IsCheckable="True"/>
+                        IsCheckable="True"
+                        Click="ToggleDetectBufferHandler"/>
                     <MenuItem
                         Header="Таймер"
                         Click="OpenTimerHandler"

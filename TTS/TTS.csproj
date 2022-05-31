@@ -160,6 +160,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ClipboardDetector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ClipboardMonitor.cs" />
     <Compile Include="Controls\OpenedDocControl.xaml.cs">
       <DependentUpon>OpenedDocControl.xaml</DependentUpon>
     </Compile>
