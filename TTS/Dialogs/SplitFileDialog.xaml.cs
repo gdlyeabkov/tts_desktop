@@ -44,8 +44,7 @@ namespace TTS.Dialogs
                 string path = ofd.FileName;
                 sourceFileBox.Text = path;
                 FileInfo fileInfo = new FileInfo(path);
-                // string fileName = fileInfo.Name;
-                string fileName = System.IO.Path.GetFileName(path);
+                string fileName = System.IO.Path.GetFileNameWithoutExtension(path);
                 templateFileBox.Text = fileName;
             }
         }
@@ -112,8 +111,10 @@ namespace TTS.Dialogs
             if (isCanRun)
             {
                 string content = File.ReadAllText(sourceFileBoxContent);
-                // string fileName = System.IO.Path.GetFileName(sourceFileBoxContent);
-                string fileName = System.IO.Path.GetFileNameWithoutExtension(sourceFileBoxContent);
+                
+                // string fileName = System.IO.Path.GetFileNameWithoutExtension(sourceFileBoxContent);
+                string fileName = templateFileBox.Text;
+
                 string fileExt = System.IO.Path.GetExtension(sourceFileBoxContent);
                 object rawIsChecked = addNumberAfterFileNameRadioBtn.IsChecked;
                 bool isAddAfter = ((bool)(rawIsChecked));
@@ -178,19 +179,15 @@ namespace TTS.Dialogs
                         string rawFileSuffix = fileSuffix.ToString();
                         if (isAddAfter)
                         {
-                            // generatedFileName = fileName + " " + startNumberFileNameBoxContent + fileExt;
                             generatedFileName = fileName + " " + rawFileSuffix + fileExt;
                         }
                         else
                         {
-                            // generatedFileName = startNumberFileNameBoxContent + " " + fileName + fileExt;
                             generatedFileName = rawFileSuffix + " " + fileName + fileExt;
                         }
-                        // File.WriteAllText(saveFolderBoxContent + @"\" + generatedFileName, content);
                         string filePath = saveFolderBoxContent + @"\" + generatedFileName;
                         using (StreamWriter sw = new StreamWriter(File.Open(filePath, FileMode.Create), encoding))
                         {
-                            // sw.WriteLine(content);
                             sw.WriteLine(line);
                         }
                         fileSuffix++;

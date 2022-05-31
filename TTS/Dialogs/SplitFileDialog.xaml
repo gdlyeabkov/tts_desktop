@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TTS.Dialogs"
         mc:Ignorable="d"
         Title="Разбить файл на части"
-        Height="700"
+        Height="750"
         Width="800">
     <StackPanel>
         <Border
@@ -105,16 +105,18 @@
                                 Orientation="Horizontal">
                                 <TextBlock
                                     x:Name="useFileSizeLabel"
-                                    Margin="15 0"
+                                    VerticalAlignment="Center"
+                                    Margin="5 0"
                                     Text="Размер файлов должен быть"/>
                                 <TextBox
                                     x:Name="useFileSizeBox"
-                                    Margin="15 0"
+                                    Margin="5 0"
                                     Width="75"
                                     Height="25"/>                                
                                 <TextBlock
                                     x:Name="useFileSizeMeasureLabel"
-                                    Margin="15 0"
+                                    VerticalAlignment="Center"
+                                    Margin="5 0"
                                     Text="Кб"/>
                             </StackPanel>
                         </StackPanel>
@@ -174,10 +176,12 @@
                             Margin="15 5"
                             Text="Кодировка сохраняемого файла"/>
                         <Border
+                            Margin="15"
                             BorderThickness="1"
                             BorderBrush="LightGray">
                             <Border.Child>
-                                <StackPanel>
+                                <StackPanel
+                                    Margin="15">
                                     <RadioButton
                                         x:Name="ansiCheckBox"
                                         Margin="15 0"

@@ -1512,7 +1512,8 @@ namespace TTS
 
         public void OpenBtns ()
         {
-
+            Dialogs.BtnsDialog dialog = new Dialogs.BtnsDialog(this);
+            dialog.Show();
         }
 
         public void ToggleToolBarHandler (object sender, RoutedEventArgs e)
@@ -1744,8 +1745,36 @@ namespace TTS
 
         public void OpenTextRepeat ()
         {
-            Dialogs.SpellCheckDialog dialog = new Dialogs.SpellCheckDialog(this);
+            Dialogs.RepeatTextDialog dialog = new Dialogs.RepeatTextDialog();
             dialog.Show();
+        }
+
+        public void SaveMultipleAudioHandler (object sender, RoutedEventArgs e)
+        {
+            SaveMultipleAudio();
+        }
+
+        public void SaveMultipleAudio ()
+        {
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = inputBox.Text;
+            int inputBoxContentLength = inputBoxContent.Length;
+            bool isHaveData = inputBoxContentLength >= 1;
+            if (isHaveData)
+            {
+                Dialogs.SaveMultipleAudioDialog dialog = new Dialogs.SaveMultipleAudioDialog(this);
+                dialog.Show();
+            }
+            else
+            {
+                MessageBox.Show("Отсутствуют данные для записи в файл", "Информация");
+            }
         }
 
     }

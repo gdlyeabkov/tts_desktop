@@ -64,6 +64,10 @@
                         Click="SaveAudioFileHandler"
                         />
                     <MenuItem
+                        Header="Сохранить как несколько аудиофайлов"
+                        Click="SaveMultipleAudioHandler"
+                        />
+                    <MenuItem
                         Header="Закрыть"
                         Click="CloseDocHandler"
                         />
@@ -339,10 +343,11 @@
                 x:Name="toolBar"
                 Orientation="Horizontal"
                 DockPanel.Dock="Top"
-                Height="35"
-                >
-                <ToolBar>
-                    <Button>
+                Height="35">
+                <ToolBar
+                    x:Name="newDocShortcutBtn">
+                    <Button
+                        Click="CreateDocHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -353,8 +358,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="openDocShortcutBtn">
+                    <Button
+                        Click="OpenDocHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -365,46 +372,52 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
-                        <Button.Content>
-                            <materialDesign:PackIcon
-                                Padding="55"
-                                Kind="ContentCopy"
-                                Width="20"
-                                Height="20"
-                                />
-                        </Button.Content>
-                    </Button>
-                </ToolBar>
-                <ToolBar>
-                    <Button>
-                        <Button.Content>
-                            <materialDesign:PackIcon
-                                Padding="55"
-                                Kind="ContentCopy"
-                                Width="20"
-                                Height="20"
-                                />
-                        </Button.Content>
-                    </Button>
-                </ToolBar>
-                <ToolBar>
-                    <Button>
-                        <Button.Content>
-                            <materialDesign:PackIcon
-                                Padding="55"
-                                Kind="ContentCopy"
-                                Width="20"
-                                Height="20"
-                                />
-                        </Button.Content>
-                    </Button>
-                </ToolBar>
-                <ToolBar>
+                <ToolBar
+                    x:Name="saveDocShortcutBtn">
                     <Button
-                        Click="SpeakHandler"
-                        >
+                        Click="SaveDocHandler">
+                        <Button.Content>
+                            <materialDesign:PackIcon
+                                Padding="55"
+                                Kind="ContentCopy"
+                                Width="20"
+                                Height="20"
+                                />
+                        </Button.Content>
+                    </Button>
+                </ToolBar>
+                <ToolBar
+                    x:Name="saveAudioShortcutBtn">
+                    <Button
+                        Click="SaveAudioFileHandler">
+                        <Button.Content>
+                            <materialDesign:PackIcon
+                                Padding="55"
+                                Kind="ContentCopy"
+                                Width="20"
+                                Height="20"
+                                />
+                        </Button.Content>
+                    </Button>
+                </ToolBar>
+                <ToolBar
+                    x:Name="saveMultipleAudioShortcutBtn">
+                    <Button
+                        Click="SaveMultipleAudioHandler">
+                        <Button.Content>
+                            <materialDesign:PackIcon
+                                Padding="55"
+                                Kind="ContentCopy"
+                                Width="20"
+                                Height="20"
+                                />
+                        </Button.Content>
+                    </Button>
+                </ToolBar>
+                <ToolBar
+                    x:Name="speakShortcutBtn">
+                    <Button
+                        Click="SpeakHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -415,8 +428,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="pauseShortcutBtn">
+                    <Button
+                        Click="StopHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -427,12 +442,12 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
+                <ToolBar
+                    x:Name="stopShortcutBtn">
                     <Button
                         x:Name="stopSpeechBtn"
                         IsEnabled="False"
-                        Click="StopHandler"
-                        >
+                        Click="StopHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -443,8 +458,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="speakSelectedTextShortcutBtn">
+                    <Button
+                        Click="SpeakSelectionHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -455,8 +472,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="speakTextFromBufferShortcutBtn">
+                    <Button
+                        Click="SpeakBufferHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -467,8 +486,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="voiceParamsShortcutBtn">
+                    <Button
+                        Click="ToggleVoiceParamsHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -479,8 +500,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="dictPanelShortcutBtn">
+                    <Button
+                        Click="ToggleDictBarHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -491,8 +514,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="insertFastBookmarkShortcutBtn">
+                    <Button
+                        Click="InsertFastBookmarkHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -503,8 +528,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="goToFastBookmarkShortcutBtn">
+                    <Button
+                        Click="GoToFastBookmarkHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -515,8 +542,10 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
-                    <Button>
+                <ToolBar
+                    x:Name="insertNamedBookmarkShortcutBtn">
+                    <Button
+                        Click="InsertNameBookmarkHandler">
                         <Button.Content>
                             <materialDesign:PackIcon
                                 Padding="55"
@@ -527,7 +556,8 @@
                         </Button.Content>
                     </Button>
                 </ToolBar>
-                <ToolBar>
+                <ToolBar
+                    x:Name="helpShortcutBtn">
                     <Button>
                         <Button.Content>
                             <materialDesign:PackIcon

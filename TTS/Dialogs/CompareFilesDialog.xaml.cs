@@ -21,6 +21,9 @@ namespace TTS.Dialogs
     /// </summary>
     public partial class CompareFilesDialog : Window
     {
+
+
+
         public CompareFilesDialog()
         {
             InitializeComponent();
@@ -87,9 +90,149 @@ namespace TTS.Dialogs
                     }
                 }
             }
-            else
+            else if (isHaveOneFileChecked)
             {
-                
+                string tempFirstFileBoxContent = firstFileBoxContent;
+                string tempSecondFileBoxContent = secondFileBoxContent;
+                firstFileBox.Text = firstFileBoxContent;
+                firstFileBoxContent = "";
+                secondFileBoxContent = "";
+                object firstFileBoxData = firstFileBox.DataContext;
+                string firstFilePath = ((string)(firstFileBoxData));
+                string[] lines = File.ReadAllLines(firstFilePath);
+                object secondFileBoxData = secondFileBox.DataContext;
+                string secondFilePath = ((string)(secondFileBoxData));
+                string[] otherLines = File.ReadAllLines(secondFilePath);
+                int linesCursor = 0;
+                int linesCount = lines.Length;
+                foreach (string line in lines)
+                {
+                    linesCursor++;
+                    bool isLineNotMatch = tempSecondFileBoxContent.Contains(line);
+                    bool isLineMatch = !isLineNotMatch;
+                    if (isLineMatch)
+                    {
+                        firstFileBoxContent += line;
+                        bool isNotLastLine = linesCursor < linesCount;
+                        if (isNotLastLine)
+                        {
+                            firstFileBoxContent += Environment.NewLine;
+                        }
+                    }
+                }
+                linesCursor = 0;
+                foreach (string otherLine in otherLines)
+                {
+                    linesCursor++;
+                    bool isLineNotMatch = tempFirstFileBoxContent.Contains(otherLine);
+                    bool isLineMatch = !isLineNotMatch;
+                    if (isLineMatch)
+                    {
+                        firstFileBoxContent += otherLine;
+                        bool isNotLastLine = linesCursor < linesCount;
+                        if (isNotLastLine)
+                        {
+                            firstFileBoxContent += Environment.NewLine;
+                        }
+                    }
+                }
+            }
+            else if (isHaveFirstFileAndSecondFileAbsentChecked)
+            {
+                string tempFirstFileBoxContent = firstFileBoxContent;
+                string tempSecondFileBoxContent = secondFileBoxContent;
+                firstFileBox.Text = firstFileBoxContent;
+                firstFileBoxContent = "";
+                secondFileBoxContent = "";
+                object firstFileBoxData = firstFileBox.DataContext;
+                string firstFilePath = ((string)(firstFileBoxData));
+                string[] lines = File.ReadAllLines(firstFilePath);
+                object secondFileBoxData = secondFileBox.DataContext;
+                string secondFilePath = ((string)(secondFileBoxData));
+                string[] otherLines = File.ReadAllLines(secondFilePath);
+                int linesCursor = 0;
+                int linesCount = lines.Length;
+                foreach (string line in lines)
+                {
+                    linesCursor++;
+                    bool isHaveSecondFile = tempSecondFileBoxContent.Contains(line);
+                    bool isSecondFileAbsent = !isHaveSecondFile;
+                    bool isHaveFirstFile = tempFirstFileBoxContent.Contains(line);
+                    bool isLineMatch = isSecondFileAbsent && isHaveFirstFile;
+                    if (isLineMatch)
+                    {
+                        firstFileBoxContent += line;
+                        bool isNotLastLine = linesCursor < linesCount;
+                        if (isNotLastLine)
+                        {
+                            firstFileBoxContent += Environment.NewLine;
+                        }
+                    }
+                }
+            }
+            else if (isHaveSecondFileAndFirstFileAbsentChecked)
+            {
+                string tempFirstFileBoxContent = firstFileBoxContent;
+                string tempSecondFileBoxContent = secondFileBoxContent;
+                firstFileBox.Text = firstFileBoxContent;
+                firstFileBoxContent = "";
+                secondFileBoxContent = "";
+                object firstFileBoxData = firstFileBox.DataContext;
+                string firstFilePath = ((string)(firstFileBoxData));
+                object secondFileBoxData = secondFileBox.DataContext;
+                string secondFilePath = ((string)(secondFileBoxData));
+                string[] otherLines = File.ReadAllLines(secondFilePath);
+                int linesCursor = 0;
+                int linesCount = otherLines.Length;
+                foreach (string line in otherLines)
+                {
+                    linesCursor++;
+                    bool isHaveFirstFile = tempFirstFileBoxContent.Contains(line);
+                    bool isFirstFileAbsent = !isHaveFirstFile;
+                    bool isHaveSecondFile = tempSecondFileBoxContent.Contains(line);
+                    bool isLineMatch = isFirstFileAbsent && isHaveSecondFile;
+                    if (isLineMatch)
+                    {
+                        firstFileBoxContent += line;
+                        bool isNotLastLine = linesCursor < linesCount;
+                        if (isNotLastLine)
+                        {
+                            firstFileBoxContent += Environment.NewLine;
+                        }
+                    }
+                }
+            }
+            else if (isAnyFileChecked)
+            {
+                string tempFirstFileBoxContent = firstFileBoxContent;
+                string tempSecondFileBoxContent = secondFileBoxContent;
+                firstFileBox.Text = firstFileBoxContent;
+                firstFileBoxContent = "";
+                secondFileBoxContent = "";
+                object firstFileBoxData = firstFileBox.DataContext;
+                string firstFilePath = ((string)(firstFileBoxData));
+                string[] lines = File.ReadAllLines(firstFilePath);
+                object secondFileBoxData = secondFileBox.DataContext;
+                string secondFilePath = ((string)(secondFileBoxData));
+                string[] otherLines = File.ReadAllLines(secondFilePath);
+                int linesCursor = 0;
+                int linesCount = lines.Length;
+                foreach (string line in lines)
+                {
+                    linesCursor++;
+                    bool isHaveSecondFile = tempSecondFileBoxContent.Contains(line);
+                    bool isHaveFirstFile = tempFirstFileBoxContent.Contains(line);
+                    bool isLineMatch = isHaveSecondFile && isHaveFirstFile;
+                    if (isLineMatch)
+                    {
+                        firstFileBoxContent += line;
+                        bool isNotLastLine = linesCursor < linesCount;
+                        if (isNotLastLine)
+                        {
+                            firstFileBoxContent += Environment.NewLine;
+                        }
+                    }
+                }
             }
             string resultBoxContent = firstFileBoxContent + Environment.NewLine + secondFileBoxContent;
             resultBox.Text = resultBoxContent;
@@ -187,6 +330,25 @@ namespace TTS.Dialogs
                 okBtn.IsEnabled = isCanCompare;
                 secondFileBox.DataContext = path;
             }
+        }
+
+        public void ToggleModeHandler (object sender, RoutedEventArgs e)
+        {
+            RadioButton radioBtn = ((RadioButton)(sender));
+            ToggleMode(radioBtn);
+        }
+
+        public void ToggleMode (RadioButton radioBtn)
+        {
+            UIElementCollection modesChildren = modes.Children;
+            foreach (StackPanel mode in modesChildren)
+            {
+                UIElementCollection modeChildren = mode.Children;
+                object rawBtn = modeChildren[1];
+                RadioButton btn = ((RadioButton)(rawBtn));
+                btn.IsChecked = false;
+            }
+            radioBtn.IsChecked = true;
         }
 
     }

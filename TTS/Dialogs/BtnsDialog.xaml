@@ -4,9 +4,1287 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TTS.Dialogs"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="BtnsDialog" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Кнопки"
+        Height="500"
+        Width="800">
+    <StackPanel>
+        <Border
+            Margin="15"
+            BorderThickness="1"
+            BorderBrush="LightGray">
+            <Border.Child>
+                <DockPanel
+                    Margin="15">
+                    <StackPanel
+                        Width="500">
+                        <TextBlock
+                            Margin="15 5"
+                            Text="Выберите элементы для панели инструментов"/>
+                            <Border
+                                Height="250"
+                                BorderThickness="1"
+                                BorderBrush="LightGray"
+                                Margin="15">
+                                <Border.Child>
+                                <ScrollViewer>
+                                    <StackPanel
+                                        x:Name="btns">
+                                        <CheckBox
+                                            x:Name="newDocCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Новый"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="openDocCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Открыть"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="clearListCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Очистить список"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="saveDocCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Сохранить"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="saveAsDocCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Сохранить как"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="illustrationsDocCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Иллюстрации"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="saveAudioCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Сохранить аудиофайл"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="saveMultipleAudioCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Сохранить как несколько аудиофайлов"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="id3TagsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Теги ID3"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="closeDocCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Закрыть"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="closeAllDocsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Закрыть все"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="closeDocsExceptCurrentCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Закрыть все кроме текущего"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="undoCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Отменить"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="cutCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Вырезать"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="copyCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Копировать"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="insertCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Вставить"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="capsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Все заглавные"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="lowerCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Все прописные"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="voiceCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Произношение"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="findCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Найти"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="replaceCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Заменить"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="spellCheckCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Правописание"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="textFormatCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Форматировать текст"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="findOmographsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Искать омографы"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="replaceNumbersToWordsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Заменить числа словами"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="otherCountryWordsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Иностранные слова"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="directSpeechCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Прямая речь"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+
+                                        <CheckBox
+                                            x:Name="audioClipCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Аудиоклип"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="speakCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Прочесть вслух"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="pauseCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Приостановить"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="stopCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Остановить"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="speakSelectedTextCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Прочесть выделенный текст"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="speakTextFromBufferCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Прочесть текст из буфера обмена"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="goToNextParagraphCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Перейти к следующему абзацу"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="goToPreviousParagraphCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Перейти к предыдущему абзацу"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="goToNextLineCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Перейти к следующей строке"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="goToPreviousLineCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Перейти к предыдущей строке"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="showChangedTextCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Показать измененный текст"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="replaceStatsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Статистика замен"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="findRulePairCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Найти пары правил"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="findNamesIntoTextCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Найти имена в тексте"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="profilesCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Профили"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="increaseSpeedCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Увеличить скорость"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="decreaseSpeedCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Уменьшить скорость"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="increasePitchCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Повысить тембр"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="decreasePitchCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Понизить тембр"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="increaseVolumeCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Увеличить громкость"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="decreaseVolumeCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Убавить громкость"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="speedAndPitchByDefaultCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Скорость/тембр по умолчанию"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="audioFilesCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Аудиофайлы"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="settingsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Общие настройки"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="totalSpellCheckCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Проверка орфографии"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="audioDeviceSelectCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Выбор аудиоустройства"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="textImportCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Импорт текста"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="detectBufferCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Слежение за буфером обмена"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="timerCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Таймер"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="fontAndColorCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Шрифт и цвета"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="skinsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Шкурки"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="btnsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Кнопки"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="voiceParamsCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Параметры голоса"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+
+                                        <CheckBox
+                                            x:Name="dictPanelCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Панель словарей"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="fullScreenCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Во весь экран"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="splitFileCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Разбить файл на части"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="convertToAudioCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Преобразовать в аудиофайлы"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="textExtractCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Извлечь текст из файлов"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="compareFilesCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Сравнить два файла"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="convertSubtitlesCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Преобразовать субтитры"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="repeatTextCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Повторить текст"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="speelCheckErrorsCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Список ошибок правописания"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="translateCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Перевести"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="saveAudioTTSCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Сохранить аудиофайл"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="readCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Читать"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="zoomCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Лупа"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="insertFastBookmarkCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Вставить быструю закладку"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="goToFastBookmarkCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Перейти на быструю закладку"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="insertNamedBookmarkCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Вставить именованную закладку"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="goToNamedBookmarkCheckBox"
+                                            Margin="5">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="FileDocument"/>
+                                                    <TextBlock
+                                                        Text="Перейти по именнованой закладке"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <CheckBox
+                                            x:Name="helpCheckBox"
+                                            Margin="5"
+                                            IsChecked="True">
+                                            <CheckBox.Content>
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="15 0"
+                                                        Kind="HelpBox"/>
+                                                    <TextBlock
+                                                        Text="Справка"
+                                                        Margin="15 0"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Border.Child>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel
+                        HorizontalAlignment="Right">
+                        <Button
+                            Margin="0 5"
+                            Content="Отметить все"
+                            Width="125"
+                            Height="25"
+                            Click="MarkAllHandler"/>
+                        <Button
+                            Margin="0 5"
+                            Content="Очистить все"
+                            Width="125"
+                            Height="25"
+                            Click="ResetAllHandler"/>
+                        <Button
+                            Margin="0 5"
+                            Content="По умолчанию"
+                            Width="125"
+                            Height="25"
+                            Click="ResetToDefaultHandler"/>
+                        <TextBlock
+                            Margin="15 5"
+                            Text="Размер кнопок"/>
+                        <Border
+                            BorderThickness="1"
+                            BorderBrush="LightGray"
+                            Margin="15 5">
+                            <Border.Child>
+                                <StackPanel
+                                    Margin="15">
+                                    <RadioButton
+                                        x:Name="smallBtnsRadioBtn"
+                                        IsChecked="True"
+                                        Margin="0 5"
+                                        Content="Мелкие кнопки"/>
+                                    <RadioButton
+                                        Margin="0 5"
+                                        Content="Крупные кнопки"/>
+                                </StackPanel>
+                            </Border.Child>
+                        </Border>
+                    </StackPanel>
+                </DockPanel>
+            </Border.Child>
+        </Border>
+        <StackPanel
+            Margin="0 5"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right">
+            <Button
+                Margin="15 0"
+                Content="OK"
+                Height="25"
+                Width="125"
+                Click="OkHandler"/>
+            <Button
+                Margin="15 0"
+                Content="Oтмена"
+                Height="25"
+                Width="125"
+                Click="CancelHandler"/>
+        </StackPanel>
+    </StackPanel>
 </Window>
