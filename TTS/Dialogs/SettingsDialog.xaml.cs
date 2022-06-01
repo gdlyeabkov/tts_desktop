@@ -123,6 +123,54 @@ namespace TTS.Dialogs
             }
             bool isIgnoreTextInSoftware = updatedSettings.buffer.ignoreTextInSoftware;
             ignoreTextInSoftwareCheckBox.IsChecked = isIgnoreTextInSoftware;
+            bool isShowNotifications = updatedSettings.buffer.showAlertTextOperationMsgs;
+            showAlertTextOperationMsgsCheckBox.IsChecked = isShowNotifications;
+            bool isIgnoreCopiedTextInBufferIfTextNotChanged = updatedSettings.buffer.ignoreCopiedTextInBufferIfTextNotChanged;
+            ignoreCopiedTextInBufferIfTextNotChangedCheckBox.IsChecked = isIgnoreCopiedTextInBufferIfTextNotChanged;
+            bool isFormatTextAfterOpenDoc = updatedSettings.text.isOpen;
+            formatTextAfterOpenDocCheckBox.IsChecked = isFormatTextAfterOpenDoc;
+            bool isRemoveExcessSpaces = updatedSettings.text.isRemoveExcessSpaces;
+            removeExcessSpacesCheckBox.IsChecked = isRemoveExcessSpaces;
+            bool isRemoveNewLineChars = updatedSettings.text.isRemoveNewLineChars;
+            removeNewLineCharsCheckBox.IsChecked = isRemoveNewLineChars;
+            bool isRemoveAllEmptyLines = updatedSettings.text.isRemoveAllEmptyLines;
+            removeAllEmptyLinesCheckBox.IsChecked = isRemoveAllEmptyLines;
+            bool isReplaceManyEmptyLinesToEmptyLine = updatedSettings.text.isReplaceManyEmptyLinesToEmptyLine;
+            replaceManyEmptyLinesToEmptyLineCheckBox.IsChecked = isReplaceManyEmptyLinesToEmptyLine;
+            bool isRemoveSpacesBeforeSemicolon = updatedSettings.text.isRemoveSpacesBeforeSemicolon;
+            removeSpacesBeforeSemicolonCheckBox.IsChecked = isRemoveSpacesBeforeSemicolon;
+            string beginReadSpeakWith = updatedSettings.general.beginReadSpeakWith;
+            bool isCursorPosition = beginReadSpeakWith == "cursorPosition";
+            bool isTextStart = beginReadSpeakWith == "textStart";
+            bool isParagraphStart = beginReadSpeakWith == "paragraphStart";
+            if (isCursorPosition)
+            {
+                beginReadSpeakWithCursorPositionRadioBtn.IsChecked = true;
+            }
+            else if (isTextStart)
+            {
+                beginReadSpeakWithTextStartRadioBtn.IsChecked = true;
+            }
+            else if (isParagraphStart)
+            {
+                beginReadSpeakWithParagraphStartRadioBtn.IsChecked = true;
+            }
+            string beginWriteToAudioFileWith = updatedSettings.general.beginWriteToAudioFileWith;
+            isCursorPosition = beginWriteToAudioFileWith == "cursorPosition";
+            isTextStart = beginWriteToAudioFileWith == "textStart";
+            isParagraphStart = beginWriteToAudioFileWith == "paragraphStart";
+            if (isCursorPosition)
+            {
+                beginWriteToAudioFileWithCursorPositionRadioBtn.IsChecked = true;
+            }
+            else if (isTextStart)
+            {
+                beginWriteToAudioFileWithTextStartRadioBtn.IsChecked = true;
+            }
+            else if (isParagraphStart)
+            {
+                beginWriteToAudioFileWithParagraphStartRadioBtn.IsChecked = true;
+            }
         }
 
         public void CancelHandler (object sender, RoutedEventArgs e)
@@ -200,7 +248,66 @@ namespace TTS.Dialogs
             rawIsChecked = ignoreTextInSoftwareCheckBox.IsChecked;
             bool isIgnoreTextInSoftware = ((bool)(rawIsChecked));
             updatedSettings.buffer.ignoreTextInSoftware = isIgnoreTextInSoftware;
-            updatedSettings.buffer.ignoreTextInSoftware = isShowNo; 
+            rawIsChecked = showAlertTextOperationMsgsCheckBox.IsChecked;
+            bool isShowAlertTextOperationMsgs = ((bool)(rawIsChecked));
+            updatedSettings.buffer.showAlertTextOperationMsgs = isShowAlertTextOperationMsgs;
+            rawIsChecked = ignoreCopiedTextInBufferIfTextNotChangedCheckBox.IsChecked;
+            bool isIgnoreCopiedTextInBufferIfTextNotChanged = ((bool)(rawIsChecked));
+            updatedSettings.buffer.ignoreCopiedTextInBufferIfTextNotChanged = isIgnoreCopiedTextInBufferIfTextNotChanged;
+            rawIsChecked = formatTextAfterOpenDocCheckBox.IsChecked;
+            bool isFormatTextAfterOpenDoc = ((bool)(rawIsChecked));
+            updatedSettings.text.isOpen = isFormatTextAfterOpenDoc;
+            rawIsChecked = removeExcessSpacesCheckBox.IsChecked;
+            bool isRemoveExcessSpaces = ((bool)(rawIsChecked));
+            updatedSettings.text.isRemoveExcessSpaces = isRemoveExcessSpaces;
+            rawIsChecked = removeNewLineCharsCheckBox.IsChecked;
+            bool isRemoveNewLineChars = ((bool)(rawIsChecked));
+            updatedSettings.text.isRemoveNewLineChars = isRemoveNewLineChars;
+            rawIsChecked = removeAllEmptyLinesCheckBox.IsChecked;
+            bool isRemoveAllEmptyLines = ((bool)(rawIsChecked));
+            updatedSettings.text.isRemoveAllEmptyLines = isRemoveAllEmptyLines;
+            rawIsChecked = replaceManyEmptyLinesToEmptyLineCheckBox.IsChecked;
+            bool isReplaceManyEmptyLinesToEmptyLine = ((bool)(rawIsChecked));
+            updatedSettings.text.isReplaceManyEmptyLinesToEmptyLine = isReplaceManyEmptyLinesToEmptyLine;
+            rawIsChecked = removeSpacesBeforeSemicolonCheckBox.IsChecked;
+            bool isRemoveSpacesBeforeSemicolonCheckBox = ((bool)(rawIsChecked));
+            updatedSettings.text.isRemoveSpacesBeforeSemicolon = isRemoveSpacesBeforeSemicolonCheckBox;
+            rawIsChecked = beginReadSpeakWithCursorPositionRadioBtn.IsChecked;
+            bool isBeginReadSpeakWithCursorPosition = ((bool)(rawIsChecked));
+            rawIsChecked = beginReadSpeakWithTextStartRadioBtn.IsChecked;
+            bool isBeginReadSpeakWithTextStart = ((bool)(rawIsChecked));
+            rawIsChecked = beginReadSpeakWithParagraphStartRadioBtn.IsChecked;
+            bool isBeginReadSpeakWithParagraphStart = ((bool)(rawIsChecked));
+            if (isBeginReadSpeakWithCursorPosition)
+            {
+                updatedSettings.general.beginReadSpeakWith = "cursorPosition";
+            }
+            else if (isBeginReadSpeakWithTextStart)
+            {
+                updatedSettings.general.beginReadSpeakWith = "textStart";
+            }
+            else if (isBeginReadSpeakWithParagraphStart)
+            {
+                updatedSettings.general.beginReadSpeakWith = "paragraphStart";
+            }
+            rawIsChecked = beginWriteToAudioFileWithCursorPositionRadioBtn.IsChecked;
+            bool isBeginWriteToAudioFileWithCursorPosition = ((bool)(rawIsChecked));
+            rawIsChecked = beginWriteToAudioFileWithTextStartRadioBtn.IsChecked;
+            bool isBeginWriteToAudioFileWithTextStart = ((bool)(rawIsChecked));
+            rawIsChecked = beginWriteToAudioFileWithParagraphStartRadioBtn.IsChecked;
+            bool isBeginWriteToAudioFileWithParagraphStart = ((bool)(rawIsChecked));
+            if (isBeginWriteToAudioFileWithCursorPosition)
+            {
+                updatedSettings.general.beginWriteToAudioFileWith = "cursorPosition";
+            }
+            else if (isBeginWriteToAudioFileWithTextStart)
+            {
+                updatedSettings.general.beginWriteToAudioFileWith = "textStart";
+            }
+            else if (isBeginWriteToAudioFileWithParagraphStart)
+            {
+                updatedSettings.general.beginWriteToAudioFileWith = "paragraphStart";
+            }
             string savedContent = js.Serialize(new SavedContent
             {
                 bookmarks = currentBookmarks,

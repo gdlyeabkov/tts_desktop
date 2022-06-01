@@ -40,8 +40,8 @@ namespace TTS
         public int bookmarkIndex = -1;
         public Dictionary<String, Object> speechTimerData;
         public int selectedAudioDevice = -1;
-        
-        
+        public string lastCopiedText = "";
+
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
         private IntPtr _ClipboardViewerNext;
@@ -202,7 +202,9 @@ namespace TTS
             if (isDetectBufferEnabled)
             {
                 string bufferAction = bufferSettings.action;
-                bool isShowNotifications = bufferSettings.showNotifications;
+                bool isIgnoreCopiedTextInBufferIfTextNotChanged = bufferSettings.ignoreCopiedTextInBufferIfTextNotChanged;
+                bool isNotIgnoreCopiedTextInBufferIfTextNotChanged = !isIgnoreCopiedTextInBufferIfTextNotChanged;
+                bool isShowNotifications = bufferSettings.showAlertTextOperationMsgs;
                 bool IsBufferSpeakActionChecked = bufferAction == "speak";
                 bool IsBufferCreateDocActionChecked = bufferAction == "createDoc";
                 bool IsBufferAddTextToCurrentDocActionChecked = bufferAction == "addTextToCurrentDoc";
@@ -210,136 +212,139 @@ namespace TTS
                 bool IsBufferCreateDocAndSpeakActionChecked = bufferAction == "createDocAndSpeak";
                 bool IsBufferAddTextToDocAndSpeakActionChecked = bufferAction == "addTextToCurrentDocAndSpeak";
                 bool IsBufferReplaceTextToCurrentDocAndSpeakActionChecked = bufferAction == "replaceTextToCurrentDocAndSpeak";
-                if (IsBufferSpeakActionChecked)
+                string copiedText = Clipboard.GetText();
+                bool isNotLastCopiedText = lastCopiedText != copiedText;
+                bool isCanCopy = isNotIgnoreCopiedTextInBufferIfTextNotChanged || isNotLastCopiedText;
+                if (isCanCopy)
                 {
-                    Speak();
-                    if (isShowNotifications)
+                    if (IsBufferSpeakActionChecked)
                     {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("Читаю вслух")
-                            .AddText("TTS читает вслух!")
-                            .Show();
+                        Speak();
+                        if (isShowNotifications)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText("Читаю вслух")
+                                .AddText("TTS читает вслух!")
+                                .Show();
+                        }
+                    }
+                    else if (IsBufferCreateDocActionChecked)
+                    {
+                        CreateDoc();
+                        if (isShowNotifications)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText("Создаю документ")
+                                .AddText("TTS создал документ!")
+                                .Show();
+                        }
+                    }
+                    else if (IsBufferAddTextToCurrentDocActionChecked)
+                    {
+                        int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                        ItemCollection openedDocControlItems = openedDocControl.Items;
+                        object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                        TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                        object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                        Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                        TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                        string inputBoxContent = inputBox.Text;
+                        inputBoxContent += copiedText;
+                        inputBox.Text = inputBoxContent;
+                        if (isShowNotifications)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText("Добавляю содержимое из буфера обмена")
+                                .AddText("TTS добавил содержимое из буфера обмена!")
+                                .Show();
+                        }
+                    }
+                    else if (IsBufferReplaceTextToCurrentDocActionChecked)
+                    {
+                        int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                        ItemCollection openedDocControlItems = openedDocControl.Items;
+                        object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                        TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                        object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                        Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                        TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                        inputBox.Text = copiedText;
+                        if (isShowNotifications)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText("Заменяю текст на содержимое из буфера обмена")
+                                .AddText("TTS заменил текст на содержимое из буфера обмена!")
+                                .Show();
+                        }
+                    }
+                    else if (IsBufferCreateDocAndSpeakActionChecked)
+                    {
+                        CreateDoc();
+                        Speak();
+                        if (isShowNotifications)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText("Создаю документ и читаю вслух")
+                                .AddText("TTS создал документ и прочитал вслух!")
+                                .Show();
+                        }
+                    }
+                    else if (IsBufferAddTextToDocAndSpeakActionChecked)
+                    {
+                        int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                        ItemCollection openedDocControlItems = openedDocControl.Items;
+                        object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                        TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                        object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                        Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                        TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                        string inputBoxContent = inputBox.Text;
+                        inputBoxContent += copiedText;
+                        inputBox.Text = inputBoxContent;
+                        Speak();
+                        if (isShowNotifications)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText("Добавляю содержимое из буфера обмена и читаю вслух")
+                                .AddText("TTS добавил текст из буфера обмена и прочитал вслух!")
+                                .Show();
+                        }
+                    }
+                    else if (IsBufferReplaceTextToCurrentDocAndSpeakActionChecked)
+                    {
+                        int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+                        ItemCollection openedDocControlItems = openedDocControl.Items;
+                        object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+                        TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+                        object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+                        Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+                        TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+                        inputBox.Text = copiedText;
+                        Speak();
+                        if (isShowNotifications)
+                        {
+                            new ToastContentBuilder()
+                                .AddArgument("action", "viewConversation")
+                                .AddArgument("conversationId", 9813)
+                                .AddText("Заменяю текст на содержимое из буфера обмена и читаю вслух")
+                                .AddText("TTS заменил текст на содержимое из буфера обмена и прочитал вслух!")
+                                .Show();
+                        }
                     }
                 }
-                else if (IsBufferCreateDocActionChecked)
-                {
-                    CreateDoc();
-                    if (isShowNotifications)
-                    {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("Создаю документ")
-                            .AddText("TTS создал документ!")
-                            .Show();
-                    }
-                }
-                else if (IsBufferAddTextToCurrentDocActionChecked)
-                {
-                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
-                    ItemCollection openedDocControlItems = openedDocControl.Items;
-                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
-                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
-                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
-                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
-                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
-                    string inputBoxContent = inputBox.Text;
-                    string copiedText = Clipboard.GetText();
-                    inputBoxContent += copiedText;
-                    inputBox.Text = inputBoxContent;
-                    if (isShowNotifications)
-                    {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("Добавляю содержимое из буфера обмена")
-                            .AddText("TTS добавил содержимое из буфера обмена!")
-                            .Show();
-                    }
-                }
-                else if (IsBufferReplaceTextToCurrentDocActionChecked)
-                {
-                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
-                    ItemCollection openedDocControlItems = openedDocControl.Items;
-                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
-                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
-                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
-                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
-                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
-                    string copiedText = Clipboard.GetText();
-                    inputBox.Text = copiedText;
-                    if (isShowNotifications)
-                    {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("Заменяю текст на содержимое из буфера обмена")
-                            .AddText("TTS заменил текст на содержимое из буфера обмена!")
-                            .Show();
-                    }
-                }
-                else if (IsBufferCreateDocAndSpeakActionChecked)
-                {
-                    CreateDoc();
-                    Speak();
-                    if (isShowNotifications)
-                    {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("Создаю документ и читаю вслух")
-                            .AddText("TTS создал документ и прочитал вслух!")
-                            .Show();
-                    }
-                }
-                else if (IsBufferAddTextToDocAndSpeakActionChecked)
-                {
-                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
-                    ItemCollection openedDocControlItems = openedDocControl.Items;
-                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
-                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
-                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
-                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
-                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
-                    string inputBoxContent = inputBox.Text;
-                    string copiedText = Clipboard.GetText();
-                    inputBoxContent += copiedText;
-                    inputBox.Text = inputBoxContent;
-                    Speak();
-                    if (isShowNotifications)
-                    {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("Добавляю содержимое из буфера обмена и читаю вслух")
-                            .AddText("TTS добавил текст из буфера обмена и прочитал вслух!")
-                            .Show();
-                    }
-                }
-                else if (IsBufferReplaceTextToCurrentDocAndSpeakActionChecked)
-                {
-                    int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
-                    ItemCollection openedDocControlItems = openedDocControl.Items;
-                    object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
-                    TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
-                    object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
-                    Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
-                    TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
-                    string copiedText = Clipboard.GetText();
-                    inputBox.Text = copiedText;
-                    Speak();
-                    if (isShowNotifications)
-                    {
-                        new ToastContentBuilder()
-                            .AddArgument("action", "viewConversation")
-                            .AddArgument("conversationId", 9813)
-                            .AddText("Заменяю текст на содержимое из буфера обмена и читаю вслух")
-                            .AddText("TTS заменил текст на содержимое из буфера обмена и прочитал вслух!")
-                            .Show();
-                    }
-                }
+                lastCopiedText = Clipboard.GetText();
             }
         }
 
@@ -385,7 +390,23 @@ namespace TTS
                             isEnabled = false,
                             action = "speak",
                             ignoreTextInSoftware = false,
-                            showNotifications = false
+                            showAlertTextOperationMsgs = false,
+                            ignoreCopiedTextInBufferIfTextNotChanged = false
+                        },
+                        text = new TextSettings()
+                        {
+                            isOpen = false,
+                            isRemoveExcessSpaces = true,
+                            isRemoveNewLineChars = true,
+                            isRemoveAllEmptyLines = false,
+                            isReplaceManyEmptyLinesToEmptyLine = false,
+                            isRemoveSpacesBeforeSemicolon = false,
+                            isNotOfferSaveChangedText = false
+                        },
+                        general = new GeneralSettings()
+                        {
+                            beginReadSpeakWith = "cursorPosition",
+                            beginWriteToAudioFileWith = "textStart"
                         }
                     }
                 });
@@ -575,6 +596,19 @@ namespace TTS
         public void Speak ()
         {
 
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            GeneralSettings generalSettings = currentSettings.general;
+            string beginReadSpeakWith = generalSettings.beginReadSpeakWith;
+            bool isCursorPosition = beginReadSpeakWith == "cursorPosition";
+            bool isTextStart = beginReadSpeakWith == "textStart";
+            bool isParagraphStart = beginReadSpeakWith == "paragraphStart";
+
             int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
             ItemCollection openedDocControlItems = openedDocControl.Items;
             object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
@@ -595,7 +629,24 @@ namespace TTS
             int roundedVolumeSliderValue = ((int)(volumeSliderValue));
             speechSynthesizer.Volume = roundedVolumeSliderValue;
             TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            
             string inputBoxContent = inputBox.Text;
+            if (isCursorPosition)
+            {
+                int charIndex = inputBox.SelectionStart;
+                int inputBoxContentLength = inputBoxContent.Length;
+                int leftLength = inputBoxContentLength - charIndex;
+                inputBoxContent = inputBox.Text.Substring(charIndex, leftLength);
+            }
+            else if (isTextStart)
+            {
+                inputBoxContent = inputBox.Text;
+            }
+            else if (isParagraphStart)
+            {
+                inputBoxContent = inputBox.Text;
+            }
+
             ResetPause();
 
             PromptBuilder builder = new PromptBuilder();
@@ -1112,6 +1163,20 @@ namespace TTS
             bool isSave = ((bool)(res));
             if (isSave)
             {
+
+                Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+                string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+                string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+                SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+                Settings currentSettings = loadedContent.settings;
+                GeneralSettings generalSettings = currentSettings.general;
+                string beginWriteToAudioFileWith = generalSettings.beginWriteToAudioFileWith;
+                bool isCursorPosition = beginWriteToAudioFileWith == "cursorPosition";
+                bool isTextStart = beginWriteToAudioFileWith == "textStart";
+                bool isParagraphStart = beginWriteToAudioFileWith == "paragraphStart";
+
                 string path = sfd.FileName;
                 speechSynthesizer.SetOutputToWaveFile(path);
                 int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
@@ -1121,9 +1186,25 @@ namespace TTS
                 object rawOpenedDocControlItemContent = openedDocControlItem.Content;
                 Controls.OpenedDocControl openedDocControlItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlItemContent));
                 TextBox inputBox = openedDocControlItemContent.inputBox;
+                
                 string inputBoxContent = inputBox.Text;
+                if (isCursorPosition)
+                {
+                    int charIndex = inputBox.SelectionStart;
+                    int inputBoxContentLength = inputBoxContent.Length;
+                    int leftLength = inputBoxContentLength - charIndex;
+                    inputBoxContent = inputBox.Text.Substring(charIndex, leftLength);
+                }
+                else if (isTextStart)
+                {
+                    inputBoxContent = inputBox.Text;
+                }
+                else if (isParagraphStart)
+                {
+                    inputBoxContent = inputBox.Text;
+                }
+
                 speechSynthesizer.SpeakAsync(inputBoxContent);
-                // WaveFileWriter.CreateWaveFile(path);
                 bool isExit = exitAfterSaveAudioMenuItem.IsChecked;
                 if (isExit)
                 {
@@ -1240,6 +1321,27 @@ namespace TTS
             {
                 string path = ofd.FileName;
                 InsertDoc(path);
+
+                Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+                string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+                string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+                SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+                Settings currentSettings = loadedContent.settings;
+                TextSettings textSettings = currentSettings.text;
+                bool isFormat = textSettings.isOpen;
+                if (isFormat)
+                {
+                    DispatcherTimer delay = new DispatcherTimer();
+                    delay.Interval = TimeSpan.FromSeconds(0.5);
+                    delay.Tick += delegate
+                    {
+                        FormatText();
+                    };
+                    delay.Start();
+                }
+
             }
         }
 
@@ -1290,7 +1392,7 @@ namespace TTS
             InsertDoc(path);
         }
 
-        public void InsertDoc (string path)
+        public bool InsertDoc (string path)
         {
             CreateDoc();
             int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
@@ -1313,6 +1415,7 @@ namespace TTS
             TextBlock openedDocContentLabel = ((TextBlock)(rawOpenedDocContentLabel));
             openedDocContentLabel.Text = fileName;
             openedDocHistory.Add(path);
+            return true;
         }
 
         public void SaveDocHandler (object sender, RoutedEventArgs e)
@@ -2110,6 +2213,183 @@ namespace TTS
             detectBufferMenuItem.IsChecked = isDetectBufferEnabled;
         }
 
+        public void FormatTextHandler (object sender, RoutedEventArgs e)
+        {
+            FormatText();
+        }
+
+        public void FormatText ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            TextSettings textSettings = currentSettings.text;
+            bool isRemoveExcessSpaces = textSettings.isRemoveExcessSpaces;
+            bool isRemoveNewLineChars = textSettings.isRemoveNewLineChars;
+            bool isRemoveAllEmptyLines = textSettings.isRemoveAllEmptyLines;
+            bool isReplaceManyEmptyLinesToEmptyLine = textSettings.isReplaceManyEmptyLinesToEmptyLine;
+            bool isRemoveSpacesBeforeSemicolon = textSettings.isRemoveSpacesBeforeSemicolon;
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            int lineCount = inputBox.LineCount;
+            string inputBoxContent = "";
+            for (int i = 0; i < lineCount; i++)
+            {
+                string lineText = inputBox.GetLineText(i);
+                if (isRemoveNewLineChars)
+                {
+                    lineText = lineText.TrimEnd();
+                }
+                if (isRemoveAllEmptyLines)
+                {
+                    int lineTextLength = lineText.Length;
+                    bool isEmpty = Environment.NewLine == lineText || String.Empty == lineText || lineTextLength <= 0;
+                    if (isEmpty)
+                    {
+                        lineText = "";
+                    }
+                }
+                inputBoxContent += lineText;
+            }
+            inputBox.Text = inputBoxContent;
+            inputBoxContent = "";
+            int charIndex = -1;
+            foreach (char inputBoxContentItem in inputBox.Text)
+            {
+                charIndex++;
+                if (isRemoveExcessSpaces)
+                {
+                    bool isSpace = Char.IsWhiteSpace(inputBoxContentItem);
+                    if (isSpace)
+                    {
+                        bool isNotFirstChar = charIndex >= 1;
+                        if (isNotFirstChar)
+                        {
+                            int previousCharIndex = charIndex - 1;
+                            char previousChar = inputBox.Text[previousCharIndex];
+                            bool isSecondSpace = Char.IsWhiteSpace(previousChar);
+                            if (isSecondSpace)
+                            {
+                            }
+                            else
+                            {
+                                inputBoxContent += inputBoxContentItem;
+                            }
+                        }
+                        else
+                        {
+                            inputBoxContent += inputBoxContentItem;
+                        }
+                    }
+                    else
+                    {
+                        inputBoxContent += inputBoxContentItem;
+                    }
+                }
+                else
+                {
+                    inputBoxContent += inputBoxContentItem;
+                }
+            }
+
+            lineCount = inputBox.LineCount;
+            inputBoxContent = "";
+            for (int i = 0; i < lineCount; i++)
+            {
+                string lineText = inputBox.GetLineText(i);
+                if (isReplaceManyEmptyLinesToEmptyLine)
+                {
+                    int lineTextLength = lineText.Length;
+                    bool isEmpty = Environment.NewLine == lineText || String.Empty == lineText || lineTextLength <= 0;
+                    if (isEmpty)
+                    {
+                        bool isNotFirstLine = i >= 1;
+                        if (isNotFirstLine)
+                        {
+                            int previousLineIndex = i - 1;
+                            string previousLineText = inputBox.GetLineText(previousLineIndex);
+                            int previousLineTextLength = previousLineText.Length;
+                            bool isPreviousLineEmpty = Environment.NewLine == previousLineText || String.Empty == previousLineText || previousLineTextLength <= 0;
+                            if (isPreviousLineEmpty)
+                            {
+                                lineText = "";
+                            }
+                        }
+                    }
+                }
+                inputBoxContent += lineText;
+            }
+            inputBox.Text = inputBoxContent;
+
+            inputBoxContent = "";
+            charIndex = -1;
+            foreach (char inputBoxContentItem in inputBox.Text)
+            {
+                charIndex++;
+                if (isRemoveSpacesBeforeSemicolon)
+                {
+                    bool isSpace = Char.IsWhiteSpace(inputBoxContentItem);
+                    if (isSpace)
+                    {
+                        bool isSpaceBeforeSemicolon = false;
+                        string someLine = inputBox.Text.Substring(charIndex, inputBox.Text.Length - charIndex);
+                        int semicolonIndex = someLine.IndexOf(',');
+                        isSpaceBeforeSemicolon = semicolonIndex >= 0;
+                        string tempBoxContent = inputBox.Text;
+                        int tempBoxContentLength = tempBoxContent.Length;
+                        int leftLength = tempBoxContentLength - charIndex;
+                        string someChars = tempBoxContent.Substring(charIndex, leftLength);
+                        foreach (char someChar in someChars)
+                        {
+                            bool isLocalSpace = Char.IsWhiteSpace(someChar);
+                            bool isLocalSemicolon = Char.IsPunctuation(someChar);
+                            if (isLocalSpace)
+                            {
+                                continue;
+                            }
+                            else if (isLocalSemicolon)
+                            {
+                                isSpaceBeforeSemicolon = true;
+                                break;
+                            }
+                            else
+                            {
+                                isSpaceBeforeSemicolon = false;
+                                break;
+                            }
+                        }
+                        if (isSpaceBeforeSemicolon)
+                        {
+
+                        }
+                        else
+                        {
+                            inputBoxContent += inputBoxContentItem;
+                        }
+                    }
+                    else
+                    {
+                        inputBoxContent += inputBoxContentItem;
+                    }
+                }
+                else
+                {
+                    inputBoxContent += inputBoxContentItem;
+                }
+            }
+            inputBox.Text = inputBoxContent;
+
+        }
+
     }
 
     class SavedContent
@@ -2121,6 +2401,8 @@ namespace TTS
     public class Settings
     {
         public BufferSettings buffer;
+        public TextSettings text;
+        public GeneralSettings general;
     }
 
     public class BufferSettings
@@ -2128,7 +2410,25 @@ namespace TTS
         public bool isEnabled;
         public string action;
         public bool ignoreTextInSoftware;
-        public bool showNotifications;
+        public bool showAlertTextOperationMsgs;
+        public bool ignoreCopiedTextInBufferIfTextNotChanged;
+    }
+
+    public class TextSettings
+    {
+        public bool isOpen;
+        public bool isRemoveExcessSpaces;
+        public bool isRemoveNewLineChars;
+        public bool isRemoveAllEmptyLines;
+        public bool isReplaceManyEmptyLinesToEmptyLine;
+        public bool isRemoveSpacesBeforeSemicolon;
+        public bool isNotOfferSaveChangedText;
+    }
+
+    public class GeneralSettings
+    {
+        public string beginReadSpeakWith;
+        public string beginWriteToAudioFileWith;
     }
 
 }

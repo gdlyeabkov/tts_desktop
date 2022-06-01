@@ -154,6 +154,10 @@
                     Header="Текст"    
                     >
                     <MenuItem
+                        Header="Форматировать текст"
+                        Click="FormatTextHandler"
+                        />
+                    <MenuItem
                         Header="Аудиоклип"
                         Click="InsertAudioHandler"
                         />

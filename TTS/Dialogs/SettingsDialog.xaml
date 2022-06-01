@@ -7,7 +7,7 @@
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Общие настройки"
-        Height="650"
+        Height="750"
         Width="800">
     <StackPanel>
         <TabControl>
@@ -32,12 +32,16 @@
                                         <Border.Child>
                                             <StackPanel>
                                                 <RadioButton
+                                                    x:Name="beginReadSpeakWithCursorPositionRadioBtn"
+                                                    IsChecked="True"
                                                     Margin="15 5"
                                                     Content="позиции курсора"/>
                                                 <RadioButton
+                                                    x:Name="beginReadSpeakWithTextStartRadioBtn"
                                                     Margin="15 5"
                                                     Content="начала текста"/>
                                                 <RadioButton
+                                                    x:Name="beginReadSpeakWithParagraphStartRadioBtn"
                                                     Margin="15 5"
                                                     Content="начала абзаца"/>
                                             </StackPanel>
@@ -57,12 +61,16 @@
                                         <Border.Child>
                                             <StackPanel>
                                                 <RadioButton
+                                                    x:Name="beginWriteToAudioFileWithCursorPositionRadioBtn"
                                                     Margin="15 5"
                                                     Content="позиции курсора"/>
                                                 <RadioButton
+                                                    x:Name="beginWriteToAudioFileWithTextStartRadioBtn"
+                                                    IsChecked="True"
                                                     Margin="15 5"
                                                     Content="начала текста"/>
                                                 <RadioButton
+                                                    x:Name="beginWriteToAudioFileWithParagraphStartRadioBtn"
                                                     Margin="15 5"
                                                     Content="начала абзаца"/>
                                             </StackPanel>
@@ -200,6 +208,7 @@
                             <StackPanel
                                 Margin="15">
                                 <CheckBox
+                                    x:Name="formatTextAfterOpenDocCheckBox"
                                     Margin="0 5"
                                     Content="Форматировать текст после открытия файла"/>
                                 <TextBlock
@@ -219,9 +228,11 @@
                             <StackPanel
                                 Margin="15">
                                 <CheckBox
+                                    x:Name="removeExcessSpacesCheckBox"
                                     Margin="0 5"
                                     Content="Удалить лишние пробелы (два и более пробела подряд, неразрывные пробелы)"/>
                                 <CheckBox
+                                    x:Name="removeNewLineCharsCheckBox"
                                     Margin="0 5"
                                     Content="Удалять знаки переноса на концах строк в тексте"/>
                                 <CheckBox
@@ -231,12 +242,14 @@
                                 <DockPanel
                                     Margin="0 5">
                                     <CheckBox
+                                        x:Name="removeAllEmptyLinesCheckBox"
                                         Margin="15 0"
                                         Content="Удалить все пустые строки"/>
                                     <CheckBox
+                                        x:Name="replaceManyEmptyLinesToEmptyLineCheckBox"
                                         HorizontalAlignment="Right"
                                         Margin="15 0"
-                                        Content="Удалить несколько пустых строк одной пустой строкой"/>
+                                        Content="Заменить несколько пустых строк одной пустой строкой"/>
                                 </DockPanel>
                                 <Separator />
                                 <CheckBox
@@ -250,6 +263,7 @@
                                     Content="Удалить текст внутри [угловых скобок]"/>
                                 <Separator />
                                 <CheckBox
+                                    x:Name="removeSpacesBeforeSemicolonCheckBox"
                                     Margin="0 5"
                                     Content="Удалить пробелы перед знаками препинания"/>
                                 <CheckBox
@@ -462,7 +476,7 @@
                 </StackPanel>
             </TabItem>
             <TabItem
-                Header="Буфер обмана">
+                Header="Буфер обмена">
                 <Border
                     BorderThickness="1"
                     BorderBrush="LightGray"
