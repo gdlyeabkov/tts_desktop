@@ -24,4 +24,7 @@ FC:\wpf_projects\TTS\TTS\Dialogs\TimerDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\TranslateDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\ZoomDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\MainWindow.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\SmallFloatDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\CreateDictDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\RenameDiactDialog.xaml;;
 

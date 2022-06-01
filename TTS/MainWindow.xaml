@@ -295,6 +295,7 @@
                             Header="Параметры голоса"
                             Click="ToggleVoiceParamsHandler"/>
                         <MenuItem
+                            x:Name="dictBarMenuItem"
                             IsCheckable="True"
                             Header="Панель словарей"
                             Click="ToggleDictBarHandler"/>
@@ -622,7 +623,122 @@
                 Width="250"
                 Background="LightGray"
                 Visibility="Collapsed">
-
+                <DockPanel
+                    Margin="0 5">
+                    <Button
+                        Content="Редактировать"
+                        Width="100"
+                        Height="25"
+                        Margin="15 0"/>
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <Button
+                            ToolTip="Показать имя папки"
+                            Width="25"
+                            Height="25"
+                            Margin="5 0"
+                            Click="ShowFolderNameHandler">
+                            <Button.Content>
+                                <materialDesign:PackIcon
+                                    Kind="InfoOutline"
+                                    Height="10"
+                                    Width="10"
+                                    Margin="5"/>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            ToolTip="Открыть папку в проводнике Windows"
+                            Width="25"
+                            Height="25"
+                            Margin="5 0"
+                            Click="OpenFolderToExlorerHandler">
+                            <Button.Content>
+                                <materialDesign:PackIcon
+                                    Kind="Web"
+                                    Height="10"
+                                    Width="10"
+                                    Margin="5"/>
+                            </Button.Content>
+                        </Button>
+                        <Button
+                            ToolTip="Скрыть панель"
+                            Width="25"
+                            Height="25"
+                            Margin="5 0"
+                            Click="ToggleDictBarHandler">
+                            <Button.Content>
+                                <materialDesign:PackIcon
+                                    Kind="Close"
+                                    Height="10"
+                                    Width="10"
+                                    Margin="5"/>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </DockPanel>
+                <StackPanel
+                    x:Name="dicts"
+                    Background="White"
+                    Height="500">
+                    <StackPanel.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem
+                                Header="Редактировать"/>
+                            <!--
+                            <MenuItem
+                                Header="Редактировать в блокноте"/>
+                            -->
+                            <MenuItem
+                                Header="Использовать по умолчанию"/>
+                            <!--
+                            <MenuItem
+                                Header="Переименовать"
+                                Click="RenameDictHandler"/>
+                            <MenuItem
+                                Header="Удалить"/>
+                            -->
+                            <MenuItem
+                                Header="Отметить все"
+                                Click="MarkAllDictsHandler"/>
+                            <MenuItem
+                                Header="Очистить все"
+                                Click="ClearAllDictsHandler"/>
+                            <MenuItem
+                                Header="Новый"
+                                Click="CreateDictHandler"/>
+                            <MenuItem
+                                Header="Обновить"
+                                Click="GetDictsHandler"/>
+                            <MenuItem
+                                Header="Показать список"/>
+                            <MenuItem
+                                Header="Профили"/>
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
+                </StackPanel>
+                <Border
+                    Margin="15 5"
+                    BorderThickness="1"
+                    BorderBrush="Gray">
+                    <Border.Child>
+                        <TextBlock
+                            FontWeight="ExtraBlack"
+                            TextAlignment="Center"
+                            Margin="15 5"
+                            Text="Омографы"/>
+                    </Border.Child>
+                </Border>
+                <Button
+                    Content="Редактировать"
+                    Width="100"
+                    Height="25"
+                    Margin="15 5"
+                    HorizontalAlignment="Left"/>
+                <StackPanel
+                    x:Name="omographs"
+                    Background="White"
+                    Height="150"/>
             </StackPanel>
             <StackPanel>
                 <TabControl

@@ -109,3 +109,9 @@ C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\AboutDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\AboutDialog.baml
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SkinsDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SkinsDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SmallFloatDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\SmallFloatDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\CreateDictDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\CreateDictDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameDiactDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameDiactDialog.baml

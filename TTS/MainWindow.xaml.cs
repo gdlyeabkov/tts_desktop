@@ -394,6 +394,41 @@ namespace TTS
             speechTimerData.Add("action", "quit");
         }
 
+        public void GetDicts ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string dictsFolder = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\dicts";
+            dicts.Children.Clear();
+            foreach (string dictFile in Directory.GetFileSystemEntries(dictsFolder))
+            {
+                FileInfo fileInfo = new FileInfo(dictFile);
+                string fileName = fileInfo.Name;
+                CheckBox dict = new CheckBox();
+                dict.Content = fileName;
+                dict.DataContext = dictFile;
+                dict.Margin = new Thickness(15, 5, 15, 5);
+                dicts.Children.Add(dict);
+                ContextMenu dictContextMenu = new ContextMenu();
+                MenuItem dictContextMenuItem = new MenuItem();
+                dictContextMenuItem.Header = "Переименовать";
+                dictContextMenuItem.DataContext = dictFile;
+                dictContextMenuItem.Click += RenameDictHandler;
+                dictContextMenu.Items.Add(dictContextMenuItem);
+                dictContextMenuItem = new MenuItem();
+                dictContextMenuItem.Header = "Редактировать в блокноте";
+                dictContextMenuItem.DataContext = dictFile;
+                dictContextMenuItem.Click += EditDictInNotepadHandler;
+                dictContextMenu.Items.Add(dictContextMenuItem);
+                dictContextMenuItem = new MenuItem();
+                dictContextMenuItem.Header = "Удалить";
+                dictContextMenuItem.DataContext = dictFile;
+                dictContextMenuItem.Click += RemoveDictHandler;
+                dictContextMenu.Items.Add(dictContextMenuItem);
+                dict.ContextMenu = dictContextMenu;
+            }
+        }
+
         public void InitCache ()
         {
             Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
@@ -405,6 +440,10 @@ namespace TTS
             if (isCacheFolderNotExists)
             {
                 Directory.CreateDirectory(cachePath);
+
+                string dictsFolder = cachePath + @"\dicts";
+                Directory.CreateDirectory(dictsFolder);
+
                 using (System.IO.Stream s = File.Open(saveDataFilePath, FileMode.OpenOrCreate))
                 {
                     using (StreamWriter sw = new StreamWriter(s))
@@ -443,7 +482,9 @@ namespace TTS
                             isLetters = false,
                             isWords = false,
                             isParagraphs = false,
-                            startupAction = "openLastDoc"
+                            startupAction = "openLastDoc",
+                            isShowSmallFloatWindow = false,
+                            isTransparentSmallFloatWindow = false
                         },
                         view = new ViewSettings()
                         {
@@ -2112,7 +2153,6 @@ namespace TTS
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(minutes);
             timer.Start();
-            // timer.Tick += DoTimerActionHandler;
             timer.Tick += delegate
             {
                 if (isPlaySound)
@@ -2245,11 +2285,19 @@ namespace TTS
             if (isVisible)
             {
                 dictBar.Visibility = invisible;
+                dictBarMenuItem.IsChecked = false;
             }
             else
             {
                 dictBar.Visibility = visible;
+                dictBarMenuItem.IsChecked = true;
+                GetDicts();
             }
+        }
+
+        public void GetDictsHandler (object sender, EventArgs e)
+        {
+            GetDicts();
         }
 
         public void OpenSpellCheckHandler(object sender, RoutedEventArgs e)
@@ -2658,6 +2706,25 @@ namespace TTS
                 nIcon.Visible = true;
                 string nIconTitle = "Office ware speech reader";
                 nIcon.Text = nIconTitle;
+                nIcon.MouseClick += delegate
+                {
+                    this.Show();
+                    Application currentApp = Application.Current;
+                    WindowCollection currentAppWindows = currentApp.Windows;
+                    IEnumerable<Window> myWindows = currentAppWindows.OfType<Window>();
+                    List<Window> smallFloatWindows = myWindows.Where<Window>(window =>
+                    {
+                        bool isSmallFloatWindow = window is Dialogs.SmallFloatDialog;
+                        return isSmallFloatWindow;
+                    }).ToList<Window>();
+                    int smallFloatWindowsCount = smallFloatWindows.Count;
+                    bool isHaveSmallFloatWindows = smallFloatWindowsCount >= 1;
+                    if (isHaveSmallFloatWindows)
+                    {
+                        Window smallFloatWindow = smallFloatWindows[0];
+                        smallFloatWindow.Close();
+                    }
+                };
             }
         }
 
@@ -2676,7 +2743,9 @@ namespace TTS
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
             Settings currentSettings = loadedContent.settings;
             ViewSettings viewSettings = currentSettings.view;
+            GeneralSettings generalSettings = currentSettings.general;
             bool isHideAppInTrayWhenMinimize = viewSettings.isHideAppInTrayWhenMinimize;
+            bool isShowSmallFloatWindow = generalSettings.isShowSmallFloatWindow;
             switch (this.WindowState)
             {
                 case WindowState.Maximized:
@@ -2687,13 +2756,140 @@ namespace TTS
                         CreateTrayIcon();
                         this.Hide();
                     }
+                    if (isShowSmallFloatWindow)
+                    {
+                        OpenSmallFloatWindow();
+                        this.Hide();
+                    }
                     break;
                 case WindowState.Normal:
                     break;
             }
 
         }
+         
+        public void OpenSmallFloatWindow ()
+        {
+            Dialogs.SmallFloatDialog dialog = new Dialogs.SmallFloatDialog(this);
+            dialog.Show();
+        }
 
+        public void OpenFolderToExlorerHandler (object sender, RoutedEventArgs e)
+        {
+            OpenFolderToExlorer();
+        }
+
+        public void OpenFolderToExlorer ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string dictsFolder = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\dicts";
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = "explorer",
+                Arguments = dictsFolder,
+                UseShellExecute = true
+            });
+        }
+
+        public void ShowFolderNameHandler(object sender, RoutedEventArgs e)
+        {
+            ShowFolderName();
+        }
+
+        public void ShowFolderName ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string dictsFolder = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\dicts";
+            string msgBoxContent = "Папка:" + Environment.NewLine + dictsFolder;
+            MessageBox.Show(msgBoxContent, "Информация");
+        }
+
+        public void CreateDictHandler(object sender, RoutedEventArgs e)
+        {
+            CreateDict();
+        }
+
+        public void CreateDict()
+        {
+            Dialogs.CreateDictDialog dialog = new Dialogs.CreateDictDialog();
+            dialog.Closed += GetDictsHandler;
+            dialog.Show();
+        }
+
+        public void RenameDictHandler(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemBoxData = menuItem.DataContext;
+            string dictName = ((string)(menuItemBoxData));
+            RenameDict(dictName);
+        }
+
+        public void RenameDict(string dictName)
+        {
+            Dialogs.RenameDiactDialog dialog = new Dialogs.RenameDiactDialog(dictName);
+            dialog.Closed += GetDictsHandler;
+            dialog.Show();
+        }
+
+        public void EditDictInNotepadHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemBoxData = menuItem.DataContext;
+            string dictName = ((string)(menuItemBoxData));
+            EditDictInNotepad(dictName);
+        }
+
+        public void EditDictInNotepad (string dictName)
+        {
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = "notepad",
+                Arguments = dictName,
+                UseShellExecute = true
+            });
+        }
+
+        public void RemoveDictHandler(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemBoxData = menuItem.DataContext;
+            string dictName = ((string)(menuItemBoxData));
+            RemoveDict(dictName);
+        }
+
+        public void RemoveDict (string dictName)
+        {
+            File.Delete(dictName);
+            GetDicts();
+        }
+
+        public void MarkAllDictsHandler(object sender, RoutedEventArgs e)
+        {
+            MarkAllDicts();
+        }
+
+        public void MarkAllDicts()
+        {
+            foreach (CheckBox dict in dicts.Children)
+            {
+                dict.IsChecked = true;
+            }
+        }
+
+        public void ClearAllDictsHandler (object sender, RoutedEventArgs e)
+        {
+            ClearAllDicts();
+        }
+
+        public void ClearAllDicts ()
+        {
+            foreach (CheckBox dict in dicts.Children)
+            {
+                dict.IsChecked = false;
+            }
+        }
 
     }
 
@@ -2739,6 +2935,8 @@ namespace TTS
         public bool isWords;
         public bool isParagraphs;
         public string startupAction;
+        public bool isShowSmallFloatWindow;
+        public bool isTransparentSmallFloatWindow;
     }
 
     public class ViewSettings

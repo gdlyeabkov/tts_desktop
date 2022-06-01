@@ -171,14 +171,12 @@ namespace TTS.Dialogs
             {
                 beginWriteToAudioFileWithParagraphStartRadioBtn.IsChecked = true;
             }
-
             bool isLetters = updatedSettings.general.isLetters;
             lettersCheckBox.IsChecked = isLetters;
             bool isWords = updatedSettings.general.isWords;
             wordsCheckBox.IsChecked = isWords;
             bool isParagraphs = updatedSettings.general.isParagraphs;
             paragraphsCheckBox.IsChecked = isParagraphs;
-
             string startupAction = updatedSettings.general.startupAction;
             bool isOpenLastDoc = startupAction == "openLastDoc";
             openLastDocRadioBtn.IsChecked = isOpenLastDoc;
@@ -186,18 +184,21 @@ namespace TTS.Dialogs
             openDocAndSpeakRadioBtn.IsChecked = isOpenDocAndSpeak;
             bool isCreateNewDoc = startupAction == "createNewDoc";
             createNewDocRadioBtn.IsChecked = isCreateNewDoc;
-
             bool isShowIcons = updatedSettings.view.isShowIcons;
             showIconsCheckBox.IsChecked = isShowIcons;
             bool isShowFullPathToDoc = updatedSettings.view.isShowFullPathToDoc;
             showFullPathToDocCheckBox.IsChecked = isShowFullPathToDoc;
             bool isShowPercentOfWorkInTaskBar = updatedSettings.view.isShowPercentOfWorkInTaskBar;
             showPercentOfWorkInTaskBarCheckBox.IsChecked = isShowPercentOfWorkInTaskBar;
-
             bool isHideAppInTrayWhenMinimize = updatedSettings.view.isHideAppInTrayWhenMinimize;
             hideAppInTrayWhenMinimizeCheckBox.IsChecked = isHideAppInTrayWhenMinimize;
             bool isAlwaysShowIconInTray = updatedSettings.view.isAlwaysShowIconInTray;
             alwaysShowIconInTrayCheckBox.IsChecked = isAlwaysShowIconInTray;
+
+            bool isShowSmallFloatWindow = updatedSettings.general.isShowSmallFloatWindow;
+            showSmallFloatWindowCheckBox.IsChecked = isShowSmallFloatWindow;
+            bool isTransparentSmallFloatWindow = updatedSettings.general.isTransparentSmallFloatWindow;
+            transparentSmallFloatWindowCheckBox.IsChecked = isTransparentSmallFloatWindow;
 
         }
 
@@ -382,6 +383,13 @@ namespace TTS.Dialogs
             rawIsChecked = alwaysShowIconInTrayCheckBox.IsChecked;
             bool isAlwaysShowIconInTray = ((bool)(rawIsChecked));
             updatedSettings.view.isAlwaysShowIconInTray = isAlwaysShowIconInTray;
+
+            rawIsChecked = showSmallFloatWindowCheckBox.IsChecked;
+            bool isShowSmallFloatWindow = ((bool)(rawIsChecked));
+            updatedSettings.general.isShowSmallFloatWindow = isShowSmallFloatWindow;
+            rawIsChecked = transparentSmallFloatWindowCheckBox.IsChecked;
+            bool isTransparentSmallFloatWindow = ((bool)(rawIsChecked));
+            updatedSettings.general.isTransparentSmallFloatWindow = isTransparentSmallFloatWindow;
 
             string savedContent = js.Serialize(new SavedContent
             {

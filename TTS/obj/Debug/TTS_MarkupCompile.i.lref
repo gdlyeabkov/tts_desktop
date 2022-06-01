@@ -1,27 +1,6 @@
 ﻿
 
-FC:\wpf_projects\TTS\TTS\Controls\OpenedDocControl.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\AboutDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\BtnsDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\CompareFilesDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\ConvertSubtitleToAudioDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\ConvertToAudioDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\CreateBookmarkDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\FindDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\FontAndColors.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\GoToBookmarkDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\RenameBookmarkDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\RepeatTextDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\ReplaceDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\SaveMultipleAudioDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\SelectOutputDevieDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\SettingsDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\SkinsDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\SpellCheckDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\SplitFileDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\TextImportDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\TimerDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\TranslateDialog.xaml;;
-FC:\wpf_projects\TTS\TTS\Dialogs\ZoomDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\CreateDictDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\RenameDiactDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\MainWindow.xaml;;
 

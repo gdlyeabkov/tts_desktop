@@ -161,9 +161,11 @@
                             <Border.Child>
                                 <StackPanel>
                                     <CheckBox
+                                        x:Name="showSmallFloatWindowCheckBox"
                                         Margin="15 5"
                                         Content="Показывать небольшое плавающее окно"/>
                                     <CheckBox
+                                        x:Name="transparentSmallFloatWindowCheckBox"
                                         Margin="15 5"
                                         Content="Плавающее окно - прозрачное, когда курсор мыши не поверх него (Windows 2000 и выше)"/>
                                 </StackPanel>

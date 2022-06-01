@@ -89,6 +89,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\CreateDictDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\FindDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -102,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RenameBookmarkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RenameDiactDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\SkinsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SmallFloatDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,6 +198,9 @@
     <Compile Include="Dialogs\CreateBookmarkDialog.xaml.cs">
       <DependentUpon>CreateBookmarkDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\CreateDictDialog.xaml.cs">
+      <DependentUpon>CreateDictDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\FindDialog.xaml.cs">
       <DependentUpon>FindDialog.xaml</DependentUpon>
     </Compile>
@@ -197,6 +212,9 @@
     </Compile>
     <Compile Include="Dialogs\RenameBookmarkDialog.xaml.cs">
       <DependentUpon>RenameBookmarkDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RenameDiactDialog.xaml.cs">
+      <DependentUpon>RenameDiactDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\RepeatTextDialog.xaml.cs">
       <DependentUpon>RepeatTextDialog.xaml</DependentUpon>
@@ -215,6 +233,9 @@
     </Compile>
     <Compile Include="Dialogs\SkinsDialog.xaml.cs">
       <DependentUpon>SkinsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SmallFloatDialog.xaml.cs">
+      <DependentUpon>SmallFloatDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\SpellCheckDialog.xaml.cs">
       <DependentUpon>SpellCheckDialog.xaml</DependentUpon>

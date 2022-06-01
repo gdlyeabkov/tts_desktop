@@ -1,0 +1,39 @@
+﻿<Window x:Class="TTS.Dialogs.CreateDictDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TTS.Dialogs"
+        mc:Ignorable="d"
+        Title="Новый"
+        Height="150"
+        Width="400">
+    <StackPanel>
+        <TextBlock
+            Text="Имя файла:"
+            Margin="15"/>
+        <TextBox
+            x:Name="dictNameBox"
+            Margin="15 5"
+            HorizontalAlignment="Left"
+            Width="375"
+            Height="25"/>
+        <StackPanel
+            Margin="0 5"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Margin="15 0"
+                Height="25"
+                Width="85"
+                Content="ОК"
+                Click="OkHandler"/>
+            <Button
+                Margin="15 0"
+                Height="25"
+                Width="85"
+                Content="Отмена"
+                Click="CancelHandler"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
