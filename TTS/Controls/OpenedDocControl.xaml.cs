@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -76,7 +78,53 @@ namespace TTS.Controls
             }
         }
 
+        private void DetectInputHandler (object sender, TextChangedEventArgs e)
+        {
+            DetectInput();
+        }
 
+        public void DetectInput ()
+        {
+            object controlData = this.DataContext;
+            bool isDataExists = controlData != null;
+            if (isDataExists)
+            {
+
+                Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+                string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+                string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+                SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+                Settings currentSettings = loadedContent.settings;
+                GeneralSettings generalSettings = currentSettings.general;
+                bool isLetters = generalSettings.isLetters;
+                bool isWords = generalSettings.isWords;
+                bool isParagraphs = generalSettings.isParagraphs;
+                if (isLetters)
+                {
+                    int characterIndex = inputBox.SelectionStart;
+                    string inputBoxContent = inputBox.Text;
+                    inputBoxContent = inputBoxContent.Substring(characterIndex - 1, 1);
+                    MainWindow mainWindow = ((MainWindow)(controlData));
+                    mainWindow.SpeakInput(inputBoxContent);
+                }
+                else if (isWords)
+                {
+                    int characterIndex = inputBox.SelectionStart;
+                    int lineIndex = inputBox.GetLineIndexFromCharacterIndex(characterIndex);
+                    string inputBoxContent = inputBox.GetLineText(lineIndex);
+                    MainWindow mainWindow = ((MainWindow)(controlData));
+                    mainWindow.SpeakInput(inputBoxContent);
+                }
+                else if (isParagraphs)
+                {
+                    string inputBoxContent = inputBox.Text;
+                    MainWindow mainWindow = ((MainWindow)(controlData));
+                    mainWindow.SpeakInput(inputBoxContent);
+                }
+            }
+        }
 
     }
 }

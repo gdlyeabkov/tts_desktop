@@ -11,7 +11,8 @@
         Height="450"
         Width="800"
         WindowState="Maximized"
-        Loaded="InitHandler">
+        Loaded="InitHandler"
+        StateChanged="WindowStateChangedHandler">
     <Window.Background>
         <LinearGradientBrush>
             <LinearGradientBrush.GradientStops>
@@ -35,6 +36,10 @@
             </LinearGradientBrush.EndPoint>
         </LinearGradientBrush>
     </Window.Background>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo Description="An app with a taskbar info description" 
+            ProgressValue="0" ProgressState="Normal"/>
+    </Window.TaskbarItemInfo>
     <DockPanel>
         <MediaElement
             x:Name="mainAudio"

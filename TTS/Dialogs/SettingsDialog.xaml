@@ -24,7 +24,7 @@
                                     Width="350">
                                     <TextBlock
                                         Text="Начать чтение вслух с"
-                                        Margin="15"/>
+                                        Margin="15 5"/>
                                     <Border
                                         Margin="15"
                                         BorderBrush="LightGray"
@@ -53,7 +53,7 @@
                                     HorizontalAlignment="Right">
                                     <TextBlock
                                         Text="Начать запись в аудиофайл с"
-                                        Margin="15"/>
+                                        Margin="15 5"/>
                                     <Border
                                         Margin="15"
                                         BorderBrush="LightGray"
@@ -80,6 +80,120 @@
                             </DockPanel>
                         </Border.Child>
                     </Border>
+                    <DockPanel>
+                        <StackPanel
+                            Width="350">
+                            <TextBlock
+                                Text="Произносить набираемый на клавиатуре текст"
+                                Margin="15 5"/>
+                            <Border
+                                Margin="15"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                                <Border.Child>
+                                    <StackPanel>
+                                        <StackPanel
+                                            Orientation="Horizontal"
+                                            Margin="15 5">
+                                            <CheckBox
+                                                x:Name="lettersCheckBox"
+                                                VerticalAlignment="Center"
+                                                Margin="0"
+                                                Content="Буквы"/>
+                                            <Button
+                                                VerticalAlignment="Center"
+                                                Margin="35 0"
+                                                HorizontalAlignment="Right"
+                                                Height="25"
+                                                Width="125"
+                                                Content="Произношение"/>
+                                        </StackPanel>
+                                        <CheckBox
+                                            x:Name="wordsCheckBox"
+                                            Margin="15 5"
+                                            Content="Слова"/>
+                                        <CheckBox
+                                            x:Name="paragraphsCheckBox"
+                                            Margin="15 5"
+                                            Content="Абзацы"/>
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel
+                            Width="350"
+                            HorizontalAlignment="Right">
+                            <TextBlock
+                                Text="При запуске программы"
+                                Margin="15 5"/>
+                            <Border
+                                Margin="15"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                                <Border.Child>
+                                    <StackPanel>
+                                        <RadioButton
+                                            x:Name="openLastDocRadioBtn"
+                                            IsChecked="True"
+                                            Margin="15 5"
+                                            Content="открывать предыдущий файл"/>
+                                        <RadioButton
+                                            x:Name="openDocAndSpeakRadioBtn"
+                                            Margin="15 5"
+                                            Content="Открывать файл и читать вслух"/>
+                                        <RadioButton
+                                            x:Name="createNewDocRadioBtn"
+                                            Margin="15 5"
+                                            Content="Создавать новый файл"/>
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                        </StackPanel>
+                    </DockPanel>
+                    <StackPanel>
+                        <TextBlock
+                            Text="Когда программа минимизированна"
+                            Margin="15 5"/>
+                        <Border
+                            Margin="15"
+                            BorderBrush="LightGray"
+                            BorderThickness="1">
+                            <Border.Child>
+                                <StackPanel>
+                                    <CheckBox
+                                        Margin="15 5"
+                                        Content="Показывать небольшое плавающее окно"/>
+                                    <CheckBox
+                                        Margin="15 5"
+                                        Content="Плавающее окно - прозрачное, когда курсор мыши не поверх него (Windows 2000 и выше)"/>
+                                </StackPanel>
+                            </Border.Child>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock
+                            Text="Интеграция с Windows Explorer"
+                            Margin="15 5"/>
+                        <Border
+                            Margin="15"
+                            BorderBrush="LightGray"
+                            BorderThickness="1">
+                            <Border.Child>
+                                <DockPanel
+                                    Margin="15">
+                                    <CheckBox
+                                        Margin="15"
+                                        Content="Встроить в контекстное меню Проводника"/>
+                                    <Button
+                                        Margin="15"
+                                        HorizontalAlignment="Right"
+                                        Height="25"
+                                        Width="125"
+                                        Content="Настроить"/>
+                                </DockPanel>
+                            </Border.Child>
+                        </Border>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem
@@ -100,12 +214,109 @@
             <TabItem
                 Header="Вид">
                 <StackPanel>
+                    <TextBlock
+                        Text="Показывать имена файлов"
+                        Margin="15 5"/>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <StackPanel
+                                Margin="15"
+                                Orientation="Horizontal">
+                                <RadioButton
+                                    Margin="15"
+                                    Content="Вверху"/>
+                                <RadioButton
+                                    Margin="15"
+                                    Content="Внизу"
+                                    IsChecked="True"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
+                    <DockPanel>
+                        <StackPanel>
+                            <TextBlock
+                                Text="Системный трей"
+                                Margin="15 5"/>
+                            <Border
+                                Margin="15"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                                <Border.Child>
+                                    <StackPanel>
+                                        <CheckBox
+                                            x:Name="hideAppInTrayWhenMinimizeCheckBox"
+                                            IsChecked="True"
+                                            Margin="15"
+                                            Content="Сворачивать программу в трей при минимизации"/>
+                                        <CheckBox
+                                            x:Name="alwaysShowIconInTrayCheckBox"
+                                            IsChecked="True"
+                                            Margin="15"
+                                            Content="Всегда показывать иконку программы в системном трее"/>
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Right">
+                            <TextBlock
+                                Text="Во весь экран"
+                                Margin="15 5"/>
+                            <Border
+                                Margin="15"
+                                BorderBrush="LightGray"
+                                BorderThickness="1">
+                                <Border.Child>
+                                    <StackPanel>
+                                        <CheckBox
+                                            IsChecked="True"
+                                            Margin="15"
+                                            Content="Прятать курсор"/>
+                                        <CheckBox
+                                            Margin="15"
+                                            Content="Показывать часы"/>
+                                    </StackPanel>
+                                </Border.Child>
+                            </Border>
+                        </StackPanel>
+                    </DockPanel>
+                    <TextBlock
+                        Text="Специальные возможности"
+                        Margin="15 5"/>
+                    <Border
+                        Margin="15"
+                        BorderBrush="LightGray"
+                        BorderThickness="1">
+                        <Border.Child>
+                            <StackPanel>
+                                <CheckBox
+                                    x:Name="showIconsCheckBox"
+                                    Margin="15"
+                                    Content="Показывать иконки в меню программы (необходимо перезапустить программу)"/>
+                                <TextBlock
+                                    Text="Уберите галочку для этого пункта, если необходима совместимость с параметры экранного доступа (NVDA, например)"
+                                    Margin="35 5"/>
+                                <CheckBox
+                                    x:Name="showFullPathToDocCheckBox"
+                                    Margin="15"
+                                    Content="Отображать полный путь к файлу в заголовке окна"/>
+                                <CheckBox
+                                    x:Name="showPercentOfWorkInTaskBarCheckBox"
+                                    Margin="15"
+                                    Content="Показывать процент выполненой работы на панели задач"/>
+                            </StackPanel>
+                        </Border.Child>
+                    </Border>
                     <Border
                         Margin="15"
                         BorderBrush="LightGray"
                         BorderThickness="1">
                         <Border.Child>
                             <CheckBox
+                                IsChecked="True"
                                 Margin="15"
                                 Content="Выравнивать окно относительно границы экрана при перемещении"/>
                         </Border.Child>

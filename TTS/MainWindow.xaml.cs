@@ -25,6 +25,7 @@ using System.Diagnostics;
 using NAudio.CoreAudioApi;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.Uwp.Notifications;
+using System.Windows.Shell;
 
 namespace TTS
 {
@@ -41,6 +42,7 @@ namespace TTS
         public Dictionary<String, Object> speechTimerData;
         public int selectedAudioDevice = -1;
         public string lastCopiedText = "";
+        public System.Windows.Forms.NotifyIcon nIcon = null;
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
@@ -163,14 +165,45 @@ namespace TTS
         void Init ()
         {
             InitVars();
-            CreateDoc();
             GetVoices();
             InitCache();
-            // ClipboardDetector detector = new ClipboardDetector(this);
-            // _ClipboardViewerNext = SetClipboardViewer(detector.Handle);
-            // ApplicationCommands.Copy.CanExecuteChanged += new EventHandler(DetectCopyActionHandler);
-            ClipboardMonitor detector = new ClipboardMonitor(this);
+            CreateDoc();
+            InitTray();
+            InitBufferSettings();
+            InitGeneralSettings();
+        }
 
+        public void InitGeneralSettings ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            GeneralSettings generalSettings = currentSettings.general;
+            string startupAction = generalSettings.startupAction;
+            bool isOpenLastDoc = startupAction == "openLastDoc";
+            bool isOpenDocAndSpeak = startupAction == "openDocAndSpeak";
+            bool isCreateNewDoc = startupAction == "createNewDoc";
+            if (isOpenLastDoc)
+            {
+
+            }
+            else if (isOpenDocAndSpeak)
+            {
+                OpenDoc();
+            }
+            else if (isCreateNewDoc)
+            {
+                CreateDoc();
+            }
+        }
+
+        public void InitBufferSettings ()
+        {
+            ClipboardMonitor detector = new ClipboardMonitor(this);
             Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
             string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
             string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
@@ -406,7 +439,19 @@ namespace TTS
                         general = new GeneralSettings()
                         {
                             beginReadSpeakWith = "cursorPosition",
-                            beginWriteToAudioFileWith = "textStart"
+                            beginWriteToAudioFileWith = "textStart",
+                            isLetters = false,
+                            isWords = false,
+                            isParagraphs = false,
+                            startupAction = "openLastDoc"
+                        },
+                        view = new ViewSettings()
+                        {
+                            isShowIcons = true,
+                            isShowFullPathToDoc = false,
+                            isShowPercentOfWorkInTaskBar = false,
+                            isHideAppInTrayWhenMinimize = true,
+                            isAlwaysShowIconInTray = true
                         }
                     }
                 });
@@ -683,8 +728,19 @@ namespace TTS
             CreateDoc();
         }
 
-        public void CreateDoc ()
+        public void CreateDoc (string path = "")
         {
+
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            ViewSettings viewSettings = currentSettings.view;
+            bool isShowFullPathToDoc = viewSettings.isShowFullPathToDoc;
+
             UIElementCollection totalOpenedDocs = openedDocs.Children;
             int countOpenedDocs = totalOpenedDocs.Count;
             int documentNumber = countOpenedDocs + 1;
@@ -697,7 +753,8 @@ namespace TTS
             openedDocContentIcon.Margin = new Thickness(4, 2, 4, 2);
             openedDocContent.Children.Add(openedDocContentIcon);
             TextBlock openedDocContentLabel = new TextBlock();
-            openedDocContentLabel.Text = "Документ" + rawDocumentNumber;
+            string openedDocContentLabelContent = "Документ" + rawDocumentNumber;
+            openedDocContentLabel.Text = openedDocContentLabelContent;
             openedDocContentLabel.Margin = new Thickness(4, 2, 4, 2);
             openedDocContent.Children.Add(openedDocContentLabel);
             openedDoc.Content = openedDocContent;
@@ -708,6 +765,31 @@ namespace TTS
             docTabContent.DataContext = this;
             docTab.Content = docTabContent;
             openedDocControl.Items.Add(docTab);
+
+            bool isPathExists = path != "";
+            if (isPathExists)
+            {
+                /*
+                if (isShowFullPathToDoc)
+                {
+                    openedDoc.DataContext = path;
+                }
+                else
+                {
+                    FileInfo fileInfo = new FileInfo(path);
+                    string fileName = fileInfo.Name;
+                    openedDoc.DataContext = fileName;
+                }
+                */
+                FileInfo fileInfo = new FileInfo(path);
+                string fileName = fileInfo.Name;
+                openedDoc.DataContext = fileName;
+            }
+            else
+            {
+                openedDoc.DataContext = openedDocContentLabelContent;
+            }
+
             openedDoc.Click += SelectOpenedDocHandler;
             SelectOpenedDoc(openedDoc);
 
@@ -756,6 +838,17 @@ namespace TTS
 
         public void SelectOpenedDoc (Button selectedOpenedDoc)
         {
+
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            ViewSettings viewSettings = currentSettings.view;
+            bool isShowFullPathToDoc = viewSettings.isShowFullPathToDoc;
+
             UIElementCollection totalOpenedDocs = openedDocs.Children;
             foreach (Button openedDoc in totalOpenedDocs)
             {
@@ -766,6 +859,25 @@ namespace TTS
             selectedOpenedDoc.Background = System.Windows.Media.Brushes.Transparent;
             int index = openedDocs.Children.IndexOf(selectedOpenedDoc);
             openedDocControl.SelectedIndex = index;
+
+            object rawSelectedOpenedDocData = selectedOpenedDoc.DataContext;
+            
+            string selectedOpenedDocData = ((string)(rawSelectedOpenedDocData));
+            
+            string titleContent = "TTS - [" + selectedOpenedDocData + "]";
+            if (isShowFullPathToDoc)
+            {
+                titleContent = "TTS - [" + selectedOpenedDocData + "]";
+            }
+            else
+            {
+                FileInfo fileInfo = new FileInfo(selectedOpenedDocData);
+                string fileName = fileInfo.Name;
+                titleContent = "TTS - [" + fileName + "]";
+            }
+
+            this.Title = titleContent;
+        
         }
 
         public void SelectAllInputHandler (object sender, RoutedEventArgs e)
@@ -1319,9 +1431,6 @@ namespace TTS
             bool isOpen = ((bool)(res));
             if (isOpen)
             {
-                string path = ofd.FileName;
-                InsertDoc(path);
-
                 Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
                 string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
                 string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
@@ -1330,7 +1439,17 @@ namespace TTS
                 SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
                 Settings currentSettings = loadedContent.settings;
                 TextSettings textSettings = currentSettings.text;
+                ViewSettings viewSettings = currentSettings.view;
+                bool isShowPercentOfWorkInTaskBar = viewSettings.isShowPercentOfWorkInTaskBar;
                 bool isFormat = textSettings.isOpen;
+                TaskbarItemProgressState normalProgressState = TaskbarItemProgressState.Normal;
+                TaskbarItemProgressState indeterminateProgressState = TaskbarItemProgressState.Indeterminate;
+                if (isShowPercentOfWorkInTaskBar)
+                {
+                    this.TaskbarItemInfo.ProgressState = indeterminateProgressState;
+                }
+                string path = ofd.FileName;
+                InsertDoc(path);
                 if (isFormat)
                 {
                     DispatcherTimer delay = new DispatcherTimer();
@@ -1341,7 +1460,16 @@ namespace TTS
                     };
                     delay.Start();
                 }
-
+                if (isShowPercentOfWorkInTaskBar)
+                {
+                    DispatcherTimer progressDelay = new DispatcherTimer();
+                    progressDelay.Interval = TimeSpan.FromSeconds(1.0);
+                    progressDelay.Tick += delegate
+                    {
+                        this.TaskbarItemInfo.ProgressState = normalProgressState;
+                    };
+                    progressDelay.Start();
+                }
             }
         }
 
@@ -1392,9 +1520,9 @@ namespace TTS
             InsertDoc(path);
         }
 
-        public bool InsertDoc (string path)
+        public void InsertDoc (string path)
         {
-            CreateDoc();
+            CreateDoc(path);
             int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
             ItemCollection openedDocControlItems = openedDocControl.Items;
             object rawOpenedDocControlItem = openedDocControlItems[openedDocControlSelectedIndex];
@@ -1415,7 +1543,9 @@ namespace TTS
             TextBlock openedDocContentLabel = ((TextBlock)(rawOpenedDocContentLabel));
             openedDocContentLabel.Text = fileName;
             openedDocHistory.Add(path);
-            return true;
+
+            openedDoc.DataContext = path;
+
         }
 
         public void SaveDocHandler (object sender, RoutedEventArgs e)
@@ -1426,13 +1556,29 @@ namespace TTS
         public void SaveDoc ()
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            // sfd.FileName = "Документ";
             sfd.DefaultExt = ".txt";
             sfd.Filter = "Текстовые (.txt)|*.txt";
             bool? res = sfd.ShowDialog();
             bool isSave = ((bool)(res));
             if (isSave)
             {
+
+                Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+                string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+                string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+                SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+                Settings currentSettings = loadedContent.settings;
+                ViewSettings viewSettings = currentSettings.view;
+                bool isShowPercentOfWorkInTaskBar = viewSettings.isShowPercentOfWorkInTaskBar;
+
+                TaskbarItemProgressState normalProgressState = TaskbarItemProgressState.Normal;
+                TaskbarItemProgressState indeterminateProgressState = TaskbarItemProgressState.Indeterminate;
+                if (isShowPercentOfWorkInTaskBar)
+                {
+                    this.TaskbarItemInfo.ProgressState = indeterminateProgressState;
+                }
                 string path = sfd.FileName;
                 int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
                 ItemCollection openedDocControlItems = openedDocControl.Items;
@@ -1451,6 +1597,16 @@ namespace TTS
                 TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
                 string inputBoxContent = inputBox.Text;
                 File.WriteAllText(path, inputBoxContent);
+                if (isShowPercentOfWorkInTaskBar)
+                {
+                    DispatcherTimer progressDelay = new DispatcherTimer();
+                    progressDelay.Interval = TimeSpan.FromSeconds(1.0);
+                    progressDelay.Tick += delegate
+                    {
+                        this.TaskbarItemInfo.ProgressState = normalProgressState;
+                    };
+                    progressDelay.Start();
+                }
             }
         }
 
@@ -2211,6 +2367,12 @@ namespace TTS
             BufferSettings bufferSettings = currentSettings.buffer;
             bool isDetectBufferEnabled = bufferSettings.isEnabled;
             detectBufferMenuItem.IsChecked = isDetectBufferEnabled;
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            UIElementCollection openedDocsChildren = openedDocs.Children;
+            UIElement rawOpenedDoc = openedDocsChildren[openedDocControlSelectedIndex];
+            Button openedDoc = ((Button)(rawOpenedDoc));
+            SelectOpenedDoc(openedDoc);
+            InitTray();
         }
 
         public void FormatTextHandler (object sender, RoutedEventArgs e)
@@ -2390,6 +2552,149 @@ namespace TTS
 
         }
 
+        public void SpeakInput (string content)
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            GeneralSettings generalSettings = currentSettings.general;
+            string beginReadSpeakWith = generalSettings.beginReadSpeakWith;
+            bool isCursorPosition = beginReadSpeakWith == "cursorPosition";
+            bool isTextStart = beginReadSpeakWith == "textStart";
+            bool isParagraphStart = beginReadSpeakWith == "paragraphStart";
+            int openedDocControlSelectedIndex = openedDocControl.SelectedIndex;
+            ItemCollection openedDocControlItems = openedDocControl.Items;
+            object rawOpenedDocControlSelectedItem = openedDocControlItems[openedDocControlSelectedIndex];
+            TabItem openedDocControlSelectedItem = ((TabItem)(rawOpenedDocControlSelectedItem));
+            object rawOpenedDocControlSelectedItemContent = openedDocControlSelectedItem.Content;
+            Controls.OpenedDocControl openedDocControlSelectedItemContent = ((Controls.OpenedDocControl)(rawOpenedDocControlSelectedItemContent));
+            Slider speedSlider = openedDocControlSelectedItemContent.speedSlider;
+            double speedSliderValue = speedSlider.Value;
+            int roundedSpeedSliderValue = ((int)(speedSliderValue));
+            speechSynthesizer.Rate = roundedSpeedSliderValue;
+            Slider pitchSlider = openedDocControlSelectedItemContent.pitchSlider;
+            double pitchSliderValue = pitchSlider.Value;
+            int roundedPitchSliderValue = ((int)(pitchSliderValue));
+            Slider volumeSlider = openedDocControlSelectedItemContent.volumeSlider;
+            double volumeSliderValue = volumeSlider.Value;
+            int roundedVolumeSliderValue = ((int)(volumeSliderValue));
+            speechSynthesizer.Volume = roundedVolumeSliderValue;
+            TextBox inputBox = openedDocControlSelectedItemContent.inputBox;
+            string inputBoxContent = content;
+            /*if (isCursorPosition)
+            {
+                int charIndex = inputBox.SelectionStart;
+                int inputBoxContentLength = inputBoxContent.Length;
+                int leftLength = inputBoxContentLength - charIndex;
+                inputBoxContent = content.Substring(charIndex, leftLength);
+            }
+            else if (isTextStart)
+            {
+                inputBoxContent = inputBox.Text;
+            }
+            else if (isParagraphStart)
+            {
+                inputBoxContent = inputBox.Text;
+            }*/
+            ResetPause();
+            PromptBuilder builder = new PromptBuilder();
+            builder.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            builder.StartVoice(builder.Culture);
+            builder.StartSentence();
+            PromptEmphasis emphasis = PromptEmphasis.Moderate;
+            bool isStrong = roundedPitchSliderValue < 0;
+            bool isMiddle = roundedPitchSliderValue == 0;
+            bool isHigh = roundedPitchSliderValue > 0;
+            if (isStrong)
+            {
+                emphasis = PromptEmphasis.Strong;
+            }
+            else if (isMiddle)
+            {
+                emphasis = PromptEmphasis.Moderate;
+            }
+            else if (isHigh)
+            {
+                emphasis = PromptEmphasis.Reduced;
+            }
+            builder.StartStyle(new PromptStyle() { Emphasis = emphasis });
+            builder.AppendText(inputBoxContent);
+            builder.EndStyle();
+            builder.EndSentence();
+            builder.EndVoice();
+            speechSynthesizer.SpeakAsync(builder);
+            stopSpeechBtn.IsEnabled = true;
+        }
+
+        public void InitTray()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            BufferSettings bufferSettings = currentSettings.buffer;
+            ViewSettings viewSettings = currentSettings.view;
+            bool isAlwaysShowIconInTray = viewSettings.isAlwaysShowIconInTray;
+            if (isAlwaysShowIconInTray)
+            {
+                CreateTrayIcon();
+            }
+        }
+
+        public void CreateTrayIcon ()
+        {
+            bool isTrayNotInit = nIcon == null;
+            if (isTrayNotInit)
+            {
+                nIcon = new System.Windows.Forms.NotifyIcon();
+                nIcon.Icon = new System.Drawing.Icon(@"C:\wpf_projects\AntiVirus\AntiVirus\Assets\application_icon.ico");
+                nIcon.Visible = true;
+                string nIconTitle = "Office ware speech reader";
+                nIcon.Text = nIconTitle;
+            }
+        }
+
+        private void WindowStateChangedHandler (object sender, EventArgs e)
+        {
+            WindowStateChanged();
+        }
+
+        public void WindowStateChanged ()
+        {
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            Settings currentSettings = loadedContent.settings;
+            ViewSettings viewSettings = currentSettings.view;
+            bool isHideAppInTrayWhenMinimize = viewSettings.isHideAppInTrayWhenMinimize;
+            switch (this.WindowState)
+            {
+                case WindowState.Maximized:
+                    break;
+                case WindowState.Minimized:
+                    if (isHideAppInTrayWhenMinimize)
+                    {
+                        CreateTrayIcon();
+                        this.Hide();
+                    }
+                    break;
+                case WindowState.Normal:
+                    break;
+            }
+
+        }
+
+
     }
 
     class SavedContent
@@ -2403,6 +2708,7 @@ namespace TTS
         public BufferSettings buffer;
         public TextSettings text;
         public GeneralSettings general;
+        public ViewSettings view;
     }
 
     public class BufferSettings
@@ -2429,6 +2735,19 @@ namespace TTS
     {
         public string beginReadSpeakWith;
         public string beginWriteToAudioFileWith;
+        public bool isLetters;
+        public bool isWords;
+        public bool isParagraphs;
+        public string startupAction;
+    }
+
+    public class ViewSettings
+    {
+        public bool isShowIcons;
+        public bool isShowFullPathToDoc;
+        public bool isShowPercentOfWorkInTaskBar;
+        public bool isHideAppInTrayWhenMinimize;
+        public bool isAlwaysShowIconInTray;
     }
 
 }

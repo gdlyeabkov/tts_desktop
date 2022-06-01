@@ -171,6 +171,34 @@ namespace TTS.Dialogs
             {
                 beginWriteToAudioFileWithParagraphStartRadioBtn.IsChecked = true;
             }
+
+            bool isLetters = updatedSettings.general.isLetters;
+            lettersCheckBox.IsChecked = isLetters;
+            bool isWords = updatedSettings.general.isWords;
+            wordsCheckBox.IsChecked = isWords;
+            bool isParagraphs = updatedSettings.general.isParagraphs;
+            paragraphsCheckBox.IsChecked = isParagraphs;
+
+            string startupAction = updatedSettings.general.startupAction;
+            bool isOpenLastDoc = startupAction == "openLastDoc";
+            openLastDocRadioBtn.IsChecked = isOpenLastDoc;
+            bool isOpenDocAndSpeak = startupAction == "openDocAndSpeak";
+            openDocAndSpeakRadioBtn.IsChecked = isOpenDocAndSpeak;
+            bool isCreateNewDoc = startupAction == "createNewDoc";
+            createNewDocRadioBtn.IsChecked = isCreateNewDoc;
+
+            bool isShowIcons = updatedSettings.view.isShowIcons;
+            showIconsCheckBox.IsChecked = isShowIcons;
+            bool isShowFullPathToDoc = updatedSettings.view.isShowFullPathToDoc;
+            showFullPathToDocCheckBox.IsChecked = isShowFullPathToDoc;
+            bool isShowPercentOfWorkInTaskBar = updatedSettings.view.isShowPercentOfWorkInTaskBar;
+            showPercentOfWorkInTaskBarCheckBox.IsChecked = isShowPercentOfWorkInTaskBar;
+
+            bool isHideAppInTrayWhenMinimize = updatedSettings.view.isHideAppInTrayWhenMinimize;
+            hideAppInTrayWhenMinimizeCheckBox.IsChecked = isHideAppInTrayWhenMinimize;
+            bool isAlwaysShowIconInTray = updatedSettings.view.isAlwaysShowIconInTray;
+            alwaysShowIconInTrayCheckBox.IsChecked = isAlwaysShowIconInTray;
+
         }
 
         public void CancelHandler (object sender, RoutedEventArgs e)
@@ -308,6 +336,53 @@ namespace TTS.Dialogs
             {
                 updatedSettings.general.beginWriteToAudioFileWith = "paragraphStart";
             }
+            
+            rawIsChecked = lettersCheckBox.IsChecked;
+            bool isLetters = ((bool)(rawIsChecked));
+            updatedSettings.general.isLetters = isLetters;
+            rawIsChecked = wordsCheckBox.IsChecked;
+            bool isWords = ((bool)(rawIsChecked));
+            updatedSettings.general.isWords = isWords;
+            rawIsChecked = paragraphsCheckBox.IsChecked;
+            bool isParagraphs = ((bool)(rawIsChecked));
+            updatedSettings.general.isParagraphs = isParagraphs;
+
+            rawIsChecked = openLastDocRadioBtn.IsChecked;
+            bool isOpenLastDoc = ((bool)(rawIsChecked));
+            rawIsChecked = openDocAndSpeakRadioBtn.IsChecked;
+            bool isOpenDocAndSpeak = ((bool)(rawIsChecked));
+            rawIsChecked = createNewDocRadioBtn.IsChecked;
+            bool isCreateNewDoc = ((bool)(rawIsChecked));
+            if (isOpenLastDoc)
+            {
+                updatedSettings.general.startupAction = "openLastDoc";
+            }
+            else if (isOpenDocAndSpeak)
+            {
+                updatedSettings.general.startupAction = "openDocAndSpeak";
+            }
+            else if (isCreateNewDoc)
+            {
+                updatedSettings.general.startupAction = "createNewDoc";
+            }
+
+            rawIsChecked = showIconsCheckBox.IsChecked;
+            bool isShowIcons = ((bool)(rawIsChecked));
+            updatedSettings.view.isShowIcons = isShowIcons;
+            rawIsChecked = showFullPathToDocCheckBox.IsChecked;
+            bool isShowFullPathToDoc = ((bool)(rawIsChecked));
+            updatedSettings.view.isShowFullPathToDoc = isShowFullPathToDoc;
+            rawIsChecked = showPercentOfWorkInTaskBarCheckBox.IsChecked;
+            bool isShowPercentOfWorkInTaskBar = ((bool)(rawIsChecked));
+            updatedSettings.view.isShowPercentOfWorkInTaskBar = isShowPercentOfWorkInTaskBar;
+
+            rawIsChecked = hideAppInTrayWhenMinimizeCheckBox.IsChecked;
+            bool isHideAppInTrayWhenMinimize = ((bool)(rawIsChecked));
+            updatedSettings.view.isHideAppInTrayWhenMinimize = isHideAppInTrayWhenMinimize;
+            rawIsChecked = alwaysShowIconInTrayCheckBox.IsChecked;
+            bool isAlwaysShowIconInTray = ((bool)(rawIsChecked));
+            updatedSettings.view.isAlwaysShowIconInTray = isAlwaysShowIconInTray;
+
             string savedContent = js.Serialize(new SavedContent
             {
                 bookmarks = currentBookmarks,
