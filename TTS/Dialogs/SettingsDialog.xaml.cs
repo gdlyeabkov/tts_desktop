@@ -39,10 +39,12 @@ namespace TTS.Dialogs
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
             Settings updatedSettings = loadedContent.settings;
+            List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
+            List<HotKey> currentHotKeys = loadedContent.hotKeys;
             bool isBufferEnabled = updatedSettings.buffer.isEnabled;
             detectBufferCheckBox.IsChecked = isBufferEnabled;
             minCountCharsInCopiedTextCheckBox.IsEnabled = isBufferEnabled;
-            minCountCharsInCopiedTextBox.IsEnabled = isBufferEnabled;
+            // minCountCharsInCopiedTextBox.IsEnabled = isBufferEnabled;
             showAlertTextOperationMsgsCheckBox.IsEnabled = isBufferEnabled;
             ignoreTextInSoftwareCheckBox.IsEnabled = isBufferEnabled;
             ignoreCopiedTextInBufferIfTextNotChangedCheckBox.IsEnabled = isBufferEnabled;
@@ -200,6 +202,18 @@ namespace TTS.Dialogs
             bool isTransparentSmallFloatWindow = updatedSettings.general.isTransparentSmallFloatWindow;
             transparentSmallFloatWindowCheckBox.IsChecked = isTransparentSmallFloatWindow;
 
+            int minCountCharsInCopiedText = updatedSettings.buffer.minCountCharsInCopiedText;
+            bool isMinCountCharsInCopiedTextDisabled = minCountCharsInCopiedText == 0;
+            bool isMinCountCharsInCopiedTextEnabled = !isMinCountCharsInCopiedTextDisabled;
+            minCountCharsInCopiedTextCheckBox.IsChecked = isMinCountCharsInCopiedTextEnabled;
+
+            HotKey hotKey = currentHotKeys[0];
+            string shortcut = hotKey.shortcut;
+            createDocHotKeyShortCutLabel.Text = shortcut;
+            hotKey = currentHotKeys[1];
+            shortcut = hotKey.shortcut;
+            openDocHotKeyShortCutLabel.Text = shortcut;
+
         }
 
         public void CancelHandler (object sender, RoutedEventArgs e)
@@ -227,6 +241,8 @@ namespace TTS.Dialogs
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
             List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
             Settings updatedSettings = loadedContent.settings;
+            List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
+            List<HotKey> currentHotKeys = loadedContent.hotKeys;
             object rawIsChecked = detectBufferCheckBox.IsChecked;
             bool IsChecked = ((bool)(rawIsChecked));
             updatedSettings.buffer.isEnabled = IsChecked;
@@ -391,10 +407,27 @@ namespace TTS.Dialogs
             bool isTransparentSmallFloatWindow = ((bool)(rawIsChecked));
             updatedSettings.general.isTransparentSmallFloatWindow = isTransparentSmallFloatWindow;
 
+            rawIsChecked = minCountCharsInCopiedTextCheckBox.IsChecked;
+            bool isMinCountCharsInCopiedTextEnabled = ((bool)(rawIsChecked));
+            int minCountCharsInCopiedText = 0;
+            if (isMinCountCharsInCopiedTextEnabled)
+            {
+                string minCountCharsInCopiedTextBoxContent = minCountCharsInCopiedTextBox.Text;
+                int countChars = Int32.Parse(minCountCharsInCopiedTextBoxContent);
+                minCountCharsInCopiedText = countChars;
+            }
+            else
+            {
+                minCountCharsInCopiedText = 0;
+            }
+            updatedSettings.buffer.minCountCharsInCopiedText = minCountCharsInCopiedText;
+
             string savedContent = js.Serialize(new SavedContent
             {
                 bookmarks = currentBookmarks,
-                settings = updatedSettings
+                settings = updatedSettings,
+                dictProfiles = currentDictProfiles,
+                hotKeys = currentHotKeys
             });
             File.WriteAllText(saveDataFilePath, savedContent);
             Cancel();
@@ -410,7 +443,7 @@ namespace TTS.Dialogs
             object rawIsChecked = detectBufferCheckBox.IsChecked;
             bool isChecked = ((bool)(rawIsChecked));
             minCountCharsInCopiedTextCheckBox.IsEnabled = isChecked;
-            minCountCharsInCopiedTextBox.IsEnabled = isChecked;
+            // minCountCharsInCopiedTextBox.IsEnabled = isChecked;
             showAlertTextOperationMsgsCheckBox.IsEnabled = isChecked;
             ignoreTextInSoftwareCheckBox.IsEnabled = isChecked;
             ignoreCopiedTextInBufferIfTextNotChangedCheckBox.IsEnabled = isChecked;
@@ -453,6 +486,32 @@ namespace TTS.Dialogs
                 addTextToCurrentDocAndSpeakRadioBtn.Foreground = System.Windows.Media.Brushes.LightGray;
                 replaceTextToCurrentDocAndSpeakRadioBtn.Foreground = System.Windows.Media.Brushes.LightGray;
             }
+        }
+
+        public void ToggleMinCountCharsInCopiedTextHandler(object sender, RoutedEventArgs e)
+        {
+            ToggleMinCountCharsInCopiedText();
+        }
+
+        public void ToggleMinCountCharsInCopiedText ()
+        {
+            object rawIsChecked = minCountCharsInCopiedTextCheckBox.IsChecked;
+            bool isChecked = ((bool)(rawIsChecked));
+            minCountCharsInCopiedTextBox.IsEnabled = isChecked;
+        }
+
+        private void OpenEditHotKeyHandler (object sender, MouseButtonEventArgs e)
+        {
+            TextBlock label = ((TextBlock)(sender));
+            object labelData = label.DataContext;
+            string rawLabelData = labelData.ToString();
+            OpenEditHotKey(rawLabelData);
+        }
+
+        public void OpenEditHotKey (string rawLabelData)
+        {
+            Dialogs.EditHotKeyDialog dialog = new Dialogs.EditHotKeyDialog(rawLabelData);
+            dialog.Show();
         }
 
     }

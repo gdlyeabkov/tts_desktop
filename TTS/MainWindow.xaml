@@ -12,7 +12,8 @@
         Width="800"
         WindowState="Maximized"
         Loaded="InitHandler"
-        StateChanged="WindowStateChangedHandler">
+        StateChanged="WindowStateChangedHandler"
+        KeyUp="GlobalHotKeyHandler">
     <Window.Background>
         <LinearGradientBrush>
             <LinearGradientBrush.GradientStops>
@@ -723,7 +724,8 @@
                                 Header="Обновить"
                                 Click="GetDictsHandler"/>
                             <MenuItem
-                                Header="Показать список"/>
+                                Header="Показать список"
+                                Click="ShowRuleListHandler"/>
                             <Separator />
                             <MenuItem
                                 Header="Профили"

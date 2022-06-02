@@ -98,6 +98,7 @@ namespace TTS
             List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
             Settings currentSettings = loadedContent.settings;
             List<DictProfile> updatedDictProfiles = loadedContent.dictProfiles;
+            List<HotKey> currentHotKeys = loadedContent.hotKeys;
             int profileIndex = updatedDictProfiles.FindIndex((DictProfile profile) =>
             {
                 string localProfileName = profile.name;
@@ -130,7 +131,8 @@ namespace TTS
                     {
                         bookmarks = currentBookmarks,
                         settings = currentSettings,
-                        dictProfiles = updatedDictProfiles
+                        dictProfiles = updatedDictProfiles,
+                        hotKeys = currentHotKeys
                     });
                     File.WriteAllText(saveDataFilePath, savedContent);
 
@@ -230,12 +232,16 @@ namespace TTS
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
             List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
             Settings updatedSettings = loadedContent.settings;
+            List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
+            List<HotKey> currentHotKeys = loadedContent.hotKeys;
             bool IsChecked = detectBufferMenuItem.IsChecked;
             updatedSettings.buffer.isEnabled = IsChecked;
             string savedContent = js.Serialize(new SavedContent
             {
                 bookmarks = currentBookmarks,
                 settings = updatedSettings,
+                dictProfiles = currentDictProfiles,
+                hotKeys = currentHotKeys
             });
             File.WriteAllText(saveDataFilePath, savedContent);
         }
@@ -461,7 +467,22 @@ namespace TTS
                         }
                     }
                 }
-                lastCopiedText = Clipboard.GetText();
+
+                string bufferedText = Clipboard.GetText();
+                int minCountCharsInCopiedText = bufferSettings.minCountCharsInCopiedText;
+                bool isMinCountCharsInCopiedTextEnabled = minCountCharsInCopiedText >= 1;
+                if (isMinCountCharsInCopiedTextEnabled)
+                {
+                    bufferedText = Clipboard.GetText();
+                    int bufferedTextLength = bufferedText.Length;
+                    bool isNotCopy = bufferedTextLength < minCountCharsInCopiedText;
+                    if (isNotCopy)
+                    {
+                        bufferedText = "";
+                    }
+                }
+
+                lastCopiedText = bufferedText;
             }
         }
 
@@ -469,6 +490,9 @@ namespace TTS
         {
             isAppInit = true;
             speechSynthesizer = new SpeechSynthesizer();
+
+            // speechSynthesizer.AddLexicon(new Uri(@"C:\Users\ПК\AppData\Local\OfficeWare\SpeechReader\lexicon.xml"), "application/xml");
+
             speechSynthesizer.SpeakCompleted += SpeakCompletedHandler;
             openedDocHistory = new List<string>();
             speechTimerData = new Dictionary<String, Object>();
@@ -476,6 +500,17 @@ namespace TTS
             speechTimerData.Add("isPlaySound", false);
             speechTimerData.Add("isShowAttention", false);
             speechTimerData.Add("action", "quit");
+        }
+
+        public void ShowRuleListHandler (object sender, RoutedEventArgs e)
+        {
+            ShowRuleList();
+        }
+
+        public void ShowRuleList ()
+        {
+            Dialogs.RuleListDialog dialog = new Dialogs.RuleListDialog();
+            dialog.Show();
         }
 
         public void GetDicts ()
@@ -600,6 +635,7 @@ namespace TTS
             List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
             Settings currentSettings = loadedContent.settings;
             List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
+            List<HotKey> currentHotKeys = loadedContent.hotKeys;
             foreach (DictProfile currentDictProfile in currentDictProfiles)
             {
                 string currentDictProfileName = currentDictProfile.name;
@@ -694,7 +730,8 @@ namespace TTS
                             action = "speak",
                             ignoreTextInSoftware = false,
                             showAlertTextOperationMsgs = false,
-                            ignoreCopiedTextInBufferIfTextNotChanged = false
+                            ignoreCopiedTextInBufferIfTextNotChanged = false,
+                            minCountCharsInCopiedText = 0
                         },
                         text = new TextSettings()
                         {
@@ -726,7 +763,19 @@ namespace TTS
                             isAlwaysShowIconInTray = true
                         }
                     },
-                    dictProfiles = new List<DictProfile>() { }
+                    dictProfiles = new List<DictProfile>() { },
+                    hotKeys = new List<HotKey>() {
+                        new HotKey()
+                        {
+                            cmd = "createDoc",
+                            shortcut = "Ctrl+N"
+                        },
+                        new HotKey()
+                        {
+                            cmd = "openDoc",
+                            shortcut = "Ctrl+O"
+                        }
+                    }
                 });
                 File.WriteAllText(saveDataFilePath, savedContent);
             }
@@ -824,31 +873,47 @@ namespace TTS
             ResetPause();
 
             PromptBuilder builder = new PromptBuilder();
-            builder.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            // builder.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            builder.Culture = CultureInfo.CreateSpecificCulture("en-US");
             builder.StartVoice(builder.Culture);
             builder.StartSentence();
             PromptEmphasis emphasis = PromptEmphasis.Moderate;
             bool isStrong = roundedPitchSliderValue < 0;
             bool isMiddle = roundedPitchSliderValue == 0;
             bool isHigh = roundedPitchSliderValue > 0;
+            string pitch = "default";
             if (isStrong)
             {
                 emphasis = PromptEmphasis.Strong;
+                pitch = "default";
             }
             else if (isMiddle)
             {
                 emphasis = PromptEmphasis.Moderate;
+                pitch = "default";
             }
             else if (isHigh)
             {
                 emphasis = PromptEmphasis.Reduced;
+                pitch = "default";
             }
             builder.StartStyle(new PromptStyle() { Emphasis = emphasis });
-            builder.AppendText(copiedText);
+
+            // builder.AppendSsmlMarkup("<say-as interpret-as = \"red\"> green </say-as>");
+            // builder.AppendSsmlMarkup("<say-as interpret-as=\"red\">green</say-as>");
+            // builder.AppendTextWithAlias("green", "red");
+
+            // builder.AppendText(copiedText);
+            builder.AppendSsmlMarkup("<prosody pitch=\"" + pitch + "\">" + copiedText + "</prosody>");
+
             builder.EndStyle();
             builder.EndSentence();
             builder.EndVoice();
-            speechSynthesizer.SpeakAsync(builder);
+
+            speechSynthesizer.SpeakAsync(builder);            
+            // speechSynthesizer.SpeakSsmlAsync("<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><phoneme ph=\"" + "red" + "\">" + "green" + "</phoneme></speak>");
+
+
             stopSpeechBtn.IsEnabled = true;
         }
 
@@ -985,31 +1050,56 @@ namespace TTS
             ResetPause();
 
             PromptBuilder builder = new PromptBuilder();
+            
             builder.Culture = CultureInfo.CreateSpecificCulture("ru-RU");
+            // builder.Culture = CultureInfo.CreateSpecificCulture("en-US");
+            
             builder.StartVoice(builder.Culture);
             builder.StartSentence();
             PromptEmphasis emphasis = PromptEmphasis.Moderate;
             bool isStrong = roundedPitchSliderValue < 0;
             bool isMiddle = roundedPitchSliderValue == 0;
             bool isHigh = roundedPitchSliderValue > 0;
+            string pitch = "default";
             if (isStrong)
             {
                 emphasis = PromptEmphasis.Strong;
+                // pitch = "x-low";
+                pitch = "-50st";
             }
             else if (isMiddle)
             {
                 emphasis = PromptEmphasis.Moderate;
+                // pitch = "default";
+                pitch = "0st";
             }
             else if (isHigh)
             {
                 emphasis = PromptEmphasis.Reduced;
+                // pitch = "x-high";
+                pitch = "50st";
             }
             builder.StartStyle(new PromptStyle() { Emphasis = emphasis });
-            builder.AppendText(inputBoxContent);
+
+            // builder.AppendSsmlMarkup("<say-as interpret-as = \"red\"> green </say-as>");
+            // builder.AppendSsmlMarkup("<say-as interpret-as=\"red\">green</say-as>");
+            // builder.AppendTextWithAlias("green", "red");
+
+            // builder.AppendText(inputBoxContent);
+            builder.AppendSsmlMarkup("<prosody pitch=\"" + pitch + "\">" + inputBoxContent + "</prosody>");
+            
             builder.EndStyle();
             builder.EndSentence();
             builder.EndVoice();
+
+
             speechSynthesizer.SpeakAsync(builder);
+            // speechSynthesizer.SpeakAsync(inputBoxContent);
+            // speechSynthesizer.SpeakSsmlAsync("<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><phoneme ph=\"" + "red" + "\">" + "green" + "</phoneme></speak>");
+            // speechSynthesizer.SpeakSsmlAsync("<phoneme alphabet=\"x-microsoft-ups\" ph=\"J AA M AX\"> hello </phoneme>");
+            // speechSynthesizer.SpeakSsmlAsync("<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><sub alias=\"World Wide Web Consortium\">W3C</sub></speak>");
+            // speechSynthesizer.SpeakSsmlAsync("<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><prosody pitch=\"" + pitch + "\">" + inputBoxContent + "</prosody></speak>");
+            
             stopSpeechBtn.IsEnabled = true;
         }
 
@@ -1547,7 +1637,22 @@ namespace TTS
                 MenuItem voiceMenuItem = new MenuItem();
                 voiceMenuItem.Header = voiceInfoName;
                 voicesMenuItem.Items.Add(voiceMenuItem);
+                voicesMenuItem.DataContext = voiceInfoName;
+                voicesMenuItem.MouseLeftButtonUp += SetVoiceHandler;
             }
+        }
+
+        public void SetVoiceHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemData = menuItem.DataContext;
+            string voiceInfoName = ((string)(menuItemData));
+            SetVoice(voiceInfoName);
+        }
+
+        public void SetVoice (string voiceInfoName)
+        {
+            speechSynthesizer.SelectVoice(voiceInfoName);
         }
 
         public void SaveAudioFileHandler (object sender, RoutedEventArgs e)
@@ -2906,20 +3011,27 @@ namespace TTS
             bool isStrong = roundedPitchSliderValue < 0;
             bool isMiddle = roundedPitchSliderValue == 0;
             bool isHigh = roundedPitchSliderValue > 0;
+            string pitch = "default";
             if (isStrong)
             {
                 emphasis = PromptEmphasis.Strong;
+                pitch = "-50st";
             }
             else if (isMiddle)
             {
                 emphasis = PromptEmphasis.Moderate;
+                pitch = "default";
             }
             else if (isHigh)
             {
                 emphasis = PromptEmphasis.Reduced;
+                pitch = "50st";
             }
             builder.StartStyle(new PromptStyle() { Emphasis = emphasis });
-            builder.AppendText(inputBoxContent);
+            
+            // builder.AppendText(inputBoxContent);
+            builder.AppendSsmlMarkup("<prosody pitch=\"" + pitch + "\">" + inputBoxContent + "</prosody>");
+
             builder.EndStyle();
             builder.EndSentence();
             builder.EndVoice();
@@ -3161,6 +3273,77 @@ namespace TTS
             }
         }
 
+        private void GlobalHotKeyHandler (object sender, KeyEventArgs e)
+        {
+            Key key = e.Key;
+            GlobalHotKey(key);
+        }
+
+        public void GlobalHotKey (Key key)
+        {
+
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            List<HotKey> hotKeys = loadedContent.hotKeys;
+            bool isNeedShiftModifier = false;
+            bool isNeedCtrlModifier = false;
+            HotKey createDocHotKey = hotKeys[0];
+            string createDocHotKeyShortCut = createDocHotKey.shortcut;
+            bool isModifiersApplied = createDocHotKeyShortCut.Contains("+");
+            if (isModifiersApplied)
+            {
+                string[] hotKeyParts = createDocHotKeyShortCut.Split(new Char[] { '+' });
+                string modifier = hotKeyParts[0];
+                modifier = modifier.Trim();
+                isNeedShiftModifier = modifier == "Shift";
+                isNeedCtrlModifier = modifier == "Ctrl";
+                createDocHotKeyShortCut = hotKeyParts[1];
+                createDocHotKeyShortCut = createDocHotKeyShortCut.Trim();
+            }
+            else
+            {
+                createDocHotKeyShortCut = key.ToString();
+            }
+            var shiftModifier = Keyboard.Modifiers & ModifierKeys.Shift;
+            bool isShiftModifierEnabled = shiftModifier > 0;
+            var ctrlModifier = Keyboard.Modifiers & ModifierKeys.Control;
+            bool isCtrlModifierEnabled = ctrlModifier > 0;
+            bool isCreateDocKey = key.ToString() == createDocHotKeyShortCut;
+            bool isCreateDoc = isCreateDocKey && ((isShiftModifierEnabled && isNeedShiftModifier) || !isNeedShiftModifier) && ((isCtrlModifierEnabled && isNeedCtrlModifier) || !isNeedCtrlModifier);
+
+            HotKey openDocHotKey = hotKeys[1];
+            string openDocHotKeyShortCut = openDocHotKey.shortcut;
+            isModifiersApplied = openDocHotKeyShortCut.Contains("+");
+            if (isModifiersApplied)
+            {
+                string[] hotKeyParts = openDocHotKeyShortCut.Split(new Char[] { '+' });
+                string modifier = hotKeyParts[0];
+                modifier = modifier.Trim();
+                isNeedShiftModifier = modifier == "Shift";
+                isNeedCtrlModifier = modifier == "Ctrl";
+                openDocHotKeyShortCut = hotKeyParts[1];
+                openDocHotKeyShortCut = openDocHotKeyShortCut.Trim();
+            }
+            else
+            {
+                openDocHotKeyShortCut = key.ToString();
+            }
+            bool isOpenDocKey = key.ToString() == openDocHotKeyShortCut;
+            bool isOpenDoc = isOpenDocKey && ((isShiftModifierEnabled && isNeedShiftModifier) || !isNeedShiftModifier) && ((isCtrlModifierEnabled && isNeedCtrlModifier) || !isNeedCtrlModifier);
+            if (isCreateDoc)
+            {
+                CreateDoc();
+            }
+            else if (isOpenDoc)
+            {
+                OpenDoc();
+            }
+        }
+
     }
 
     class SavedContent
@@ -3168,6 +3351,7 @@ namespace TTS
         public List<Dictionary<String, Object>> bookmarks;
         public Settings settings;
         public List<DictProfile> dictProfiles;
+        public List<HotKey> hotKeys;
     }
 
     public class Settings
@@ -3185,6 +3369,7 @@ namespace TTS
         public bool ignoreTextInSoftware;
         public bool showAlertTextOperationMsgs;
         public bool ignoreCopiedTextInBufferIfTextNotChanged;
+        public int minCountCharsInCopiedText;
     }
 
     public class TextSettings
@@ -3230,6 +3415,12 @@ namespace TTS
         public string path;
         public bool isChecked;
         public bool isDefault;
+    }
+
+    public class HotKey
+    {
+        public string cmd;
+        public string shortcut;
     }
 
 }

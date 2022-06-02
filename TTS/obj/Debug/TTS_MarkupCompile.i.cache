@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\wpf_projects\TTS\TTS\App.xaml
-3111589214
+33-1760214276
 22136972877
-381230576538
+40-2138814132
 230-2072087084
-Controls\OpenedDocControl.xaml;Dialogs\AboutDialog.xaml;Dialogs\BtnsDialog.xaml;Dialogs\CompareFilesDialog.xaml;Dialogs\ConvertSubtitleToAudioDialog.xaml;Dialogs\ConvertToAudioDialog.xaml;Dialogs\CreateBookmarkDialog.xaml;Dialogs\CreateDictDialog.xaml;Dialogs\DictProfileDialog.xaml;Dialogs\EditDictDialog.xaml;Dialogs\FindDialog.xaml;Dialogs\FontAndColors.xaml;Dialogs\GoToBookmarkDialog.xaml;Dialogs\OpenAddProfileDialog.xaml;Dialogs\RenameBookmarkDialog.xaml;Dialogs\RenameDiactDialog.xaml;Dialogs\RenameProfileDialog.xaml;Dialogs\RepeatTextDialog.xaml;Dialogs\ReplaceDialog.xaml;Dialogs\SaveMultipleAudioDialog.xaml;Dialogs\SelectOutputDevieDialog.xaml;Dialogs\SettingsDialog.xaml;Dialogs\SkinsDialog.xaml;Dialogs\SmallFloatDialog.xaml;Dialogs\SpellCheckDialog.xaml;Dialogs\SplitFileDialog.xaml;Dialogs\TextImportDialog.xaml;Dialogs\TimerDialog.xaml;Dialogs\TranslateDialog.xaml;Dialogs\ZoomDialog.xaml;MainWindow.xaml;
+Controls\OpenedDocControl.xaml;Dialogs\AboutDialog.xaml;Dialogs\BtnsDialog.xaml;Dialogs\CompareFilesDialog.xaml;Dialogs\ConvertSubtitleToAudioDialog.xaml;Dialogs\ConvertToAudioDialog.xaml;Dialogs\CreateBookmarkDialog.xaml;Dialogs\CreateDictDialog.xaml;Dialogs\DictProfileDialog.xaml;Dialogs\EditDictDialog.xaml;Dialogs\EditHotKeyDialog.xaml;Dialogs\FindDialog.xaml;Dialogs\FontAndColors.xaml;Dialogs\GoToBookmarkDialog.xaml;Dialogs\OpenAddProfileDialog.xaml;Dialogs\RenameBookmarkDialog.xaml;Dialogs\RenameDiactDialog.xaml;Dialogs\RenameProfileDialog.xaml;Dialogs\RepeatTextDialog.xaml;Dialogs\ReplaceDialog.xaml;Dialogs\RuleListDialog.xaml;Dialogs\SaveMultipleAudioDialog.xaml;Dialogs\SelectOutputDevieDialog.xaml;Dialogs\SettingsDialog.xaml;Dialogs\SkinsDialog.xaml;Dialogs\SmallFloatDialog.xaml;Dialogs\SpellCheckDialog.xaml;Dialogs\SplitFileDialog.xaml;Dialogs\TextImportDialog.xaml;Dialogs\TimerDialog.xaml;Dialogs\TranslateDialog.xaml;Dialogs\ZoomDialog.xaml;MainWindow.xaml;
 
 True
 

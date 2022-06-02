@@ -136,12 +136,14 @@ namespace TTS.Dialogs
                 List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
                 Settings currentSettings = loadedContent.settings;
                 List<DictProfile> updatedDictProfiles = loadedContent.dictProfiles;
+                List<HotKey> currentHotKeys = loadedContent.hotKeys;
                 updatedDictProfiles.RemoveAt(selectedProfileIndex);
                 string savedContent = js.Serialize(new SavedContent
                 {
                     bookmarks = currentBookmarks,
                     settings = currentSettings,
-                    dictProfiles = updatedDictProfiles
+                    dictProfiles = updatedDictProfiles,
+                    hotKeys = currentHotKeys
                 });
                 File.WriteAllText(saveDataFilePath, savedContent);
 

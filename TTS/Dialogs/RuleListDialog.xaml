@@ -1,0 +1,72 @@
+﻿<Window x:Class="TTS.Dialogs.RuleListDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TTS.Dialogs"
+        mc:Ignorable="d"
+        Title="Список используемых правил"
+        Height="450"
+        Width="800">
+    <StackPanel>
+        <StackPanel
+            Margin="0 5"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right">
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="15 0"
+                Text="Найти текст в правилах"/>    
+            <TextBox
+                x:Name="keywordsBox"
+                Margin="15 0"
+                Width="125"
+                Height="25"/>
+            <Button
+                Margin="15 0"
+                Height="25"
+                Width="65"
+                Content="Найти"
+                Click="FindHandler"/>
+        </StackPanel>
+        <TabControl
+            Margin="0 5"
+            Height="325">
+            <TabItem
+                Header="*.REX">
+                <Border>
+                    <Border.Child>
+                        <ScrollViewer>
+                            <StackPanel />
+                        </ScrollViewer>
+                    </Border.Child>
+                </Border>
+            </TabItem>
+            <TabItem
+                Header="*.DIC">
+                <Border>
+                    <Border.Child>
+                        <ScrollViewer
+                            x:Name="dictsScroll">
+                            <StackPanel
+                                x:Name="dicts"/>
+                        </ScrollViewer>
+                    </Border.Child>
+                </Border>
+            </TabItem>
+        </TabControl>
+        <DockPanel
+            Margin="0 5">
+            <TextBlock
+                Margin="15 0"
+                Text="Правила из файлов с расширением .REX будует применены к тексту в первую очередь."/>
+            <Button
+                HorizontalAlignment="Right"
+                Margin="15 0"
+                Height="25"
+                Width="125"
+                Content="Закрыть"
+                Click="CancelHandler"/>
+        </DockPanel>
+    </StackPanel>
+</Window>

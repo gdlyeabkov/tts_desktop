@@ -123,3 +123,7 @@ C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameProfileDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RenameProfileDialog.baml
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\EditDictDialog.g.cs
 C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\EditDictDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RuleListDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\RuleListDialog.baml
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\EditHotKeyDialog.g.cs
+C:\wpf_projects\TTS\TTS\obj\Debug\Dialogs\EditHotKeyDialog.baml

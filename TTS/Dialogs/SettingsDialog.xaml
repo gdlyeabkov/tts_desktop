@@ -565,8 +565,11 @@
                                 BorderBrush="LightGray"
                                 Margin="15">
                                 <Border.Child>
-                                    <Grid>
+                                    <Grid
+                                        x:Name="hotKeys">
                                         <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
@@ -583,6 +586,36 @@
                                             Grid.Column="1"
                                             Margin="15"
                                             Text="Комбинация клавиш"/>
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Margin="15"
+                                            Text="Новый"
+                                            DataContext="createDoc"
+                                            MouseLeftButtonUp="OpenEditHotKeyHandler"/>
+                                        <TextBlock
+                                            x:Name="createDocHotKeyShortCutLabel"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="15"
+                                            Text="Ctrl+N"
+                                            DataContext="createDoc"
+                                            MouseLeftButtonUp="OpenEditHotKeyHandler"/>
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Margin="15"
+                                            Text="Открыть"
+                                            DataContext="openDoc"
+                                            MouseLeftButtonUp="OpenEditHotKeyHandler"/>
+                                        <TextBlock
+                                            x:Name="openDocHotKeyShortCutLabel"
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Margin="15"
+                                            Text="Ctrl+O"
+                                            DataContext="openDoc"
+                                            MouseLeftButtonUp="OpenEditHotKeyHandler"/>
                                     </Grid>
                                 </Border.Child>
                             </Border>
@@ -706,12 +739,13 @@
                                 Orientation="Horizontal"
                                 Margin="15 15">
                                 <CheckBox
-                                    VerticalAlignment="Center"
                                     x:Name="minCountCharsInCopiedTextCheckBox"
+                                    VerticalAlignment="Center"
                                     Foreground="LightGray"
                                     Margin="0 0"
                                     IsEnabled="False"
-                                    Content="Минимальное количество символов в копируемом тексте:"/>
+                                    Content="Минимальное количество символов в копируемом тексте:"
+                                    Click="ToggleMinCountCharsInCopiedTextHandler"/>
                                 <TextBox
                                     x:Name="minCountCharsInCopiedTextBox"
                                     BorderBrush="LightGray"

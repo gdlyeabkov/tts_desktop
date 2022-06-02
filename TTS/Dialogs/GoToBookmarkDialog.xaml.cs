@@ -125,11 +125,14 @@ namespace TTS.Dialogs
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
             List<Dictionary<String, Object>> updatedBookmarks = loadedContent.bookmarks;
-
+            Settings currentSettings = loadedContent.settings;
+            List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
             updatedBookmarks.Clear();
             string savedContent = js.Serialize(new SavedContent
             {
-                bookmarks = updatedBookmarks
+                bookmarks = updatedBookmarks,
+                settings = currentSettings,
+                dictProfiles = currentDictProfiles
             });
             File.WriteAllText(saveDataFilePath, savedContent);
             Cancel();
@@ -149,11 +152,16 @@ namespace TTS.Dialogs
             string saveDataFileContent = File.ReadAllText(saveDataFilePath);
             SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
             List<Dictionary<String, Object>> updatedBookmarks = loadedContent.bookmarks;
-
+            Settings currentSettings = loadedContent.settings;
+            List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
+            List<HotKey> currentHotKeys = loadedContent.hotKeys;
             updatedBookmarks.RemoveAt(selectedBookmarkIndex);
             string savedContent = js.Serialize(new SavedContent
             {
-                bookmarks = updatedBookmarks
+                bookmarks = updatedBookmarks,
+                settings = currentSettings,
+                dictProfiles = currentDictProfiles,
+                hotKeys = currentHotKeys
             });
             File.WriteAllText(saveDataFilePath, savedContent);
             int updatedBookmarksCount = updatedBookmarks.Count;

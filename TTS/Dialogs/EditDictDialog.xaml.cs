@@ -45,8 +45,6 @@ namespace TTS.Dialogs
 
         public void GetDictContent ()
         {
-            /*string dictContent = File.ReadAllText(dictName);
-            dictContentBox.Text = dictContent;*/
             mainDictContent.Children.Clear();
             JavaScriptSerializer js = new JavaScriptSerializer();
             string saveDataFileContent = File.ReadAllText(dictName);

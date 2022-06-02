@@ -101,6 +101,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\EditHotKeyDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\FindDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -134,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RuleListDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -223,6 +231,9 @@
     <Compile Include="Dialogs\EditDictDialog.xaml.cs">
       <DependentUpon>EditDictDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\EditHotKeyDialog.xaml.cs">
+      <DependentUpon>EditHotKeyDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\FindDialog.xaml.cs">
       <DependentUpon>FindDialog.xaml</DependentUpon>
     </Compile>
@@ -249,6 +260,9 @@
     </Compile>
     <Compile Include="Dialogs\ReplaceDialog.xaml.cs">
       <DependentUpon>ReplaceDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RuleListDialog.xaml.cs">
+      <DependentUpon>RuleListDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\SaveMultipleAudioDialog.xaml.cs">
       <DependentUpon>SaveMultipleAudioDialog.xaml</DependentUpon>
