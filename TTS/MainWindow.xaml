@@ -626,6 +626,8 @@
                 <DockPanel
                     Margin="0 5">
                     <Button
+                        x:Name="editDictBtn"
+                        IsEnabled="False"
                         Content="Редактировать"
                         Width="100"
                         Height="25"
@@ -684,20 +686,30 @@
                     <StackPanel.ContextMenu>
                         <ContextMenu>
                             <MenuItem
-                                Header="Редактировать"/>
-                            <!--
+                                x:Name="editDictMenuItem"
+                                IsEnabled="False"
+                                Header="Редактировать"
+                                Click="EditDictHandler"/>
                             <MenuItem
-                                Header="Редактировать в блокноте"/>
-                            -->
+                                x:Name="editDictInNotepadMenuItem"
+                                IsEnabled="False"
+                                Header="Редактировать в блокноте"
+                                Click="EditDictInNotepadHandler"/>
                             <MenuItem
-                                Header="Использовать по умолчанию"/>
-                            <!--
+                                x:Name="useDefaultDictMenuItem"
+                                IsEnabled="False"
+                                Header="Использовать по умолчанию"
+                                Click="SetDefaultDictHandler"/>
                             <MenuItem
+                                x:Name="renameDictMenuItem"
                                 Header="Переименовать"
+                                IsEnabled="False"
                                 Click="RenameDictHandler"/>
                             <MenuItem
-                                Header="Удалить"/>
-                            -->
+                                x:Name="removeDictMenuItem"
+                                IsEnabled="False"
+                                Header="Удалить"
+                                Click="RemoveDictHandler"/>
                             <MenuItem
                                 Header="Отметить все"
                                 Click="MarkAllDictsHandler"/>
@@ -712,8 +724,10 @@
                                 Click="GetDictsHandler"/>
                             <MenuItem
                                 Header="Показать список"/>
+                            <Separator />
                             <MenuItem
-                                Header="Профили"/>
+                                Header="Профили"
+                                Click="OpenDictProfileHandler"/>
                         </ContextMenu>
                     </StackPanel.ContextMenu>
                 </StackPanel>

@@ -27,4 +27,8 @@ FC:\wpf_projects\TTS\TTS\MainWindow.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\SmallFloatDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\CreateDictDialog.xaml;;
 FC:\wpf_projects\TTS\TTS\Dialogs\RenameDiactDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\DictProfileDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\OpenAddProfileDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\RenameProfileDialog.xaml;;
+FC:\wpf_projects\TTS\TTS\Dialogs\EditDictDialog.xaml;;
 

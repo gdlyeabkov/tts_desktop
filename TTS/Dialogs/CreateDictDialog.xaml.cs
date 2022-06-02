@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -46,6 +47,12 @@ namespace TTS.Dialogs
                     sw.Write("");
                 }
             };
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            Dictionary<String, Object>  dictContent = new Dictionary<String, Object>();
+            string savedContent = js.Serialize(dictContent);
+            File.WriteAllText(dictPath, savedContent);
+
             Cancel();
         }
 

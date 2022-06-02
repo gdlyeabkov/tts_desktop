@@ -93,6 +93,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\DictProfileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\EditDictDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\FindDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -105,11 +113,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\OpenAddProfileDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\RenameBookmarkDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RenameDiactDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RenameProfileDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,6 +217,12 @@
     <Compile Include="Dialogs\CreateDictDialog.xaml.cs">
       <DependentUpon>CreateDictDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\DictProfileDialog.xaml.cs">
+      <DependentUpon>DictProfileDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\EditDictDialog.xaml.cs">
+      <DependentUpon>EditDictDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\FindDialog.xaml.cs">
       <DependentUpon>FindDialog.xaml</DependentUpon>
     </Compile>
@@ -210,11 +232,17 @@
     <Compile Include="Dialogs\GoToBookmarkDialog.xaml.cs">
       <DependentUpon>GoToBookmarkDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\OpenAddProfileDialog.xaml.cs">
+      <DependentUpon>OpenAddProfileDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\RenameBookmarkDialog.xaml.cs">
       <DependentUpon>RenameBookmarkDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\RenameDiactDialog.xaml.cs">
       <DependentUpon>RenameDiactDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RenameProfileDialog.xaml.cs">
+      <DependentUpon>RenameProfileDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\RepeatTextDialog.xaml.cs">
       <DependentUpon>RepeatTextDialog.xaml</DependentUpon>

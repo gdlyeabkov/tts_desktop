@@ -1,0 +1,93 @@
+﻿<Window x:Class="TTS.Dialogs.DictProfileDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TTS.Dialogs"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Профили"
+        Height="350"
+        Width="800">
+    <StackPanel>
+        <Border
+            BorderThickness="1"
+            BorderBrush="LightGray"
+            Margin="15">
+            <Border.Child>
+                <StackPanel
+                    Margin="15">
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <StackPanel
+                            Margin="15 0"
+                            >
+                            <TextBlock
+                                Margin="0 5"
+                                Text="Текущие настройки панели словарей могут быть сохранены в виде профиля."/>
+                            <Border
+                                Height="200"
+                                BorderThickness="1"
+                                BorderBrush="LightGray"
+                                Width="550">
+                                <Border.Child>
+                                    <StackPanel
+                                        x:Name="profiles"/>
+                                </Border.Child>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel>
+                            <Button
+                                Margin="0 5"
+                                Content="Добавить"
+                                Width="125"
+                                Height="25"
+                                Click="OpenAddProfileHandler"/>
+                            <Button
+                                Margin="0 5"
+                                Width="25"
+                                Height="25"
+                                Click="ReverseShiftProfileHandler">
+                                <Button.Content>
+                                    <materialDesign:PackIcon
+                                        Kind="ArrowUp"/>
+                                </Button.Content>
+                            </Button>
+                            <Button
+                                Margin="0 5"
+                                Width="25"
+                                Height="25"
+                                Click="ShiftProfileHandler">
+                                <Button.Content>
+                                    <materialDesign:PackIcon
+                                        Kind="ArrowDown"/>
+                                </Button.Content>
+                            </Button>
+                            <Button
+                                Margin="0 5"
+                                Content="Переименовать"
+                                Width="125"
+                                Height="25"
+                                Click="RenameProfileHandler"/>
+                            <Button
+                                Margin="0 5"
+                                Content="Удалить"
+                                Width="125"
+                                Height="25"
+                                Click="RemoveProfileHandler"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border.Child>
+        </Border>
+        <DockPanel>
+            <Button
+                HorizontalAlignment="Right"
+                Margin="15 0"
+                Content="Закрыть"
+                Width="125"
+                Height="25"
+                Click="CancelHandler"/>
+        </DockPanel>
+    </StackPanel>
+</Window>

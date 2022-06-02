@@ -43,6 +43,10 @@ namespace TTS
         public int selectedAudioDevice = -1;
         public string lastCopiedText = "";
         public System.Windows.Forms.NotifyIcon nIcon = null;
+        public int selectedDictIndex = -1;
+        public string selectedDictProfileName = "";
+        public string defaultDictPath = "";
+
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
@@ -57,7 +61,86 @@ namespace TTS
 
         }
 
-        
+
+        public void SetDefaultDictHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemBoxData = menuItem.DataContext;
+            string dictName = ((string)(menuItemBoxData));
+            SetDefaultDict(dictName);
+        }
+
+        public void SetDefaultDict (string dictName)
+        {
+            /*defaultDictPath = dictName;
+            UIElementCollection dictsChildren = dicts.Children;
+            foreach (StackPanel dictChild in dictsChildren)
+            {
+                object dictChildData = dictChild.DataContext;
+                string path = ((string)(dictChildData));
+                bool isFound = path == dictName;
+                if (isFound)
+                {
+                    UIElementCollection dictChildChildren = dictChild.Children;
+                    object rawCheckBox = dictChildChildren[0];
+                    CheckBox checkBox = ((CheckBox)(rawCheckBox));
+                    checkBox.FontWeight = FontWeights.ExtraBlack;
+                    break;
+                }
+            }*/
+
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
+            Settings currentSettings = loadedContent.settings;
+            List<DictProfile> updatedDictProfiles = loadedContent.dictProfiles;
+            int profileIndex = updatedDictProfiles.FindIndex((DictProfile profile) =>
+            {
+                string localProfileName = profile.name;
+                bool isLocalFound = localProfileName == selectedDictProfileName;
+                return isLocalFound;
+            });
+            bool isFound = profileIndex >= 0;
+            if (isFound)
+            {
+                DictProfile updatedDictProfile = updatedDictProfiles[profileIndex];
+                List<DictProfileItem> profileItems = updatedDictProfile.items;
+                int profileItemIndex = profileItems.FindIndex((DictProfileItem profileItem) =>
+                {
+                    string localProfilePath = profileItem.path;
+                    bool isLocalFound = localProfilePath == dictName;
+                    return isLocalFound;
+                });
+                isFound = profileItemIndex >= 0;
+                if (isFound)
+                {
+
+                    foreach (DictProfileItem profileItem in profileItems)
+                    {
+                        profileItem.isDefault = false;
+                    }
+
+                    DictProfileItem currentDictProfileItem = profileItems[profileItemIndex];
+                    currentDictProfileItem.isDefault = true;
+                    string savedContent = js.Serialize(new SavedContent
+                    {
+                        bookmarks = currentBookmarks,
+                        settings = currentSettings,
+                        dictProfiles = updatedDictProfiles
+                    });
+                    File.WriteAllText(saveDataFilePath, savedContent);
+
+                    GetDicts();
+
+                }
+            }
+
+        }
+
         private void ToggleSpeedSliderHandler (object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = ((Slider)(sender));
@@ -152,7 +235,7 @@ namespace TTS
             string savedContent = js.Serialize(new SavedContent
             {
                 bookmarks = currentBookmarks,
-                settings = updatedSettings
+                settings = updatedSettings,
             });
             File.WriteAllText(saveDataFilePath, savedContent);
         }
@@ -171,6 +254,7 @@ namespace TTS
             InitTray();
             InitBufferSettings();
             InitGeneralSettings();
+            GetDictProfiles();
         }
 
         public void InitGeneralSettings ()
@@ -396,18 +480,81 @@ namespace TTS
 
         public void GetDicts ()
         {
+
+            bool isProfileSelected = selectedDictProfileName != "";
+
+            selectedDictIndex = -1;
+            editDictMenuItem.IsEnabled = false;
+            editDictMenuItem.DataContext = "";
+            editDictInNotepadMenuItem.IsEnabled = false;
+            editDictInNotepadMenuItem.DataContext = "";
+            useDefaultDictMenuItem.IsEnabled = false;
+            useDefaultDictMenuItem.DataContext = "";
+            renameDictMenuItem.IsEnabled = false;
+            renameDictMenuItem.DataContext = "";
+            removeDictMenuItem.IsEnabled = false;
+            removeDictMenuItem.DataContext = "";
+            editDictBtn.IsEnabled = false;
+
             Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
             string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
             string dictsFolder = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\dicts";
             dicts.Children.Clear();
-            foreach (string dictFile in Directory.GetFileSystemEntries(dictsFolder))
+            string[] dictFiles = Directory.GetFileSystemEntries(dictsFolder);
+            foreach (string dictFile in dictFiles)
             {
                 FileInfo fileInfo = new FileInfo(dictFile);
                 string fileName = fileInfo.Name;
-                CheckBox dict = new CheckBox();
-                dict.Content = fileName;
+                StackPanel dict = new StackPanel();
+                dict.Background = System.Windows.Media.Brushes.Transparent;
                 dict.DataContext = dictFile;
-                dict.Margin = new Thickness(15, 5, 15, 5);
+                CheckBox dictCheckBox = new CheckBox();
+                dictCheckBox.Width = 75;
+                dictCheckBox.HorizontalAlignment = HorizontalAlignment.Left;
+
+                if (isProfileSelected)
+                {
+                    string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+                    SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+                    List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
+                    int profileIndex = currentDictProfiles.FindIndex((DictProfile profile) =>
+                    {
+                        string localProfileName = profile.name;
+                        bool isLocalFound = localProfileName == selectedDictProfileName;
+                        return isLocalFound;
+                    });
+                    bool isFound = profileIndex >= 0;
+                    if (isFound)
+                    {
+                        DictProfile currentDictProfile = currentDictProfiles[profileIndex];
+                        List<DictProfileItem> profileItems = currentDictProfile.items;
+                        int profileItemIndex = profileItems.FindIndex((DictProfileItem profileItem) =>
+                        {
+                            string localProfilePath = profileItem.path;
+                            bool isLocalFound = localProfilePath == dictFile;
+                            return isLocalFound;
+                        });
+                        isFound = profileItemIndex >= 0;
+                        if (isFound)
+                        {
+                            DictProfileItem currentDictProfileItem = profileItems[profileItemIndex];
+                            bool isChecked = currentDictProfileItem.isChecked;
+                            dictCheckBox.IsChecked = isChecked;
+                            bool isDefault = currentDictProfileItem.isDefault;
+                            if (isDefault)
+                            {
+                                dictCheckBox.FontWeight = FontWeights.ExtraBlack;
+                            }
+                        }
+                    }
+                }
+                
+                dictCheckBox.Content = fileName;
+                dictCheckBox.DataContext = dictFile;
+                dictCheckBox.Margin = new Thickness(15, 5, 15, 5);
+                dict.Children.Add(dictCheckBox);
                 dicts.Children.Add(dict);
                 ContextMenu dictContextMenu = new ContextMenu();
                 MenuItem dictContextMenuItem = new MenuItem();
@@ -425,8 +572,92 @@ namespace TTS
                 dictContextMenuItem.DataContext = dictFile;
                 dictContextMenuItem.Click += RemoveDictHandler;
                 dictContextMenu.Items.Add(dictContextMenuItem);
-                dict.ContextMenu = dictContextMenu;
+                // dict.ContextMenu = dictContextMenu;
+                dict.ContextMenu = null;
+                dict.MouseLeftButtonUp += SelectDictHandler;
             }
+
+        }
+
+        public void GetDictProfiles ()
+        {
+            
+            ContextMenu dictsContextMenu = dicts.ContextMenu;
+            ItemCollection dictsContextMenuItems = dictsContextMenu.Items;
+            int dictsContextMenuItemsCount = dictsContextMenuItems.Count;
+            int lastDictsContextMenuItemIndex = dictsContextMenuItemsCount - 1;
+            for (int i = lastDictsContextMenuItemIndex; i > 11; i--)
+            {
+                dictsContextMenuItems.RemoveAt(i);
+            }
+            
+            Environment.SpecialFolder localApplicationDataFolder = Environment.SpecialFolder.LocalApplicationData;
+            string localApplicationDataFolderPath = Environment.GetFolderPath(localApplicationDataFolder);
+            string saveDataFilePath = localApplicationDataFolderPath + @"\OfficeWare\SpeechReader\save-data.txt";
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string saveDataFileContent = File.ReadAllText(saveDataFilePath);
+            SavedContent loadedContent = js.Deserialize<SavedContent>(saveDataFileContent);
+            List<Dictionary<String, Object>> currentBookmarks = loadedContent.bookmarks;
+            Settings currentSettings = loadedContent.settings;
+            List<DictProfile> currentDictProfiles = loadedContent.dictProfiles;
+            foreach (DictProfile currentDictProfile in currentDictProfiles)
+            {
+                string currentDictProfileName = currentDictProfile.name;
+                MenuItem dictsContextMenuItem = new MenuItem();
+                dictsContextMenuItem.Header = currentDictProfileName;
+                dictsContextMenuItem.DataContext = currentDictProfileName;
+                dictsContextMenuItem.Click += SelectDictProfileHandler;
+                dicts.ContextMenu.Items.Add(dictsContextMenuItem);
+            }
+        }
+
+        public void SelectDictProfileHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemData = menuItem.DataContext;
+            string profileName = ((string)(menuItemData));
+            SelectDictProfile(profileName);
+        }
+
+        public void SelectDictProfile (string profileName)
+        {
+            selectedDictProfileName = profileName;
+            GetDicts();
+        }
+
+        public void SelectDictHandler (object sender, RoutedEventArgs e)
+        {
+            // CheckBox checkBox = ((CheckBox)(sender));
+            StackPanel checkBox = ((StackPanel)(sender));
+            int selectedDictIndex = dicts.Children.IndexOf(checkBox);
+            SelectDict(selectedDictIndex);
+        }
+
+        public void SelectDict(int dictIndex)
+        {
+            foreach (StackPanel dict in dicts.Children)
+            {
+                dict.Background = System.Windows.Media.Brushes.Transparent;
+            }
+            UIElementCollection dictsChildren = dicts.Children;
+            UIElement rawSelectedDict = dictsChildren[dictIndex];
+            // CheckBox selectedDict = ((CheckBox)(rawSelectedDict));
+            StackPanel selectedDict = ((StackPanel)(rawSelectedDict));
+            object selectedDictData = selectedDict.DataContext;
+            string dictPath = ((string)(selectedDictData));
+            selectedDict.Background = System.Windows.Media.Brushes.SkyBlue;
+            selectedDictIndex = dictIndex;
+            editDictMenuItem.IsEnabled = true;
+            editDictMenuItem.DataContext = dictPath;
+            editDictInNotepadMenuItem.IsEnabled = true;
+            editDictInNotepadMenuItem.DataContext = dictPath;
+            useDefaultDictMenuItem.IsEnabled = true;
+            useDefaultDictMenuItem.DataContext = dictPath;
+            renameDictMenuItem.IsEnabled = true;
+            renameDictMenuItem.DataContext = dictPath;
+            removeDictMenuItem.IsEnabled = true;
+            removeDictMenuItem.DataContext = dictPath;
+            editDictBtn.IsEnabled = true;
         }
 
         public void InitCache ()
@@ -494,11 +725,29 @@ namespace TTS
                             isHideAppInTrayWhenMinimize = true,
                             isAlwaysShowIconInTray = true
                         }
-                    }
+                    },
+                    dictProfiles = new List<DictProfile>() { }
                 });
                 File.WriteAllText(saveDataFilePath, savedContent);
             }
 
+        }
+
+        public void OpenDictProfileHandler (object sender, RoutedEventArgs e)
+        {
+            OpenDictProfile();
+        }
+
+        public void OpenDictProfile ()
+        {
+            Dialogs.DictProfileDialog dialog = new Dialogs.DictProfileDialog(this);
+            dialog.Closed += GetDictProfilesHandler;
+            dialog.Show();
+        }
+
+        public void GetDictProfilesHandler (object sender, EventArgs e)
+        {
+            GetDictProfiles();
         }
 
         public void SpeakCompletedHandler (object sender, SpeakCompletedEventArgs e)
@@ -2833,6 +3082,20 @@ namespace TTS
             dialog.Show();
         }
 
+        public void EditDictHandler (object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = ((MenuItem)(sender));
+            object menuItemBoxData = menuItem.DataContext;
+            string dictName = ((string)(menuItemBoxData));
+            EditDict(dictName);
+        }
+
+        public void EditDict (string dictName)
+        {
+            Dialogs.EditDictDialog dialog = new Dialogs.EditDictDialog(dictName);
+            dialog.Show();
+        }
+
         public void EditDictInNotepadHandler (object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = ((MenuItem)(sender));
@@ -2863,6 +3126,7 @@ namespace TTS
         {
             File.Delete(dictName);
             GetDicts();
+
         }
 
         public void MarkAllDictsHandler(object sender, RoutedEventArgs e)
@@ -2872,9 +3136,12 @@ namespace TTS
 
         public void MarkAllDicts()
         {
-            foreach (CheckBox dict in dicts.Children)
+            foreach (StackPanel dict in dicts.Children)
             {
-                dict.IsChecked = true;
+                UIElementCollection dictChildren = dict.Children;
+                UIElement rawDictCheckBox = dictChildren[0];
+                CheckBox dictCheckBox = ((CheckBox)(rawDictCheckBox));
+                dictCheckBox.IsChecked = true;
             }
         }
 
@@ -2885,9 +3152,12 @@ namespace TTS
 
         public void ClearAllDicts ()
         {
-            foreach (CheckBox dict in dicts.Children)
+            foreach (StackPanel dict in dicts.Children)
             {
-                dict.IsChecked = false;
+                UIElementCollection dictChildren = dict.Children;
+                UIElement rawDictCheckBox = dictChildren[0];
+                CheckBox dictCheckBox = ((CheckBox)(rawDictCheckBox));
+                dictCheckBox.IsChecked = false;
             }
         }
 
@@ -2897,6 +3167,7 @@ namespace TTS
     {
         public List<Dictionary<String, Object>> bookmarks;
         public Settings settings;
+        public List<DictProfile> dictProfiles;
     }
 
     public class Settings
@@ -2946,6 +3217,19 @@ namespace TTS
         public bool isShowPercentOfWorkInTaskBar;
         public bool isHideAppInTrayWhenMinimize;
         public bool isAlwaysShowIconInTray;
+    }
+
+    public class DictProfile
+    {
+        public string name;
+        public List<DictProfileItem> items;
+    }
+
+    public class DictProfileItem
+    {
+        public string path;
+        public bool isChecked;
+        public bool isDefault;
     }
 
 }
